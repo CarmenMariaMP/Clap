@@ -18,8 +18,15 @@ logging:
     ROOT: DEBUG
     tech.jhipster: DEBUG
     org.hibernate.SQL: DEBUG
-    com.clap: DEBUG
+    com.clap.myapp: DEBUG
+    org.neo4j.driver: WARN
 
+org:
+  neo4j:
+    migrations:
+      locations-to-scan:
+      packages-to-scan: com.clap.myapp.config.neo4j
+      installed-by: clapApplication
 spring:
   devtools:
     restart:
@@ -30,23 +37,14 @@ spring:
   jackson:
     serialization:
       indent-output: true
-  datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://localhost:3306/ClapApplication?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
-    username: root
-    password:
-    hikari:
-      poolName: Hikari
-      auto-commit: false
-      data-source-properties:
-        cachePrepStmts: true
-        prepStmtCacheSize: 250
-        prepStmtCacheSqlLimit: 2048
-        useServerPrepStmts: true
-  jpa:
-  liquibase:
-    # Remove 'faker' if you do not want the sample data to be loaded automatically
-    contexts: dev, faker
+  neo4j:
+    pool:
+      metrics-enabled: true
+    uri: bolt://localhost:7687
+    # Uncomment to use an authenticated connection
+    # authentication:
+    #   username: neo4j
+    #   password: secret
   mail:
     host: localhost
     port: 25
@@ -58,7 +56,7 @@ spring:
     cache: false
 
 server:
-  port: 8084
+  port: 8081
 
 # ===================================================================
 # JHipster specific properties
@@ -75,6 +73,8 @@ jhipster:
   cors:
     # Allow Ionic for JHipster by default (* no longer allowed in Spring Boot 2.4+)
     allowed-origins: 'http://localhost:8100,https://localhost:8100,http://localhost:9000,https://localhost:9000,http://localhost:9060,https://localhost:9060'
+    # Enable CORS when running in GitHub Codespaces
+    allowed-origin-patterns: 'https://*.githubpreview.dev'
     allowed-methods: '*'
     allowed-headers: '*'
     exposed-headers: 'Link,X-Total-Count,X-${jhipster.clientApp.name}-alert,X-${jhipster.clientApp.name}-error,X-${jhipster.clientApp.name}-params'
@@ -83,9 +83,9 @@ jhipster:
   security:
     remember-me:
       # security key (this key should be unique for your application, and kept secret)
-      key: ed35bcfdb40b4c60dd1a753ee36b42338d49eb82e6195245c4232e1fe5953e1d87d8bf67ed5f8a8695f906afaa3928f73c67
+      key: 7845dab8bc6947a856daf4b5d2eb70d05fd6aab909c0fc36fc67d849795d4d2c4e42707cd4c2cec7eded5580bc0823962667
   mail: # specific JHipster mail property, for standard properties see MailProperties
-    base-url: http://127.0.0.1:8084
+    base-url: http://127.0.0.1:8081
   logging:
     use-json-format: false # By default, logs are not in Json format
     logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration

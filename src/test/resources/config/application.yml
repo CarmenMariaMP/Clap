@@ -13,46 +13,27 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
+org:
+  neo4j:
+    migrations:
+      locations-to-scan:
+      packages-to-scan: com.clap.myapp.config.neo4j
+      installed-by: clapApplication
+
 spring:
-  profiles:
-    # Uncomment the following line to enable tests against production database type rather than H2, using Testcontainers
-    #active: testcontainers
   application:
-    name: ClapApplication
-  datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:mem:clapapplication;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    name:
-    username:
-    password:
-    hikari:
-      auto-commit: false
+    name: clapApplication
+
   jackson:
     serialization:
       write-durations-as-timestamps: false
-  jpa:
-    database-platform: tech.jhipster.domain.util.FixedH2Dialect
-    open-in-view: false
-    hibernate:
-      ddl-auto: none
-      naming:
-        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
-    properties:
-      hibernate.id.new_generator_mappings: true
-      hibernate.connection.provider_disables_autocommit: true
-      hibernate.cache.use_second_level_cache: false
-      hibernate.cache.use_query_cache: false
-      hibernate.generate_statistics: false
-      hibernate.hbm2ddl.auto: validate
-      hibernate.jdbc.time_zone: UTC
-      hibernate.query.fail_on_pagination_over_collection_fetch: true
-  liquibase:
-    contexts: test
   mail:
     host: localhost
   main:
     allow-bean-definition-overriding: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   messages:
     basename: i18n/messages
   task:
@@ -65,7 +46,7 @@ spring:
     scheduling:
       thread-name-prefix: clap-application-scheduling-
       pool:
-        size: 1
+        size: 20
   thymeleaf:
     mode: HTML
 
@@ -78,7 +59,6 @@ server:
 #
 # Full reference is available at: https://www.jhipster.tech/common-application-properties/
 # ===================================================================
-
 jhipster:
   clientApp:
     name: 'clapApplicationApp'
@@ -96,7 +76,7 @@ jhipster:
   security:
     remember-me:
       # security key (this key should be unique for your application, and kept secret)
-      key: ed35bcfdb40b4c60dd1a753ee36b42338d49eb82e6195245c4232e1fe5953e1d87d8bf67ed5f8a8695f906afaa3928f73c67
+      key: 7845dab8bc6947a856daf4b5d2eb70d05fd6aab909c0fc36fc67d849795d4d2c4e42707cd4c2cec7eded5580bc0823962667
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class

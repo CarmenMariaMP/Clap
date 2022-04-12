@@ -18,8 +18,8 @@ module.exports = async options =>
     entry: ['./src/main/webapp/app/index'],
     output: {
       path: utils.root('target/classes/static/'),
-      filename: 'app/[name].bundle.js',
-      chunkFilename: 'app/[id].chunk.js',
+      filename: '[name].[contenthash:8].js',
+      chunkFilename: '[name].[chunkhash:8].chunk.js',
     },
     optimization: {
       moduleIds: 'named',
@@ -50,15 +50,10 @@ module.exports = async options =>
       port: 9060,
       proxy: [
         {
-          context: ['/api', '/services', '/management', '/swagger-resources', '/v2/api-docs', '/v3/api-docs', '/h2-console', '/auth'],
-          target: `http${options.tls ? 's' : ''}://localhost:8084`,
+          context: ['/api', '/services', '/management', '/v3/api-docs', '/h2-console', '/auth'],
+          target: `http${options.tls ? 's' : ''}://localhost:8081`,
           secure: false,
           changeOrigin: options.tls,
-        },
-        {
-          context: ['/websocket'],
-          target: 'ws://127.0.0.1:8084',
-          ws: true,
         },
       ],
       https: options.tls,
@@ -77,7 +72,7 @@ module.exports = async options =>
           host: 'localhost',
           port: 9000,
           proxy: {
-            target: `http${options.tls ? 's' : ''}://localhost:9060`,
+            target: `http${options.tls ? 's' : ''}://localhost:${options.watch ? '8081' : '9060'}`,
             ws: true,
             proxyOptions: {
               changeOrigin: false, //pass the Host header to the backend unchanged  https://github.com/Browsersync/browser-sync/issues/430
@@ -100,7 +95,6 @@ module.exports = async options =>
           reload: false,
         }
       ),
-      new webpack.HotModuleReplacementPlugin(),
       new WebpackNotifierPlugin({
         title: 'Clap Application',
         contentImage: path.join(__dirname, 'logo-jhipster.png'),

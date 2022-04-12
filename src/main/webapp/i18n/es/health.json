@@ -16,7 +16,7 @@
       "livenessState": "Liveness state",
       "readinessState": "Readiness state",
       "ping": "Aplicación",
-      "db": "Base de Datos"
+      "neo4j": "Neo4j"
     },
     "table": {
       "service": "Nombre del servicio",
