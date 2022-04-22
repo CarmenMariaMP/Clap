@@ -1,0 +1,28 @@
+{
+  "applications": "*",
+  "changelogDate": "20220415163728",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "project",
+  "fields": [
+    {
+      "fieldName": "creationDate",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Project",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "artisticContent",
+      "otherEntityRelationshipName": "project",
+      "ownerSide": false,
+      "relationshipName": "artisticContent",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "no"
+}

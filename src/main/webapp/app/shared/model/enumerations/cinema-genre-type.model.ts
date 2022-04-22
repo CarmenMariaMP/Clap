@@ -1,0 +1,37 @@
+export enum CinemaGenreType {
+  ACTION = 'ACTION',
+
+  ADVENTURE = 'ADVENTURE',
+
+  ANIMATION = 'ANIMATION',
+
+  CHILDREN = 'CHILDREN',
+
+  COMEDY = 'COMEDY',
+
+  CRIME = 'CRIME',
+
+  DRAMA = 'DRAMA',
+
+  DOCUMENTARY = 'DOCUMENTARY',
+
+  FANTASY = 'FANTASY',
+
+  HORROR = 'HORROR',
+
+  FILM_NOIR = 'FILM_NOIR',
+
+  MUSICAL = 'MUSICAL',
+
+  MISTERY = 'MISTERY',
+
+  ROMANCE = 'ROMANCE',
+
+  SCI_FI = 'SCI_FI',
+
+  THRILLER = 'THRILLER',
+
+  WAR = 'WAR',
+
+  WESTERN = 'WESTERN',
+}

@@ -1,0 +1,25 @@
+{
+  "applications": "*",
+  "changelogDate": "20220415163721",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "dance",
+  "fields": [
+    {
+      "fieldName": "music",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "genres",
+      "fieldType": "DanceGenreType",
+      "fieldValues": "FLAMENCO,SPANISH_DANCE,FOLK,BREAK,HIP_HOP,POPPING,BELLY,SPORT,CLASSICAL,CONTEMPORARY,POLE,AFRICAN,TAP,SHUFFLE,ELECTRODANCE,FUNKY,COMERCIAL,LOCKING"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Dance",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

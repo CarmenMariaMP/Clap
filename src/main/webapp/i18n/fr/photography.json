@@ -1,0 +1,27 @@
+{
+  "clapApplicationApp": {
+    "photography": {
+      "home": {
+        "title": "Photographies",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Photography",
+        "createOrEditLabel": "Créer ou éditer un Photography",
+        "notFound": "Aucun Photography trouvé"
+      },
+      "created": "Un nouveau Photography a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Photography avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Photography avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Photography {{ id }} ?"
+      },
+      "detail": {
+        "title": "Photography"
+      },
+      "id": "ID",
+      "camera": "Camera",
+      "techniques": "Techniques",
+      "size": "Size",
+      "place": "Place"
+    }
+  }
+}

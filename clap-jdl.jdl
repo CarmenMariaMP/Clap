@@ -1,0 +1,128 @@
+entity ContentCreator {
+	fullName String
+    country String
+    city String
+}
+
+entity Company {
+	companyName String
+    taxIdNumber String
+    officeAddress String
+}
+
+entity ArtisticContent {
+	title String
+    description String
+    contentUrl String
+    uploadDate LocalDate
+    viewCount Long
+}
+
+entity General {
+}
+
+entity Photography {
+	camera String
+    techniques String
+    size String
+    place String
+}
+
+entity PaintingOrSculpture {
+	materials String
+    techniques String
+    size String
+    place String
+}
+
+entity Music {
+	genres MusicGenreType
+}
+
+enum MusicGenreType{
+CLASSICAL, POP, ROCK_AND_ROLL, 
+FOLK, TRAP, JAZZ, DISCO, FUNK, 
+COUNTRY, RAP, BLUES, ELECTRONIC,
+FLAMENCO, REGGAETON, MUSICAL,
+K_POP, SOUL, HEAVEY_METAL
+}
+
+entity Dance {
+	music String
+    genres DanceGenreType
+}
+
+enum DanceGenreType{
+FLAMENCO, SPANISH_DANCE, FOLK
+BREAK, HIP_HOP, POPPING, BELLY,
+SPORT, CLASSICAL, CONTEMPORARY,
+POLE, AFRICAN, TAP, SHUFFLE, ELECTRODANCE, 
+FUNKY, COMERCIAL, LOCKING
+}
+
+entity Cinema {
+	genres CinemaGenreType
+}
+
+enum CinemaGenreType{
+ACTION, ADVENTURE, ANIMATION,
+CHILDREN, COMEDY, CRIME, DRAMA,
+DOCUMENTARY, FANTASY, HORROR,
+FILM_NOIR, MUSICAL, MISTERY,
+ROMANCE, SCI_FI, THRILLER, WAR,
+WESTERN
+}
+
+entity Tag {
+	name String
+}
+
+entity Comment {
+	text String
+    date LocalDate
+}
+
+entity Notification {
+	text String
+    emisionDate LocalDate
+    readDate LocalDate
+}
+
+entity NotificationConfiguration {
+	byComments Boolean
+    byLikes Boolean
+    bySavings Boolean
+    bySubscriptions Boolean
+    byPrivacyRequests Boolean
+    byPrivacyRequestsStatus Boolean
+}
+
+entity PrivacyRequest {
+	requestState RequestStateType
+    requestDate LocalDate
+}
+
+enum RequestStateType {
+PENDING, ACCEPTED, DECLINED
+}
+
+entity Project {
+    creationDate LocalDate
+}
+
+relationship OneToOne {
+	NotificationConfiguration{user} to User
+}
+
+relationship OneToMany {
+    Company to PrivacyRequest{company}
+    ContentCreator to PrivacyRequest{contentCreator}
+}
+
+relationship ManyToMany {
+	ArtisticContent{tag} to Tag{artisticContent}
+    ArtisticContent{project} to Project{artisticContent}
+}
+
+
+

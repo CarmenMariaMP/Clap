@@ -1,0 +1,25 @@
+{
+  "clapApplicationApp": {
+    "DanceGenreType": {
+      "null": "",
+      "FLAMENCO": "FLAMENCO",
+      "SPANISH_DANCE": "SPANISH_DANCE",
+      "FOLK": "FOLK",
+      "BREAK": "BREAK",
+      "HIP_HOP": "HIP_HOP",
+      "POPPING": "POPPING",
+      "BELLY": "BELLY",
+      "SPORT": "SPORT",
+      "CLASSICAL": "CLASSICAL",
+      "CONTEMPORARY": "CONTEMPORARY",
+      "POLE": "POLE",
+      "AFRICAN": "AFRICAN",
+      "TAP": "TAP",
+      "SHUFFLE": "SHUFFLE",
+      "ELECTRODANCE": "ELECTRODANCE",
+      "FUNKY": "FUNKY",
+      "COMERCIAL": "COMERCIAL",
+      "LOCKING": "LOCKING"
+    }
+  }
+}

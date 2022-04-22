@@ -1,0 +1,24 @@
+{
+  "clapApplicationApp": {
+    "music": {
+      "home": {
+        "title": "Music",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Music",
+        "createOrEditLabel": "Crear o editar Music",
+        "notFound": "Ningún Music encontrado"
+      },
+      "created": "Un nuevo Music ha sido creado con el identificador {{ param }}",
+      "updated": "Un Music ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Music ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Music {{ id }}?"
+      },
+      "detail": {
+        "title": "Music"
+      },
+      "id": "ID",
+      "genres": "Genres"
+    }
+  }
+}

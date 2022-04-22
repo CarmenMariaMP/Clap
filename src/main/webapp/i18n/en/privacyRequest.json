@@ -1,0 +1,27 @@
+{
+  "clapApplicationApp": {
+    "privacyRequest": {
+      "home": {
+        "title": "Privacy Requests",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Privacy Request",
+        "createOrEditLabel": "Create or edit a Privacy Request",
+        "notFound": "No Privacy Requests found"
+      },
+      "created": "A new Privacy Request is created with identifier {{ param }}",
+      "updated": "A Privacy Request is updated with identifier {{ param }}",
+      "deleted": "A Privacy Request is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Privacy Request {{ id }}?"
+      },
+      "detail": {
+        "title": "Privacy Request"
+      },
+      "id": "ID",
+      "requestState": "Request State",
+      "requestDate": "Request Date",
+      "company": "Company",
+      "contentCreatto": "Content Creatto"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "clapApplicationApp": {
+    "contentCreator": {
+      "home": {
+        "title": "Content Creators",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Content Creator",
+        "createOrEditLabel": "Create or edit a Content Creator",
+        "notFound": "No Content Creators found"
+      },
+      "created": "A new Content Creator is created with identifier {{ param }}",
+      "updated": "A Content Creator is updated with identifier {{ param }}",
+      "deleted": "A Content Creator is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Content Creator {{ id }}?"
+      },
+      "detail": {
+        "title": "Content Creator"
+      },
+      "id": "ID",
+      "fullName": "Full Name",
+      "country": "Country",
+      "city": "City",
+      "privacyRequest": "Privacy Request"
+    }
+  }
+}

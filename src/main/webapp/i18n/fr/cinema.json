@@ -1,0 +1,24 @@
+{
+  "clapApplicationApp": {
+    "cinema": {
+      "home": {
+        "title": "Cinemas",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Cinema",
+        "createOrEditLabel": "Créer ou éditer un Cinema",
+        "notFound": "Aucun Cinema trouvé"
+      },
+      "created": "Un nouveau Cinema a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Cinema avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Cinema avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Cinema {{ id }} ?"
+      },
+      "detail": {
+        "title": "Cinema"
+      },
+      "id": "ID",
+      "genres": "Genres"
+    }
+  }
+}

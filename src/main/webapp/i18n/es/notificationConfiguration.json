@@ -1,0 +1,30 @@
+{
+  "clapApplicationApp": {
+    "notificationConfiguration": {
+      "home": {
+        "title": "Notification Configurations",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Notification Configuration",
+        "createOrEditLabel": "Crear o editar Notification Configuration",
+        "notFound": "Ningún Notification Configurations encontrado"
+      },
+      "created": "Un nuevo Notification Configuration ha sido creado con el identificador {{ param }}",
+      "updated": "Un Notification Configuration ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Notification Configuration ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Notification Configuration {{ id }}?"
+      },
+      "detail": {
+        "title": "Notification Configuration"
+      },
+      "id": "ID",
+      "byComments": "By Comments",
+      "byLikes": "By Likes",
+      "bySavings": "By Savings",
+      "bySubscriptions": "By Subscriptions",
+      "byPrivacyRequests": "By Privacy Requests",
+      "byPrivacyRequestsStatus": "By Privacy Requests Status",
+      "user": "User"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "clapApplicationApp": {
+    "RequestStateType": {
+      "null": "",
+      "PENDING": "PENDING",
+      "ACCEPTED": "ACCEPTED",
+      "DECLINED": "DECLINED"
+    }
+  }
+}

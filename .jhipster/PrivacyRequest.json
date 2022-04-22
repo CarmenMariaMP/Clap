@@ -1,0 +1,38 @@
+{
+  "applications": "*",
+  "changelogDate": "20220415163727",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "privacy_request",
+  "fields": [
+    {
+      "fieldName": "requestState",
+      "fieldType": "RequestStateType",
+      "fieldValues": "PENDING,ACCEPTED,DECLINED"
+    },
+    {
+      "fieldName": "requestDate",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "PrivacyRequest",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "company",
+      "otherEntityRelationshipName": "privacyRequest",
+      "relationshipName": "company",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "contentCreator",
+      "otherEntityRelationshipName": "privacyRequest",
+      "relationshipName": "contentCreatto",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

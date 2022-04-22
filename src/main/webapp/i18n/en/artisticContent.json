@@ -1,0 +1,30 @@
+{
+  "clapApplicationApp": {
+    "artisticContent": {
+      "home": {
+        "title": "Artistic Contents",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Artistic Content",
+        "createOrEditLabel": "Create or edit a Artistic Content",
+        "notFound": "No Artistic Contents found"
+      },
+      "created": "A new Artistic Content is created with identifier {{ param }}",
+      "updated": "A Artistic Content is updated with identifier {{ param }}",
+      "deleted": "A Artistic Content is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Artistic Content {{ id }}?"
+      },
+      "detail": {
+        "title": "Artistic Content"
+      },
+      "id": "ID",
+      "title": "Title",
+      "description": "Description",
+      "contentUrl": "Content Url",
+      "uploadDate": "Upload Date",
+      "viewCount": "View Count",
+      "tag": "Tag",
+      "project": "Project"
+    }
+  }
+}

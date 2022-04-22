@@ -1,0 +1,23 @@
+{
+  "clapApplicationApp": {
+    "general": {
+      "home": {
+        "title": "Generals",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new General",
+        "createOrEditLabel": "Create or edit a General",
+        "notFound": "No Generals found"
+      },
+      "created": "A new General is created with identifier {{ param }}",
+      "updated": "A General is updated with identifier {{ param }}",
+      "deleted": "A General is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete General {{ id }}?"
+      },
+      "detail": {
+        "title": "General"
+      },
+      "id": "ID"
+    }
+  }
+}

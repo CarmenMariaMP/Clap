@@ -1,0 +1,23 @@
+{
+  "clapApplicationApp": {
+    "general": {
+      "home": {
+        "title": "Generals",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau General",
+        "createOrEditLabel": "Créer ou éditer un General",
+        "notFound": "Aucun General trouvé"
+      },
+      "created": "Un nouveau General a été créé avec l'identifiant {{ param }}",
+      "updated": "Le General avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le General avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le General {{ id }} ?"
+      },
+      "detail": {
+        "title": "General"
+      },
+      "id": "ID"
+    }
+  }
+}

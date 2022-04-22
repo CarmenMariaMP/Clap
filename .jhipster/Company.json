@@ -1,0 +1,35 @@
+{
+  "applications": "*",
+  "changelogDate": "20220415163715",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "company",
+  "fields": [
+    {
+      "fieldName": "companyName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "taxIdNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "officeAddress",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Company",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "privacyRequest",
+      "otherEntityRelationshipName": "company",
+      "relationshipName": "privacyRequest",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

@@ -1,0 +1,21 @@
+{
+  "applications": "*",
+  "changelogDate": "20220415163722",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "cinema",
+  "fields": [
+    {
+      "fieldName": "genres",
+      "fieldType": "CinemaGenreType",
+      "fieldValues": "ACTION,ADVENTURE,ANIMATION,CHILDREN,COMEDY,CRIME,DRAMA,DOCUMENTARY,FANTASY,HORROR,FILM_NOIR,MUSICAL,MISTERY,ROMANCE,SCI_FI,THRILLER,WAR,WESTERN"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Cinema",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

@@ -1,8 +1,8 @@
 package com.clap.myapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.clap.myapp.config.Constants;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Locale;
@@ -23,7 +23,7 @@ import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
  * A user.
  */
 @Node("jhi_user")
-public class User extends AbstractAuditingEntity implements Serializable {
+public class User extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -80,6 +80,26 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @JsonIgnore
     @Relationship("HAS_AUTHORITY")
     private Set<Authority> authorities = new HashSet<>();
+
+    @Relationship("HAS_ARTISTIC_CONTENT")
+    @JsonIgnoreProperties(value = { "tags", "projects", "owner", "users_favourites" }, allowSetters = true)
+    private Set<ArtisticContent> favourites = new HashSet<>();
+
+    @Relationship("HAS_NOTIFICATION")
+    @JsonIgnoreProperties(value = { "user" }, allowSetters = true)
+    private Set<Notification> notifications = new HashSet<>();
+
+    @Relationship("HAS_PROJECT")
+    @JsonIgnoreProperties(value = { "artisticContents", "user" }, allowSetters = true)
+    private Set<Project> projects = new HashSet<>();
+
+    @Relationship("HAS_USER")
+    @JsonIgnoreProperties(value = { "favourites","notifications","projects","followed","followers" }, allowSetters = true)
+    private Set<User> followed = new HashSet<>();
+
+    @Relationship("HAS_USER")
+    @JsonIgnoreProperties(value = { "favourites","notifications","projects","followed","followers" }, allowSetters = true)
+    private Set<User> followers = new HashSet<>();
 
     public String getId() {
         return id;
@@ -184,6 +204,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public Set<ArtisticContent> getFavourites() {
+        return favourites;
+    }
+
+    public void setFavourites(Set<ArtisticContent> favourites) {
+        this.favourites = favourites;
     }
 
     @Override

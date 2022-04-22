@@ -7,6 +7,21 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entities",
+        "contentCreator": "Content Creator",
+        "company": "Company",
+        "artisticContent": "Artistic Content",
+        "general": "General",
+        "photography": "Photography",
+        "paintingOrSculpture": "Painting Or Sculpture",
+        "music": "Music",
+        "dance": "Dance",
+        "cinema": "Cinema",
+        "tag": "Tag",
+        "comment": "Comment",
+        "notification": "Notification",
+        "notificationConfiguration": "Notification Configuration",
+        "privacyRequest": "Privacy Request",
+        "project": "Project",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

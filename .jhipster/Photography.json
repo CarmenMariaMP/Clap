@@ -1,0 +1,32 @@
+{
+  "applications": "*",
+  "changelogDate": "20220415163718",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "photography",
+  "fields": [
+    {
+      "fieldName": "camera",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "techniques",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "size",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "place",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Photography",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

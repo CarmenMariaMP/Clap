@@ -1,0 +1,37 @@
+export enum MusicGenreType {
+  CLASSICAL = 'CLASSICAL',
+
+  POP = 'POP',
+
+  ROCK_AND_ROLL = 'ROCK_AND_ROLL',
+
+  FOLK = 'FOLK',
+
+  TRAP = 'TRAP',
+
+  JAZZ = 'JAZZ',
+
+  DISCO = 'DISCO',
+
+  FUNK = 'FUNK',
+
+  COUNTRY = 'COUNTRY',
+
+  RAP = 'RAP',
+
+  BLUES = 'BLUES',
+
+  ELECTRONIC = 'ELECTRONIC',
+
+  FLAMENCO = 'FLAMENCO',
+
+  REGGAETON = 'REGGAETON',
+
+  MUSICAL = 'MUSICAL',
+
+  K_POP = 'K_POP',
+
+  SOUL = 'SOUL',
+
+  HEAVEY_METAL = 'HEAVEY_METAL',
+}

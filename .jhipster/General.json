@@ -1,0 +1,15 @@
+{
+  "applications": "*",
+  "changelogDate": "20220415163717",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "general",
+  "fields": [],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "General",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}
