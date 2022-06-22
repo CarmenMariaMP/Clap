@@ -37,7 +37,7 @@
 </style>
 
 <body>
-  <div th:replace="/includes/header :: header"> </div>
+  <div th:replace="header :: header"> </div>
   <br>
   <div class="d-flex justify-content-center" style="margin-top: 100px;">
     <div class="col-md-4 d-flex justify-content-center">
@@ -52,7 +52,7 @@
         <div class="col-lg-8 col-xl-6">
           <div class="card rounded-3 container">
             <div class="d-flex justify-content-center" style="margin-top:60px ;">
-              <a class="navbar-brand" href="/"><img th:src="@{/img/clap_logo_horizontal.PNG}" width="300"
+              <a class="navbar-brand" href="/"><img th:src="@{/img/clap_logo_horizontal.png}" width="300"
                   height="85"></a>
             </div>
             <h2 class="d-flex justify-content-center dark-blue-text">Upload new dance content</h2>
@@ -250,7 +250,7 @@
                           #newFilmnewFilm
                         </button>
                         <br>
-                        <button type="button" class="btn" style="color: #1d367a;">
+                        <button type="button" class="btn dark-blue-text">
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-x-circle" viewBox="0 0 16 16">
                             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
@@ -275,7 +275,8 @@
                   </div>
                   <div class="col-md-2"></div>
                   <div class="col-md-5 d-flex justify-content-center row">
-                    <button type="submit" class="btn btn-lg mb-1 gold dark-blue-text">Cancel</button>
+                    <a type="submit" class="btn btn-lg mb-1  gold dark-blue-text" th:href="@{/choose_category}">
+                      Cancel</a>
                   </div>
                 </div>
 

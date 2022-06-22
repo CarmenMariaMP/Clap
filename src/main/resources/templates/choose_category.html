@@ -36,7 +36,7 @@
 
 <body>
   <div th:replace="header :: header"> </div>
-  <section class="h-100  py-5 h-custom">
+  <section class="h-100 py-5 h-custom">
     <div class="container h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-lg-8 col-xl-6">
@@ -45,17 +45,17 @@
               <a class="navbar-brand" href="/"><img th:src="@{/img/clap_logo_horizontal.png}" width="300"
                   height="85"></a>
             </div>
-            <h2 class="d-flex justify-content-center" style="color:#1d367a">Choose category</h2>
+            <h2 class="d-flex justify-content-center dark-blue-text">Choose category</h2>
             <div class="card-body p-4 p-md-5">
               <div class="row row-cols-1 row-cols-md-2 g-4">
-                <a role="button" href="#">
+                <a role="button" th:href="@{/create_cinema_content}">
                   <div class="col">
                     <div class="card h-100">
                       <img th:src="@{/img/categories/cinema.png}" class="card-img-top" alt="..." width="180" height="180">
                     </div>
                   </div>
                 </a>
-                <a role="button" href="#">
+                <a role="button" th:href="@{/create_photography_content}">
                   <div class="col">
                     <div class="card h-100">
                       <img th:src="@{/img/categories/photography.png}" class="card-img-top" alt="..." width="180" height="180">
@@ -65,14 +65,14 @@
               </div>
               <br><br>
               <div class="row row-cols-1 row-cols-md-2 g-4">
-                <a role="button" href="...">
+                <a role="button" th:href="@{/create_music_content}">
                   <div class="col">
                     <div class="card h-100">
                       <img th:src="@{/img/categories/music.png}" class="card-img-top" alt="..." width="180" height="180">
                     </div>
                   </div>
                 </a>
-                <a role="button" href="#">
+                <a role="button" th:href="@{/create_dance_content}">
                   <div class="col">
                     <div class="card h-100">
                       <img th:src="@{/img/categories/dance.png}" class="card-img-top" alt="..." width="180" height="180">
@@ -82,14 +82,14 @@
               </div>
               <br><br>
               <div class="row row-cols-1 row-cols-md-2 g-4">
-                <a role="button" href="...">
+                <a role="button" th:href="@{/create_painting_sculpture_content}">
                   <div class="col">
                     <div class="card h-100">
                       <img th:src="@{/img/categories/paintOrSculpture.png}" class="card-img-top" alt="..." width="180" height="180">
                     </div>
                   </div>
                 </a>
-                <a role="button" href="#">
+                <a role="button" th:href="@{/create_general_content}">
                   <div class="col">
                     <div class="card h-100">
                       <img th:src="@{/img/categories/general.png}" class="card-img-top" alt="..." width="180" height="180">
@@ -99,8 +99,8 @@
               </div>
               <br><br>
               <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-lg mb-1 gold dark-blue-text">Create a
-                  new project</button>
+                <a th:href="@{/create_project}" type="button" class="btn btn-lg mb-1 gold dark-blue-text">Create a
+                  new project</a>
               </div>
             </div>
           </div>
