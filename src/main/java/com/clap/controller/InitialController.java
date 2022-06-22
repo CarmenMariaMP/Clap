@@ -95,4 +95,9 @@ public class InitialController {
     public String project_detail() {
         return "project_detail.html";
     }
+
+    @GetMapping("/view_content")
+    public String view_content() {
+        return "view_content.html";
+    }
 }
