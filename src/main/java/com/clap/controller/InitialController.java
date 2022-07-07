@@ -3,12 +3,24 @@ package com.clap.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.clap.model.DataModels.CompanyRegisterData;
 import com.clap.model.DataModels.ContentCreatorRegisterData;
 import com.clap.repository.ArtisticContentRepository;
@@ -43,7 +55,7 @@ public class InitialController {
     CompanyService companyService;
 
     @GetMapping("/")
-    public String initial() {
+    public String index() {
         List<String> content = artisticContentRepository.getArtisticContent();
         List<String> users = userRepository.getUsers();
         List<String> content_creators = contentCreatorRepository.getContentCreators();
@@ -53,9 +65,10 @@ public class InitialController {
         System.out.println(users);
         System.out.println(content_creators);
         System.out.println(companies);
-        return "landing_page.html";
+        return "landing_page";
     }
 
+    /* 
     @GetMapping("/register_content_creator")
     public String registerContentCreator(Map<String, Object> model) {
         if (userService.getLoggedUser() != "null") {
@@ -71,13 +84,13 @@ public class InitialController {
         if (userService.getLoggedUser() != "null") {
             return "redirect:/login";
         }
-        /* companyRegisterDataValidator.validate(companyRegisterData, result); */
+         companyRegisterDataValidator.validate(companyRegisterData, result); 
         if (result.hasErrors()) {
             return "register_content_creator";
         }
 
         try {
-            contentCreatorService.registerContentCreator(contentCreatorRegisterData);
+            contentCreatorService.registerContentCreator(contentCreatorRegisterData);-
         } catch (Exception e) {
             result.rejectValue("username", "", e.getMessage());
             return "register_content_creator";
@@ -99,7 +112,7 @@ public class InitialController {
         if (userService.getLoggedUser() != "null") {
             return "redirect:/login";
         }
-        /* companyRegisterDataValidator.validate(companyRegisterData, result); */
+         companyRegisterDataValidator.validate(companyRegisterData, result); -
         if (result.hasErrors()) {
             return "register_company";
         }
@@ -112,24 +125,39 @@ public class InitialController {
         }
         return "redirect:/login";
     }
+    */
 
-    @GetMapping("/login")
-    public String getLogin(@ModelAttribute Credentials credentials, Map<String, Object> model,
-            BindingResult bindingResult) {
-        if (userService.getLoggedUser() != "null") {
-            return "redirect:/";
+    @GetMapping("/register_content_creator.html")
+    public String register_content_creator() {
+        return "register_content_creator.html";
+    }
+
+    @GetMapping("/register_company.html")
+    public String register_company() {
+        return "register_company.html";
+    }
+
+    @RequestMapping("/login.html")
+    public String login() {
+        return "login.html";
+    }
+
+    @RequestMapping("/login-error.html")
+    public String loginError(Model model) {
+        model.addAttribute("loginError", true);
+        return "login.html";
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-
-        model.put("credentials", new Credentials());
-        return "login";
+        return "redirect:/login?logout";
     }
 
-    @PostMapping("/login/success")
-    public String redirectLoginSuccess() {
-        return "redirect:/";
-    }
-
-    @GetMapping("/choose_category")
+    @GetMapping("/choose_category.html")
     public String choose_category() {
         return "choose_category.html";
     }
