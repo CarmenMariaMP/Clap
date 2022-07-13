@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <div th:replace="headerFragment :: headerFragment"></div>
+  <title>Register content creator | Clap</title>
+<link rel="shortcut icon" th:href="@{/img/lira_logo.png}">
+</head>
+<body>
+  <section class="h-100 h-custom">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-8 col-xl-6">
+          <div class="card rounded-3 container">
+            <div class="d-flex justify-content-center" style="margin-top:60px ;">
+              <a class="navbar-brand" href="/"><img th:src="@{/img/clap_logo_horizontal.png}" width="300"
+                  height="85"></a>
+            </div>
+            <h5 class="d-flex justify-content-center font-monospace dark-blue-text">Register as content creator</h5>
+            <h5 class="d-flex justify-content-center font-monospace dark-blue-text">to enjoy artistic content</h5>
+            <div class="card-body p-4 p-md-5">
+
+              <form class="px-md-2" method="POST" data-th-action="@{/register_content_creator}"
+              data-th-object="${contentCreatorRegisterData}">
+
+                <div class="form-outline mb-4">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <label class="form-label" for="username">Username</label>
+                    </div>
+                    <div class="col-md-10">
+                      <input type="text" id="username" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-outline mb-4">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <label class="form-label" for="fullname">Full name</label>
+                    </div>
+                    <div class="col-md-10">
+                      <input type="text" id="fullname" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-outline mb-4">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <label class="form-label" for="email">Email</label>
+                    </div>
+                    <div class="col-md-10">
+                      <input type="text" id="email" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-outline mb-4">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <label class="form-label" for="city">City</label>
+                    </div>
+                    <div class="col-md-10">
+                      <input type="text" id="city" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-outline mb-4">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <label class="form-label" for="country">Country</label>
+                    </div>
+                    <div class="col-md-10">
+                      <input type="text" id="country" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-outline mb-4">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <label class="form-label" for="phoneNumber">Phone number</label>
+                    </div>
+                    <div class="col-md-10">
+                      <input type="text" id="phoneNumber" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-outline mb-4">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <label class="form-label" for="password">Password</label>
+                    </div>
+                    <div class="col-md-10">
+                      <input type="password" id="password" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-outline mb-4">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <label class="form-label" for="confirmPassword">Confirm password</label>
+                    </div>
+                    <div class="col-md-10">
+                      <input type="password" id="confirmPassword" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-center row">
+                  <div class="col-md-5 d-flex justify-content-center row">
+                    <button type="submit" class="btn btn-lg mb-1 gold dark-blue-text">Register</button>
+                  </div>
+                  <div class="col-md-2"></div>
+                  <div class="col-md-5 d-flex justify-content-center row">
+                    <a type="submit" class="btn btn-lg mb-1  gold dark-blue-text" th:href="@{/}">
+                      Cancel</a>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+
+</html>

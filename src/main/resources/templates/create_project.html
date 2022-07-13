@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <div th:replace="headerFragment :: headerFragment"></div>
+  <title>New project | Clap</title>
+<link rel="shortcut icon" th:href="@{/img/lira_logo.png}">
+</head>
+<body>
+  <div th:replace="navbarFragment :: navbarFragment"> </div>
+  <section class="h-100 h-custom">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-8 col-xl-6">
+          <div class="card rounded-3 container">
+            <div class="d-flex justify-content-center" style="margin-top:60px ;">
+              <a class="navbar-brand" href="/"><img th:src="@{/img/clap_logo_horizontal.png}" width="300"
+                  height="85"></a>
+            </div>
+            <h2 class="d-flex justify-content-center dark-blue-text">Create new project</h2>
+            <hr style="height:2px;border-width:0;" class="grey">
+            <div class="card-body p-4 p-md-5">
+              <form class="px-md-2">
+                <div class="form-outline mb-4">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <label class="form-label" for="title">Title</label>
+                    </div>
+                    <div class="col-md-9">
+                      <input type="text" id="title" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-outline mb-4">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <label class="form-label" for="description">Description</label>
+                    </div>
+                    <div class="col-md-9">
+                      <textarea type="text" id="description" class="form-control"></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="formFile" class="form-label"></label>
+                  <input class="form-control" type="file" id="formFile">
+                </div>
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
+                      type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Post
+                      selection</button>
+                  </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                  <div class="form-outline">
+                    <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+                      tabindex="0">
+                      <br>
+                      <div class="form-check">
+                        <input class="form-check-input gold" type="checkbox" id="inlineCheckbox1" value="option1">
+                        <label class="form-check-label d-flex justify-content-center" for="inlineCheckbox1">
+                          <br>
+                          <div class="card mb-3" style="max-width: 540px;">
+                            <div class="row g-0">
+                              <div class="col-md-4">
+                                <img
+                                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                                  class="img-fluid rounded-start" alt="...">
+                              </div>
+                              <div class="col-md-8">
+                                <div class="card-body">
+                                  <h5 class="card-title">Card title</h5>
+                                  <p class="card-text">This is a wider card with supporting text below as a natural
+                                    lead-in to additional content. This content is a little bit longer.</p>
+                                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                </div>
+                              </div>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="form-check">
+                    <input class="form-check-input gold" type="checkbox" id="inlineCheckbox1" value="option1">
+                    <label class="form-check-label d-flex justify-content-center" for="inlineCheckbox1">
+                      <br>
+                      <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                          <div class="col-md-4">
+                            <img
+                              src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                              class="img-fluid rounded-start" alt="...">
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                              <h5 class="card-title">Card title</h5>
+                              <p class="card-text">This is a wider card with supporting text below as a natural
+                                lead-in to additional content. This content is a little bit longer.</p>
+                              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                          </div>
+                    </label>
+                  </div>
+                </div>
+            </div>
+            <br>
+            <div class="form-check">
+              <input class="form-check-input gold" type="checkbox" id="inlineCheckbox1" value="option1">
+              <label class="form-check-label d-flex justify-content-center" for="inlineCheckbox1">
+                <br>
+                <div class="card mb-3" style="max-width: 540px;">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                        class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a wider card with supporting text below as a natural
+                          lead-in to additional content. This content is a little bit longer.</p>
+                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                      </div>
+                    </div>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center row">
+      <div class="col-md-5 d-flex justify-content-center row">
+        <button type="submit" class="btn btn-lg mb-1 gold dark-blue-text">Create</button>
+      </div>
+      <div class="col-md-2"></div>
+      <div class="col-md-5 d-flex justify-content-center row">
+        <a type="submit" class="btn btn-lg mb-1  gold dark-blue-text" th:href="@{/choose_category}">
+          Cancel</a>
+      </div>
+    </div>
+    </form>
+  </section>
+</body>
+</html>
