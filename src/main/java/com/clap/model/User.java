@@ -41,7 +41,7 @@ public class User {
     @NotNull
 	UserType type;
 
-    @Size(max = 50)
+    @Size(max = 20)
     @Property("user_name")
     @Column(nullable = false, unique=true)
     private String username;
@@ -53,7 +53,7 @@ public class User {
 
     @JsonIgnore
     @NotNull
-    @Size(min = 60, max = 60)
+    @Size(min = 8, max = 40,message = "The password must has between 8 and 40 characters")
     @Column(nullable = false)
     private String password;
 
