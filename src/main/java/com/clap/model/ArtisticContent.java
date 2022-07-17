@@ -50,7 +50,7 @@ public abstract class ArtisticContent implements Serializable {
     private LocalDate uploadDate;
 
     @Property("view_count")
-    private Long viewCount;
+    private String viewCount;
 
     @Relationship(value = "HAS_ARTISTIC_CONTENT", direction = Relationship.Direction.INCOMING)
     @JsonIgnoreProperties(value = { "artisticContents" }, allowSetters = true)
@@ -88,7 +88,7 @@ public abstract class ArtisticContent implements Serializable {
         return this;
     }
 
-    public ArtisticContent viewCount(Long viewCount) {
+    public ArtisticContent viewCount(String viewCount) {
         this.setViewCount(viewCount);
         return this;
     }
