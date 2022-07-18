@@ -20,7 +20,7 @@ public class ContentCreatorRegisterData {
 	String phone;
 
 	// NotNull
-	String fullname;
+	String fullName;
 
 	String country;
 
@@ -30,7 +30,7 @@ public class ContentCreatorRegisterData {
 	public ContentCreator toContentCreator() {
 		ContentCreator contentCreator = new ContentCreator();
 		contentCreator.setUsername(getUsername());
-		contentCreator.setFullName(getFullname());
+		contentCreator.setFullName(getFullName());
 		contentCreator.setEmail(getEmail());
 		contentCreator.setCity(getCity());
 		contentCreator.setCountry(getCountry());

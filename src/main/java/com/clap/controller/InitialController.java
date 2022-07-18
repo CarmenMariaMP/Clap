@@ -93,12 +93,12 @@ public class InitialController {
             System.out.println("login");
             return "redirect:/login.html";
         }
-        model.put("contentCeeatorRegisterData", new ContentCreatorRegisterData());
+        model.put("contentCreatorRegisterData", new ContentCreatorRegisterData());
         return "register_content_creator.html";
     }
 
     @PostMapping("/register_content_creator.html")
-    public String doRegisterContentCreator(@ModelAttribute CompanyRegisterData companyRegisterData, BindingResult result) {
+    public String doRegisterContentCreator(@ModelAttribute ContentCreatorRegisterData contentCreatorRegisterData, BindingResult result) {
         System.out.println("Entra en post");
         if (userService.getLoggedUser() != "null") {
             System.out.println("login");
@@ -109,10 +109,15 @@ public class InitialController {
         }
 
         try {
-            companyService.registerCompany(companyRegisterData);
-            System.out.println(companyRegisterData.getCompanyName());
+            contentCreatorService.registerContentCreator(contentCreatorRegisterData);
         } catch (Exception e) {
-            result.rejectValue("username", "", e.getMessage());
+            result.rejectValue("username", "", "username");
+            result.rejectValue("fullName", "", "fullName");
+            result.rejectValue("city", "", "city");
+            result.rejectValue("phone", "", "phone");
+            result.rejectValue("country", "", "country");
+            result.rejectValue("email", "","email");
+            result.rejectValue("password", "", "password");
             return "register_content_creator.html";
         }
         return "redirect:/login.html";
@@ -136,15 +141,23 @@ public class InitialController {
             return "redirect:/login.html";
         }
         if (result.hasErrors()) {
+            System.out.println("error");
             return "register_company.html";
         }
 
         try {
+            System.out.println("try");
             companyService.registerCompany(companyRegisterData);
             System.out.println(companyRegisterData.getCompanyName());
         } catch (Exception e) {
-            result.rejectValue("username", "", e.getMessage());
-            System.out.println("patata");
+            System.out.println("catch");
+            result.rejectValue("username", "", "username");
+            result.rejectValue("companyName", "", "companyName");
+            result.rejectValue("taxIDNumber", "taxIDNumber", e.getMessage());
+            result.rejectValue("phone", "phone", e.getMessage());
+            result.rejectValue("officeAddress", "officeAddress", e.getMessage());
+            result.rejectValue("email", "email", e.getMessage());
+            result.rejectValue("password", "password", e.getMessage());
             return "register_company.html";
         }
         return "redirect:/login.html";

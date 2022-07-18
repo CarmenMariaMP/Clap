@@ -30,19 +30,19 @@ import org.springframework.data.neo4j.core.schema.Relationship;
 @AllArgsConstructor
 public class Company extends User {
 
-    @Property("company_name")
+    @Property("companyName")
     @NotNull
 	@Column(unique = true, nullable = false)
     private String companyName;
 
     @NotNull
 	@Column(unique = true, nullable = false)
-    @Property("tax_id_number")
+    @Property("taxIdNumber")
     private String taxIdNumber;
 
     @NotNull
 	@Column(unique = true)
-    @Property("office_address")
+    @Property("officeAddress")
     private String officeAddress;
 
     @Relationship("HAS_PRIVACY_REQUEST")

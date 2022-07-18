@@ -15,30 +15,30 @@ public class CompanyRegisterData {
 	String username;
 
 	// NotNull
-	@NotEmpty
+	@NotEmpty(message = "Not empty")
 	String companyName;
 
 	// NotNull
-	@NotEmpty
+	@NotEmpty(message = "Not empty")
 	String taxIDNumber;
 
 	// NotNull
-	@NotEmpty
+	@NotEmpty(message = "Not empty")
 	String phone;
 
 	// NotNull
-	@NotEmpty
+	@NotEmpty(message = "Not empty")
 	String officeAddress;
 
 	@NotEmpty
 	String email;
 
 	// NotNull
-	@NotEmpty
+	@NotEmpty(message = "Not empty")
 	String password;
 
 	// NotNull
-	@NotEmpty
+	@NotEmpty(message = "Not empty")
 	String confirmPassword;
 
 	public Company toCompany() {

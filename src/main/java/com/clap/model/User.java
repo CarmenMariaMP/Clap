@@ -11,6 +11,7 @@ import lombok.ToString;
 import com.clap.model.enumeration.UserType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,9 +37,6 @@ import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-
-    private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(UUIDStringGenerator.class)
     @Property("user_id")
@@ -66,7 +64,7 @@ public class User {
     @CreatedDate
     @Property("createdDate")
     @JsonIgnore
-    private Long createdDate;
+    private Date createdDate;
 
     @Property("phone")
     @Column(nullable = true)

@@ -38,7 +38,7 @@ public class UserService {
             throw new Exception("Username already registered!");
         } else {
             encryptPassword(user);
-            user.setCreatedDate(new Date().getTime());
+            user.setCreatedDate(new Date());
             return userRepository.save(user);
         }
     }
