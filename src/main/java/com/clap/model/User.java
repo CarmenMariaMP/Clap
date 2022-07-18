@@ -2,12 +2,15 @@ package com.clap.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import com.clap.model.enumeration.UserType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.time.Instant;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,8 +30,11 @@ import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
  * A user.
  */
 @Node
-@Getter
-@Setter
+@Data
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = { "favourites", "notifications", "projects","followed","followers" })
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     private static final long serialVersionUID = 1L;
@@ -42,7 +48,7 @@ public class User {
 	UserType type;
 
     @Size(max = 20)
-    @Property("user_name")
+    @Property("username")
     @Column(nullable = false, unique=true)
     private String username;
 
@@ -58,16 +64,16 @@ public class User {
     private String password;
 
     @CreatedDate
-    @Property("created_date")
+    @Property("createdDate")
     @JsonIgnore
-    private Instant createdDate = Instant.now();
+    private Long createdDate;
 
     @Property("phone")
     @Column(nullable = true)
     private String phone;
 
     @Size(max = 256)
-    @Property("photo_url")
+    @Property("photoUrl")
     @Column(nullable = true)
     private String photoUrl;
 
@@ -91,36 +97,4 @@ public class User {
     @Relationship("HAS_USER")
     @JsonIgnoreProperties(value = { "favourites","notifications","projects","followed","followers" }, allowSetters = true)
     private Set<User> followers = new HashSet<>();
-
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof User)) {
-            return false;
-        }
-        return id != null && id.equals(((User) o).id);
-    }
-
-    @Override
-    public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
-        return getClass().hashCode();
-    }
-
-    // prettier-ignore
-    @Override
-    public String toString() {
-        return "User{" +
-            "username='" + getUsername() + '\'' +
-            ", email='" + getEmail() + '\'' +
-            ", phone='" + getPhone() + '\'' +
-            ", photoUrl='" + getPhotoUrl() + '\'' +
-            "}";
-    }
 }

@@ -3,6 +3,7 @@ package com.clap.services;
 import com.clap.model.User;
 import com.clap.repository.UserRepository;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,6 +38,7 @@ public class UserService {
             throw new Exception("Username already registered!");
         } else {
             encryptPassword(user);
+            user.setCreatedDate(new Date().getTime());
             return userRepository.save(user);
         }
     }

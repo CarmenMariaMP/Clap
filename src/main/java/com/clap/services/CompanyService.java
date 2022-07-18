@@ -1,9 +1,12 @@
 package com.clap.services;
 
+import org.springframework.stereotype.Service;
+
 import com.clap.model.Company;
 import com.clap.model.DataModels.CompanyRegisterData;
 import com.clap.repository.CompanyRepository;
 
+@Service
 public class CompanyService {
     CompanyRepository companyRepository;
 	UserService userService;
