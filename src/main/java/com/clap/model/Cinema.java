@@ -1,7 +1,5 @@
 package com.clap.model;
 
-import com.clap.model.enumeration.CinemaGenreType;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,9 +17,9 @@ public class Cinema extends ArtisticContent {
     private static final long serialVersionUID = 1L;
 
     @Property("genres")
-    private CinemaGenreType genres;
+    private String genres;
 
-    public Cinema genres(CinemaGenreType genres) {
+    public Cinema genres(String genres) {
         this.setGenres(genres);
         return this;
     }

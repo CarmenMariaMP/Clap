@@ -19,7 +19,7 @@ import org.springframework.data.neo4j.core.schema.Relationship;
 @Setter
 public class ContentCreator extends User {
 
-    @Property("full_name")
+    @Property("fullName")
     private String fullName;
 
     @Property("country")

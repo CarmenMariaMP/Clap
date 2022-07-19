@@ -1,8 +1,10 @@
 package com.clap.services;
 
+import com.clap.model.ArtisticContent;
 import com.clap.model.User;
 import com.clap.repository.UserRepository;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,6 +39,7 @@ public class UserService {
             throw new Exception("Username already registered!");
         } else {
             encryptPassword(user);
+            user.setCreatedDate(new Date());
             return userRepository.save(user);
         }
     }
@@ -47,6 +50,12 @@ public class UserService {
 
     public PasswordEncoder getEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    public User setUserArtisticContent (String title, ArtisticContent content){
+        User user = userRepository.getOwnerByTitle(title);
+        content.setOwner(user);
+        return null;
     }
 
 }

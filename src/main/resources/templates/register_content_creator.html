@@ -20,9 +20,11 @@
             <h5 class="d-flex justify-content-center font-monospace dark-blue-text">to enjoy artistic content</h5>
             <div class="card-body p-4 p-md-5">
 
-              <form class="px-md-2" method="POST" data-th-action="@{/register_content_creator}"
+              <form class="px-md-2" method="POST" data-th-action="@{/register_content_creator.html}"
               data-th-object="${contentCreatorRegisterData}">
-
+              <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+              </div>
                 <div class="form-outline mb-4">
                   <div class="row">
                     <div class="col-md-2">

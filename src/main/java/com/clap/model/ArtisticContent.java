@@ -1,6 +1,5 @@
 package com.clap.model;
 
-import com.clap.model.enumeration.ContentType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Getter;
@@ -35,7 +34,7 @@ public abstract class ArtisticContent implements Serializable {
     private String id;
 
     @NotNull
-	ContentType type;
+	String type;
 
     @Property("title")
     private String title;
@@ -49,18 +48,18 @@ public abstract class ArtisticContent implements Serializable {
     @Property("upload_date")
     private LocalDate uploadDate;
 
-    @Property("view_count")
+    @Property("viewCount")
     private String viewCount;
 
-    @Relationship(value = "HAS_ARTISTIC_CONTENT", direction = Relationship.Direction.INCOMING)
+    @Relationship(value = "HAS_ARTISTIC_CONTENT_TAG", direction = Relationship.Direction.INCOMING)
     @JsonIgnoreProperties(value = { "artisticContents" }, allowSetters = true)
     private Set<Tag> tags = new HashSet<>();
 
-    @Relationship(value = "HAS_ARTISTIC_CONTENT", direction = Relationship.Direction.INCOMING)
+    @Relationship(value = "HAS_ARTISTIC_CONTENT_PROJECT", direction = Relationship.Direction.INCOMING)
     @JsonIgnoreProperties(value = { "artisticContents" , "user" }, allowSetters = true)
     private Set<Project> projects = new HashSet<>();
 
-    @Relationship(value = "HAS_ARTISTIC_CONTENT", direction = Relationship.Direction.INCOMING)
+    @Relationship(value = "HAS_ARTISTIC_CONTENT_OWNER", direction = Relationship.Direction.INCOMING)
     @JsonIgnoreProperties(value = { "favourites","notifications","projects","followed","followers" }, allowSetters = true)
     private User owner;
 

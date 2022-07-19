@@ -1,5 +1,7 @@
 package com.clap.model.DataModels;
 
+import javax.validation.constraints.NotEmpty;
+
 import com.clap.model.Company;
 
 import lombok.Data;
@@ -9,27 +11,34 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CompanyRegisterData {
     // NotNull
+	@NotEmpty(message = "Not empty")
 	String username;
 
 	// NotNull
+	@NotEmpty(message = "Not empty")
 	String companyName;
 
 	// NotNull
+	@NotEmpty(message = "Not empty")
 	String taxIDNumber;
 
 	// NotNull
+	@NotEmpty(message = "Not empty")
 	String phone;
 
 	// NotNull
+	@NotEmpty(message = "Not empty")
 	String officeAddress;
 
-	// NotNull
+	@NotEmpty
 	String email;
 
 	// NotNull
+	@NotEmpty(message = "Not empty")
 	String password;
 
 	// NotNull
+	@NotEmpty(message = "Not empty")
 	String confirmPassword;
 
 	public Company toCompany() {

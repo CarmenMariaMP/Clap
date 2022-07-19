@@ -13,6 +13,7 @@ public class ContentCreatorService {
 
     public ContentCreator registerContentCreator(ContentCreatorRegisterData contentCreatorRegisterData) throws Exception {
 		ContentCreator contentCreator = contentCreatorRegisterData.toContentCreator();
+		contentCreator.setType("CONTENT_CREATOR");
 		contentCreator = (ContentCreator) userService.register(contentCreator);
 
 		return contentCreatorRepository.save(contentCreator);

@@ -1,7 +1,5 @@
 package com.clap.model;
 
-import com.clap.model.enumeration.MusicGenreType;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,9 +17,9 @@ public class Music extends ArtisticContent {
     private static final long serialVersionUID = 1L;
 
     @Property("genres")
-    private MusicGenreType genres;
+    private String genres;
 
-    public Music genres(MusicGenreType genres) {
+    public Music genres(String genres) {
         this.setGenres(genres);
         return this;
     }
