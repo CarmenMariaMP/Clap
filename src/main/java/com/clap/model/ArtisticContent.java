@@ -1,6 +1,5 @@
 package com.clap.model;
 
-import com.clap.model.enumeration.ContentType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Getter;
@@ -35,7 +34,7 @@ public abstract class ArtisticContent implements Serializable {
     private String id;
 
     @NotNull
-	ContentType type;
+	String type;
 
     @Property("title")
     private String title;

@@ -1,13 +1,13 @@
 package com.clap.model;
 
-import com.clap.model.enumeration.NotificationType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
+
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
@@ -33,13 +33,13 @@ public class Notification implements Serializable {
     private String text;
 
     @Property("emision_date")
-    private LocalDate emisionDate;
+    private Date emisionDate;
 
     @Property("read_date")
-    private LocalDate readDate;
+    private Date readDate;
 
     @Property("type")
-    private NotificationType type;
+    private String type;
 
     @Relationship(value = "HAS_NOTIFICATION", direction = Relationship.Direction.INCOMING)
     @JsonIgnoreProperties(value = { "favourites","notifications","projects","followed","followers" }, allowSetters = true)

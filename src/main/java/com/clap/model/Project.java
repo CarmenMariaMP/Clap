@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
@@ -31,7 +31,7 @@ public class Project implements Serializable {
     private String id;
 
     @Property("creation_date")
-    private LocalDate creationDate;
+    private Date creationDate;
 
     @Relationship("HAS_ARTISTIC_CONTENT")
     @JsonIgnoreProperties(value = { "tags", "projects", "owner", "users_favourites" }, allowSetters = true)
@@ -43,7 +43,7 @@ public class Project implements Serializable {
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public Project creationDate(LocalDate creationDate) {
+    public Project creationDate(Date creationDate) {
         this.setCreationDate(creationDate);
         return this;
     }

@@ -43,9 +43,9 @@ public class User {
     private String id;
 
     @NotNull
-	UserType type;
+	String type;
 
-    @Size(max = 20)
+    @Size(max = 20, message = "maximux size 20")
     @Property("username")
     @Column(nullable = false, unique=true)
     private String username;

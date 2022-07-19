@@ -15,4 +15,7 @@ public interface UserRepository extends Neo4jRepository<User, String> {
 	List<String> getUsers();
 
     public Optional<User> findByUsername(String username);
+
+    @Query("MATCH (u:User)" +" -[:HAS_ARTISTIC_CONTENT_OWNER]" +"->" + "(ac:ArtisticContent{title: $title})" +"return u")
+    User getOwnerByTitle(String title);
 }

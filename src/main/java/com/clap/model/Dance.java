@@ -1,7 +1,5 @@
 package com.clap.model;
 
-import com.clap.model.enumeration.DanceGenreType;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,7 +20,7 @@ public class Dance extends ArtisticContent {
     private String music;
 
     @Property("genres")
-    private DanceGenreType genres;
+    private String genres;
 
     // prettier-ignore
     @Override

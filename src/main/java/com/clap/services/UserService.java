@@ -1,5 +1,6 @@
 package com.clap.services;
 
+import com.clap.model.ArtisticContent;
 import com.clap.model.User;
 import com.clap.repository.UserRepository;
 
@@ -49,6 +50,12 @@ public class UserService {
 
     public PasswordEncoder getEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    public User setUserArtisticContent (String title, ArtisticContent content){
+        User user = userRepository.getOwnerByTitle(title);
+        content.setOwner(user);
+        return null;
     }
 
 }

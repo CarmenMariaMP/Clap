@@ -66,22 +66,11 @@ public class InitialController {
     public String index(Model model) {
         
         List<ArtisticContent> contents = artisticContentRepository.getArtisticContent();
-        /* 
-        List<String> users = userRepository.getUsers();
-        List<String> content_creators = contentCreatorRepository.getContentCreators();
-        ;
-        cunt();
-            System.out.println(views);
-            System.out.println(contents.get(i).getTitle()+","+ contents.get(i).getDescription());
-            
-    }
-        System.out.println(users);
-        System.out.println(content_creators);
-        System.out.println(companies);
-        */
+
         for(int i = 0; i < contents.size();  i++)      {
-            User user= contents.get(i).getOwner();
-            System.out.println(user);
+            ArtisticContent content = contents.get(i);
+            String title= contents.get(i).getTitle();
+            userService.setUserArtisticContent(title, content);
         }
         model.addAttribute("contents", contents);
         return "landing_page";

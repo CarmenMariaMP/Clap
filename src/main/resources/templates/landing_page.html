@@ -41,9 +41,9 @@
               <div class="card mb-3" style="max-width: 540px;" th:each="content : ${contents}">
                 <div class="row g-0">
                   <div class="col-md-4">
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                    <img th:src="${content.owner.photoUrl}"
                       class="img-fluid rounded-start" alt="...">
-                    <h6 class="d-flex justify-content-center" style="margin-top: 5px;">@username1</h6>
+                    <h6 class="d-flex justify-content-center" style="margin-top: 5px;">@<span th:text="${content.owner.username}"></h6>
                   </div>
                   <div class="col-md-8">
                     <div class="card-body">

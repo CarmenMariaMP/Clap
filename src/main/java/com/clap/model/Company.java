@@ -1,6 +1,5 @@
 package com.clap.model;
 
-import com.clap.model.enumeration.UserType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -51,6 +50,6 @@ public class Company extends User {
 
     public Company() {
 		super();
-		setType(UserType.COMPANY);
+		setType("COMPANY");
 	}
 }
