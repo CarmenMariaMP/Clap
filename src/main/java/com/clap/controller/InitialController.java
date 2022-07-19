@@ -22,10 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.clap.model.ArtisticContent;
-import com.clap.model.User;
 import com.clap.model.DataModels.CompanyRegisterData;
 import com.clap.model.DataModels.ContentCreatorRegisterData;
-import com.clap.model.validator.CompanyRegisterDataValidator;
 import com.clap.repository.ArtisticContentRepository;
 import com.clap.repository.CompanyRepository;
 import com.clap.repository.ContentCreatorRepository;
@@ -57,9 +55,6 @@ public class InitialController {
 
     @Autowired
     CompanyService companyService;
-
-    @Autowired
-	CompanyRegisterDataValidator companyRegisterDataValidator;
 
 
     @GetMapping("/")
