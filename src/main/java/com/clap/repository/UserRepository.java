@@ -6,10 +6,12 @@ import java.util.Optional;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.clap.model.User;
 
 @Repository
+@Transactional(readOnly = true)
 public interface UserRepository extends Neo4jRepository<User, String> {
     @Query("MATCH (u:User) " + "RETURN DISTINCT u.username")
 	List<String> getUsers();

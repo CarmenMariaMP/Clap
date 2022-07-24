@@ -75,10 +75,10 @@ public class InitialController {
         model.addAttribute("contents", contents);
         return "landing_page";
     }
-
+/* 
     @GetMapping("/register_content_creator.html")
     public String registerContentCreator(Map<String, Object> model) {
-        if (userService.getLoggedUser() != "null") {
+        if (userService.loadUserByUsername(username) != "null") {
             System.out.println("login");
             return "redirect:/login.html";
         }
@@ -152,7 +152,7 @@ public class InitialController {
         return "redirect:/login.html";
     }
     
-
+*/
     @RequestMapping("/login.html")
     public String login() {
         return "login.html";

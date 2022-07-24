@@ -11,6 +11,7 @@ import lombok.ToString;
 import com.clap.model.enumeration.UserType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,6 +27,8 @@ import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
 import org.springframework.data.neo4j.core.schema.Relationship;
 import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * A user.
@@ -43,7 +46,7 @@ public class User {
     private String id;
 
     @NotNull
-	String type;
+	private String type;
 
     @Size(max = 20, message = "maximux size 20")
     @Property("username")
