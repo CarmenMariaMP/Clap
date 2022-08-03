@@ -26,8 +26,11 @@ import com.clap.model.ArtisticContent;
 import com.clap.model.Company;
 import com.clap.model.ContentCreator;
 import com.clap.model.User;
-import com.clap.model.DataModels.ContentCreatorRegisterData;
 import com.clap.model.DataModels.UserProfileData;
+
+import com.clap.model.DataModels.CompanyRegisterData;
+import com.clap.model.DataModels.ContentCreatorRegisterData;
+
 import com.clap.repository.ArtisticContentRepository;
 import com.clap.repository.CompanyRepository;
 import com.clap.repository.ContentCreatorRepository;
