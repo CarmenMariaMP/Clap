@@ -24,4 +24,11 @@ public class CompanyService {
 		return companyRepository.save(company);
 	}
     
+	public Company getCompanyByUsername(String username) {
+        return companyRepository.getCompanyByUsername(username);
+    }
+
+	public Company getCompanyId(String userId) {
+        return companyRepository.getCompanyById(userId);
+    }
 }
