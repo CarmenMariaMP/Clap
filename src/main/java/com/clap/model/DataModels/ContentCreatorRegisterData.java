@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ContentCreatorRegisterData {
 
+	// NotNull
+    String type;
+
+	// NotNull
     String username;
 
 	// NotNull
@@ -29,6 +33,7 @@ public class ContentCreatorRegisterData {
 
 	public ContentCreator toContentCreator() {
 		ContentCreator contentCreator = new ContentCreator();
+		contentCreator.setType("CONTENT_CREATOR");
 		contentCreator.setUsername(getUsername());
 		contentCreator.setFullName(getFullName());
 		contentCreator.setEmail(getEmail());

@@ -8,12 +8,20 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
+import com.clap.services.UserService;
+
+import lombok.RequiredArgsConstructor;
+
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final UserService userservice;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Bean
     public ClassLoaderTemplateResolver secondaryTemplateResolver() {
@@ -32,7 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .antMatchers("/", "/register_company.html", "/register_content_creator.html", "/resources/**","/styles/**","/img/**").permitAll()
+                .antMatchers("/", "/register_company.html", "/register_content_creator.html", "/resources/**",
+                        "/styles/**", "/img/**")
+                .permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -40,19 +50,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureUrl("/login-error.html")
                 .defaultSuccessUrl("/choose_category.html", true)
                 .permitAll();
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
+    }
+
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .userDetailsService(userservice)
+                .passwordEncoder(passwordEncoder);
     }
 
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
                 .antMatchers("/resources/**");
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("user")
-                .password("{noop}pass") // Spring Security 5 requires specifying the password storage format
-                .roles("USER");
     }
 }

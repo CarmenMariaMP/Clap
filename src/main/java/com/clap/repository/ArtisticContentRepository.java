@@ -14,6 +14,9 @@ public interface ArtisticContentRepository extends Neo4jRepository<ArtisticConte
     @Query("MATCH (ac:ArtisticContent) " + "RETURN DISTINCT ac")
 	List<ArtisticContent> getArtisticContent();
 
+    @Query("MATCH (u:User{username: $username })" + " -[:HAS_ARTISTIC_CONTENT_OWNER]" +"->" +"(ac:ArtisticContent)return ac")
+	List<ArtisticContent> findByOwner(String username);
+
     public Optional<ArtisticContent> findContentByTitle(String title);
 
     ArtisticContent findByTitle(@Param("title") String title);   

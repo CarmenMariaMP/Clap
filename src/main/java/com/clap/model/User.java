@@ -11,8 +11,11 @@ import lombok.ToString;
 import com.clap.model.enumeration.UserType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -26,7 +29,9 @@ import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
 import org.springframework.data.neo4j.core.schema.Relationship;
 import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
-
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 /**
  * A user.
  */
@@ -36,14 +41,14 @@ import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 @ToString(exclude = { "favourites", "notifications", "projects","followed","followers" })
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User implements UserDetails{
     @Id
     @GeneratedValue(UUIDStringGenerator.class)
     @Property("user_id")
     private String id;
 
     @NotNull
-	String type;
+	private String type;
 
     @Size(max = 20, message = "maximux size 20")
     @Property("username")
@@ -56,7 +61,7 @@ public class User {
     private String email;
 
     @JsonIgnore
-    @NotNull
+    @NotNull(message = "Not null")
     @Size(min = 8, max = 40,message = "The password must has between 8 and 40 characters")
     @Column(nullable = false)
     private String password;
@@ -74,7 +79,6 @@ public class User {
     @Property("photoUrl")
     @Column(nullable = true)
     private String photoUrl;
-
 
     @Relationship("HAS_ARTISTIC_CONTENT")
     @JsonIgnoreProperties(value = { "tags", "projects", "owner", "users_favourites" }, allowSetters = true)
@@ -95,4 +99,34 @@ public class User {
     @Relationship("HAS_USER")
     @JsonIgnoreProperties(value = { "favourites","notifications","projects","followed","followers" }, allowSetters = true)
     private Set<User> followers = new HashSet<>();
+
+    @Relationship("HAS_ROLES")
+    private List<Role> roles = new ArrayList<>();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
+		authorities.add(new SimpleGrantedAuthority(this.type.toString()));
+		return authorities;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

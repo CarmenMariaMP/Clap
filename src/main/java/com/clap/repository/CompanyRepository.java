@@ -1,17 +1,15 @@
 package com.clap.repository;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 
 import com.clap.model.Company;
 
 public interface CompanyRepository extends Neo4jRepository<Company, String>{
-    @Query("MATCH (co:Company) " + "RETURN DISTINCT co.username")
-	List<String> getCompanies();
+    @Query("MATCH (n:Company{username: $username} ) " + "return n")
+	Company getCompanyByUsername(String username);
 
-    public Optional<Company> findByUsername(String username);
+    @Query("MATCH (n:Company{user_id: $user_id} ) " + "return n")
+	Company getCompanyById(String user_id);
     
 }
