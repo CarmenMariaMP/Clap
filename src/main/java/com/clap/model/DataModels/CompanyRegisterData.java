@@ -11,34 +11,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CompanyRegisterData {
     // NotNull
-	@NotEmpty(message = "Not empty")
 	String username;
 
 	// NotNull
-	@NotEmpty(message = "Not empty")
 	String companyName;
 
 	// NotNull
-	@NotEmpty(message = "Not empty")
-	String taxIDNumber;
+	String taxIdNumber;
 
-	// NotNull
-	@NotEmpty(message = "Not empty")
 	String phone;
 
-	// NotNull
-	@NotEmpty(message = "Not empty")
 	String officeAddress;
 
-	@NotEmpty
+	// NotNull
 	String email;
 
 	// NotNull
-	@NotEmpty(message = "Not empty")
 	String password;
 
 	// NotNull
-	@NotEmpty(message = "Not empty")
 	String confirmPassword;
 
 	public Company toCompany() {
@@ -47,7 +38,7 @@ public class CompanyRegisterData {
 		company.setCompanyName(getCompanyName());
 		company.setOfficeAddress(getOfficeAddress());
 		company.setPassword(getPassword());
-		company.setTaxIdNumber(getTaxIDNumber());
+		company.setTaxIdNumber(getTaxIdNumber());
 		company.setEmail(getEmail());
 		company.setUsername(getUsername());
 		return company;

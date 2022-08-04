@@ -8,7 +8,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import com.clap.model.enumeration.UserType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
@@ -51,6 +50,7 @@ public class User implements UserDetails{
 	private String type;
 
     @Size(max = 20, message = "maximux size 20")
+    @Size(min = 4, message = "minimum size 4")
     @Property("username")
     @Column(nullable = false, unique=true)
     private String username;

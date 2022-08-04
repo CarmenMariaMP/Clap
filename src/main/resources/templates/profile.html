@@ -204,7 +204,7 @@
                           <div class="card mb-3" style="max-width: 540px;" th:each="content : ${attached_contents}">
                             <div class="row g-0">
                               <div class="col-md-4">
-                                <img th:src="${content.getOwner().getPhotoUrl()}" class="img-fluid rounded-start"
+                                <img th:src="${content.owner.photoUrl}" class="img-fluid rounded-start"
                                   alt="...">
                                 <h6 class="d-flex justify-content-center" style="margin-top: 5px;">@<span
                                     th:text="${content.owner.username}"></h6>

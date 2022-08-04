@@ -6,6 +6,7 @@ import com.clap.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
 
@@ -46,7 +47,7 @@ public class UserService implements UserDetailsService {
             throw new Exception("Username already registered!");
         } else {
             user.setPassword(crypt.encode(user.getPassword()));
-            user.setCreatedDate(new Date());
+            user.setCreatedDate(Date.from(Instant.now()));
             return userRepository.save(user);
         }
     }

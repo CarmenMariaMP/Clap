@@ -1,5 +1,9 @@
 package com.clap.model.DataModels;
 
+import java.time.Instant;
+import java.util.Date;
+import java.util.HashSet;
+
 import com.clap.model.ContentCreator;
 
 import lombok.Data;
@@ -8,6 +12,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ContentCreatorRegisterData {
+
+	String id;
 
 	// NotNull
     String type;
@@ -21,6 +27,8 @@ public class ContentCreatorRegisterData {
 	// NotNull
 	String password;
 
+	String confirmPassword;
+
 	String phone;
 
 	// NotNull
@@ -33,7 +41,8 @@ public class ContentCreatorRegisterData {
 
 	public ContentCreator toContentCreator() {
 		ContentCreator contentCreator = new ContentCreator();
-		contentCreator.setType("CONTENT_CREATOR");
+		contentCreator.setType(getType());
+		contentCreator.setCreatedDate(Date.from(Instant.now()));
 		contentCreator.setUsername(getUsername());
 		contentCreator.setFullName(getFullName());
 		contentCreator.setEmail(getEmail());
@@ -41,6 +50,7 @@ public class ContentCreatorRegisterData {
 		contentCreator.setCountry(getCountry());
 		contentCreator.setPhone(getPhone());
 		contentCreator.setPassword(getPassword());
+		contentCreator.setPhotoUrl("");
 		return contentCreator;
 	}
 

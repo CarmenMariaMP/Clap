@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -27,10 +28,11 @@ import com.clap.model.Company;
 import com.clap.model.ContentCreator;
 import com.clap.model.User;
 import com.clap.model.DataModels.UserProfileData;
-
+import com.clap.model.Validators.CompanyRegisterValidator;
+import com.clap.model.Validators.ContentCreatorRegisterValidator;
 import com.clap.model.DataModels.CompanyRegisterData;
 import com.clap.model.DataModels.ContentCreatorRegisterData;
-
+import com.clap.model.DataModels.GeneralUploadData;
 import com.clap.repository.ArtisticContentRepository;
 import com.clap.repository.CompanyRepository;
 import com.clap.repository.ContentCreatorRepository;
@@ -67,6 +69,12 @@ public class InitialController {
     @Autowired
     ArtisticContentService artisticContentService;
 
+    @Autowired
+	ContentCreatorRegisterValidator contentCreatorRegisterValidator;
+
+    @Autowired
+    CompanyRegisterValidator companyRegisterValidator;
+
     @GetMapping("/")
     public String index(Model model) {
 
@@ -81,33 +89,6 @@ public class InitialController {
         return "landing_page";
     }
 
-    /*
-     * @GetMapping("/register_content_creator.html")
-     * public String registerFormContentCreator(Model model) {
-     * model.addAttribute("contentCreatorRegisterData", new
-     * ContentCreatorRegisterData());
-     * return "register_content_creator.html";
-     * }
-     * 
-     * @PostMapping("/register_content_creator.html")
-     * public String registerFormContentCreator(@Valid @ModelAttribute
-     * ContentCreatorRegisterData contentCreatorRegisterData,
-     * BindingResult result, Model model) {
-     * if (result.hasErrors()) {
-     * return "register_content_creator.html";
-     * } else {
-     * try {
-     * model.addAttribute("contentCreatorRegisterData",
-     * contentCreatorService.registerContentCreator(contentCreatorRegisterData));
-     * } catch (Exception e) {
-     * e.printStackTrace();
-     * return "register_content_creator.html";
-     * }
-     * }
-     * return "redirect:/login.html";
-     * }
-     * 
-     */
     @GetMapping("/register_content_creator.html")
     public String registerContentCreator(Map<String, Object> model) {
 
@@ -116,70 +97,45 @@ public class InitialController {
     }
 
     @PostMapping("/register_content_creator.html")
-    public String doRegisterContentCreator(@ModelAttribute ContentCreatorRegisterData contentCreatorRegisterData,
+    public String doRegisterContentCreator(
+            @Valid @ModelAttribute("contentCreatorRegisterData") ContentCreatorRegisterData contentCreatorRegisterData,
             BindingResult result) {
+        contentCreatorRegisterValidator.validate(contentCreatorRegisterData,result);
         if (result.hasErrors()) {
             return "register_content_creator.html";
         }
-
         try {
             contentCreatorService.registerContentCreator(contentCreatorRegisterData);
         } catch (Exception e) {
-            result.rejectValue("username", "", "username");
-            result.rejectValue("fullName", "", "fullName");
-            result.rejectValue("city", "", "city");
-            result.rejectValue("phone", "", "phone");
-            result.rejectValue("country", "", "country");
-            result.rejectValue("email", "", "email");
-            result.rejectValue("password", "", "password");
             return "register_content_creator.html";
         }
         return "redirect:/login.html";
     }
 
-    /*
-     * @GetMapping("/register_company.html")
-     * public String registerCompany(Map<String, Object> model) {
-     * if (userService.getLoggedUser() != "null") {
-     * System.out.println("login");
-     * return "redirect:/login.html";
-     * }
-     * model.put("companyRegisterData", new CompanyRegisterData());
-     * return "register_company.html";
-     * }
-     * 
-     * @PostMapping("/register_company.html")
-     * public String doRegisterCompany(@ModelAttribute CompanyRegisterData
-     * companyRegisterData, BindingResult result) {
-     * System.out.println("Entra en post");
-     * if (userService.getLoggedUser() != "null") {
-     * System.out.println("login");
-     * return "redirect:/login.html";
-     * }
-     * if (result.hasErrors()) {
-     * System.out.println("error");
-     * return "register_company.html";
-     * }
-     * 
-     * try {
-     * System.out.println("try");
-     * companyService.registerCompany(companyRegisterData);
-     * System.out.println(companyRegisterData.getCompanyName());
-     * } catch (Exception e) {
-     * System.out.println("catch");
-     * result.rejectValue("username", "", "username");
-     * result.rejectValue("companyName", "", "companyName");
-     * result.rejectValue("taxIDNumber", "taxIDNumber", e.getMessage());
-     * result.rejectValue("phone", "phone", e.getMessage());
-     * result.rejectValue("officeAddress", "officeAddress", e.getMessage());
-     * result.rejectValue("email", "email", e.getMessage());
-     * result.rejectValue("password", "password", e.getMessage());
-     * return "register_company.html";
-     * }
-     * return "redirect:/login.html";
-     * }
-     * 
-     */
+    @GetMapping("/register_company.html")
+    public String registerCompany(Map<String, Object> model) {
+
+        model.put("companyRegisterData", new CompanyRegisterData());
+        return "register_company.html";
+    }
+
+    @PostMapping("/register_company.html")
+    public String doRegisterCompany(
+            @Valid @ModelAttribute("companyRegisterData") CompanyRegisterData companyRegisterData,
+            BindingResult result) {
+        companyRegisterValidator.validate(companyRegisterData,result);
+        if (result.hasErrors()) {
+            return "register_company.html";
+        }
+        try {
+            companyService.registerCompany(companyRegisterData);
+        } catch (Exception e) {
+            return "register_company.html";
+        }
+        return "redirect:/login.html";
+    }
+
+
     @RequestMapping("/login.html")
     public String login() {
         return "login.html";
@@ -231,7 +187,12 @@ public class InitialController {
     }
 
     @GetMapping("/create_general_content")
-    public String create_general_content() {
+    public String create_general_content_view(@ModelAttribute GeneralUploadData generalUploadData,
+            Map<String, Object> model) {
+        String username = userService.getLoggedUser();
+        if (username == null) {
+            return "redirect:/login";
+        }
         return "create_general_content.html";
     }
 
@@ -263,7 +224,6 @@ public class InitialController {
     @GetMapping("/profile")
     public String profile() {
         String username = userService.getLoggedUser();
-        System.out.println(username);
         if (username == null) {
             return "redirect:/login";
         } else {
@@ -315,7 +275,7 @@ public class InitialController {
                 contentCreator = contentCreatorRepository.getContentCreatorById(user_id);
                 userProfileData.setContentCreator(contentCreator);
                 username = contentCreator.getUsername();
-            }else{
+            } else {
                 company = companyRepository.getCompanyById(user_id);
                 userProfileData.setCompany(company);
                 username = company.getUsername();
