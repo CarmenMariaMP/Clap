@@ -1,7 +1,5 @@
 package com.clap.model.DataModels;
 
-import javax.validation.constraints.NotEmpty;
-
 import com.clap.model.Company;
 
 import lombok.Data;

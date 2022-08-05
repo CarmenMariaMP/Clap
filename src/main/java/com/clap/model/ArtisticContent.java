@@ -55,16 +55,12 @@ public abstract class ArtisticContent implements Serializable {
     @JsonIgnoreProperties(value = { "artisticContents" }, allowSetters = true)
     private Set<Tag> tags = new HashSet<>();
 
-    @Relationship(value = "HAS_ARTISTIC_CONTENT_PROJECT", direction = Relationship.Direction.INCOMING)
-    @JsonIgnoreProperties(value = { "artisticContents" , "user" }, allowSetters = true)
-    private Set<Project> projects = new HashSet<>();
-
     @Relationship(value = "HAS_ARTISTIC_CONTENT_OWNER", direction = Relationship.Direction.INCOMING)
-    @JsonIgnoreProperties(value = { "favourites","notifications","projects","followed","followers" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "favourites"}, allowSetters = true)
     private User owner;
 
     @Relationship(value = "HAS_ARTISTIC_CONTENT", direction = Relationship.Direction.INCOMING)
-    @JsonIgnoreProperties(value = { "favourites","notifications","projects","followed","followers" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "favourites"}, allowSetters = true)
     private Set<User> users_favourites = new HashSet<>();
 
     public ArtisticContent title(String title) {
@@ -106,23 +102,6 @@ public abstract class ArtisticContent implements Serializable {
     public ArtisticContent removeTag(Tag tag) {
         this.tags.remove(tag);
         tag.getArtisticContents().remove(this);
-        return this;
-    }
-
-    public ArtisticContent projects(Set<Project> projects) {
-        this.setProjects(projects);
-        return this;
-    }
-
-    public ArtisticContent addProject(Project project) {
-        this.projects.add(project);
-        project.getArtisticContents().add(this);
-        return this;
-    }
-
-    public ArtisticContent removeProject(Project project) {
-        this.projects.remove(project);
-        project.getArtisticContents().remove(this);
         return this;
     }
 

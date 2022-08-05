@@ -123,53 +123,89 @@
                           </div>
                         </div>
                       </div>
-                      <div class="d-flex pt-1">
+                      <div class="d-flex pt-1 justify-content-center">
                         <span th:if="${type == 'CONTENT_CREATOR'}">
                           <button type="button"
                             class="btn btn-outline-primary me-1 flex-grow-1 gold dark-blue-text">Request contact
                             info</button>
-                        </span>
-                        <button type="button" class="btn btn-primary flex-grow-1 gold dark-blue-text">Follow</button>
-                      </div>
-                      <br>
-                      <div>
-                        <p class="small text-muted mb-1"><span data-th-text="PAtata"></span></p>
-                      </div>
-                      <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                          <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
-                            data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
-                            aria-selected="true">Posts</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                          <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                            data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane"
-                            aria-selected="false">Tagged</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                          <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
-                            data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane"
-                            aria-selected="false">Projects</button>
-                        </li>
-                      </ul>
-                      <div th:switch="${type}">
-                        <form th:case="${CONTENT_CREATOR}" id="contents"
-                          data-th-action="@{'/profile/' + ${userProfileData.getContentCreator().getId()}}" method="POST"
-                          data-th-object="${uploaded_contents}">
-                          <form th:case="${COMPANY}" id="contents"
-                            data-th-action="@{'/profile/' + ${userProfileData.getCompany().getId()}}" method="POST"
-                            data-th-object="${uploaded_contents}">
-                          </form>
-                      </div>
-                      <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel"
-                          aria-labelledby="home-tab" tabindex="0">
-                          <br>
-                          <span th:if="${uploaded_contents.isEmpty()}">
-                            <div class="alert d-flex justify-content-center gold dark-blue-text" role="alert">
-                              No content to display
+                          <div th:unless="${self_profile}">
+                            <div th:unless="${alreadySubscribed}" class="row">
+                              <form method="POST" class="d-flex justify-content-center"
+                                data-th-action="@{'/profile/' + ${userProfileData.getContentCreator().getId()} +'/subscription/'}">
+                                <button type="submit"
+                                  class="btn btn-primary flex-grow-1 gold dark-blue-text col-md-12" style="margin-top: 10px;">Follow</button>
+                              </form>
                             </div>
+                            <div th:if="${alreadySubscribed}" class="row">
+                              <form method="POST" class="d-flex justify-content-center"
+                                data-th-action="@{'/profile/' + ${userProfileData.getContentCreator().getId()} + '/unsubscription/'}">
+                                <button type="submit"
+                                  class="btn btn-primary flex-grow-1 gold dark-blue-text col-md-12" style="margin-top: 10px;">Unfollow</button>
+                              </form>
+                            </div>
+                        </span>
+
+                      </div>
+                      <div th:if="${type == 'COMPANY'}">
+                        <div th:unless="${self_profile}">
+                          <span th:unless="${alreadySubscribed}">
+                            <form method="POST" class="d-flex justify-content-center"
+                              data-th-action="@{'/profile/' + ${userProfileData.getCompany().getId()} +'/subscription/'}">
+                              <button type="submit"
+                                class="btn btn-primary flex-grow-1 gold dark-blue-text" style="margin-top: 10px;">Follow</button>
+                            </form>
                           </span>
+                          <span th:if="${alreadySubscribed}">
+                            <form method="POST" class="d-flex justify-content-center"
+                              data-th-action="@{'/profile/' + ${userProfileData.getCompany().getId()} + '/unsubscription/'}">
+                              <button type="submit"
+                                class="btn btn-primary flex-grow-1 gold dark-blue-text" style="margin-top: 10px;">Unfollow</button>
+                            </form>
+                          </span>
+                        </div>
+                      </div>
+
+                    </div>
+                    <br>
+                    <div>
+                      <p class="small text-muted mb-1"><span data-th-text="PAtata"></span></p>
+                    </div>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                          data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
+                          aria-selected="true">Posts</button>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                          data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane"
+                          aria-selected="false">Tagged</button>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                          data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane"
+                          aria-selected="false">Projects</button>
+                      </li>
+                    </ul>
+                    <div th:switch="${type}">
+                      <form th:case="${CONTENT_CREATOR}" id="contents"
+                        data-th-action="@{'/profile/' + ${userProfileData.getContentCreator().getId()}}" method="POST"
+                        data-th-object="${uploaded_contents}">
+                        <form th:case="${COMPANY}" id="contents"
+                          data-th-action="@{'/profile/' + ${userProfileData.getCompany().getId()}}" method="POST"
+                          data-th-object="${uploaded_contents}">
+                        </form>
+                    </div>
+                    <div class="tab-content" id="myTabContent">
+                      <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel"
+                        aria-labelledby="home-tab" tabindex="0">
+                        <br>
+                        <span th:if="${uploaded_contents.isEmpty()}">
+                          <div class="alert d-flex justify-content-center gold dark-blue-text" role="alert">
+                            No content to display
+                          </div>
+                        </span>
+                        <span th:unless="${uploaded_contents.isEmpty()}">
                           <div class="card mb-3" style="max-width: 540px;" th:each="content : ${uploaded_contents}">
                             <div class="row g-0">
                               <div class="col-md-4">
@@ -191,21 +227,22 @@
                               </div>
                             </div>
                           </div>
-                        </div>
-                        </form>
-                        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
-                          tabindex="0">
-                          <br>
-                          <span th:if="${attached_contents.isEmpty()}">
-                            <div class="alert d-flex justify-content-center gold dark-blue-text" role="alert">
-                              No content to display
-                            </div>
-                          </span>
+                        </span>
+                      </div>
+                      </form>
+                      <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                        tabindex="0">
+                        <br>
+                        <span th:if="${attached_contents.isEmpty()}">
+                          <div class="alert d-flex justify-content-center gold dark-blue-text" role="alert">
+                            No content to display
+                          </div>
+                        </span>
+                        <span th:unless="${attached_contents.isEmpty()}">
                           <div class="card mb-3" style="max-width: 540px;" th:each="content : ${attached_contents}">
                             <div class="row g-0">
                               <div class="col-md-4">
-                                <img th:src="${content.owner.photoUrl}" class="img-fluid rounded-start"
-                                  alt="...">
+                                <img th:src="${content.owner.photoUrl}" class="img-fluid rounded-start" alt="...">
                                 <h6 class="d-flex justify-content-center" style="margin-top: 5px;">@<span
                                     th:text="${content.owner.username}"></h6>
                               </div>
@@ -223,58 +260,58 @@
                               </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
-                          tabindex="0">
-                          <br>
-                          <div class="row row-cols-1 row-cols-md-2 g-4">
-                            <a role="button" th:href="@{/project_detail}">
-                              <div class="col">
-                                <div class="card h-100">
-                                  <img
-                                    th:src="@{https://cdn.w600.comps.canstockphoto.com/example-stamp-typ-image_csp54929178.jpg}"
-                                    class="card-img-top" alt="..." width="140" height="140">
-                                </div>
-                                <br>
-                                <h6 class="d-flex justify-content-center"> Project 1 </h6>
+                        </span>
+                      </div>
+                      <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
+                        tabindex="0">
+                        <br>
+                        <div class="row row-cols-1 row-cols-md-2 g-4">
+                          <a role="button" th:href="@{/project_detail}">
+                            <div class="col">
+                              <div class="card h-100">
+                                <img
+                                  th:src="@{https://cdn.w600.comps.canstockphoto.com/example-stamp-typ-image_csp54929178.jpg}"
+                                  class="card-img-top" alt="..." width="140" height="140">
                               </div>
-                            </a>
-                            <a role="button" href="#">
-                              <div class="col">
-                                <div class="card h-100">
-                                  <img
-                                    th:src="@{https://cdn.w600.comps.canstockphoto.com/example-stamp-typ-image_csp54929178.jpg}"
-                                    class="card-img-top" alt="..." width="140" height="140">
-                                </div>
-                                <br>
-                                <h6 class="d-flex justify-content-center"> Project 2 </h6>
+                              <br>
+                              <h6 class="d-flex justify-content-center"> Project 1 </h6>
+                            </div>
+                          </a>
+                          <a role="button" href="#">
+                            <div class="col">
+                              <div class="card h-100">
+                                <img
+                                  th:src="@{https://cdn.w600.comps.canstockphoto.com/example-stamp-typ-image_csp54929178.jpg}"
+                                  class="card-img-top" alt="..." width="140" height="140">
                               </div>
-                            </a>
-                            <a role="button" href="#">
-                              <div class="col">
-                                <div class="card h-100">
-                                  <img
-                                    th:src="@{https://cdn.w600.comps.canstockphoto.com/example-stamp-typ-image_csp54929178.jpg}"
-                                    class="card-img-top" alt="..." width="140" height="140">
-                                </div>
-                                <br>
-                                <h6 class="d-flex justify-content-center"> Project 3 </h6>
+                              <br>
+                              <h6 class="d-flex justify-content-center"> Project 2 </h6>
+                            </div>
+                          </a>
+                          <a role="button" href="#">
+                            <div class="col">
+                              <div class="card h-100">
+                                <img
+                                  th:src="@{https://cdn.w600.comps.canstockphoto.com/example-stamp-typ-image_csp54929178.jpg}"
+                                  class="card-img-top" alt="..." width="140" height="140">
                               </div>
-                            </a>
-                          </div>
+                              <br>
+                              <h6 class="d-flex justify-content-center"> Project 3 </h6>
+                            </div>
+                          </a>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </section>
           </div>
         </div>
-      </div>
-    </div>
   </section>
-
+  </div>
+  </div>
+  </div>
+  </div>
+  </section>
 </body>
-
 </html>
