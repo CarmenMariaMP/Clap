@@ -2,13 +2,11 @@ package com.clap.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import com.clap.model.enumeration.UserType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
@@ -38,9 +36,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Node
 @Data
 @EqualsAndHashCode(of = "id")
-@ToString(exclude = { "favourites", "notifications", "projects","followed","followers" })
+@ToString(exclude = { "favourites"})
 @NoArgsConstructor
-@AllArgsConstructor
 public class User implements UserDetails{
     @Id
     @GeneratedValue(UUIDStringGenerator.class)
@@ -51,6 +48,7 @@ public class User implements UserDetails{
 	private String type;
 
     @Size(max = 20, message = "maximux size 20")
+    @Size(min = 4, message = "minimum size 4")
     @Property("username")
     @Column(nullable = false, unique=true)
     private String username;
@@ -81,24 +79,8 @@ public class User implements UserDetails{
     private String photoUrl;
 
     @Relationship("HAS_ARTISTIC_CONTENT")
-    @JsonIgnoreProperties(value = { "tags", "projects", "owner", "users_favourites" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "tags", "owner", "users_favourites" }, allowSetters = true)
     private Set<ArtisticContent> favourites = new HashSet<>();
-
-    @Relationship("HAS_NOTIFICATION")
-    @JsonIgnoreProperties(value = { "user" }, allowSetters = true)
-    private Set<Notification> notifications = new HashSet<>();
-
-    @Relationship("HAS_PROJECT")
-    @JsonIgnoreProperties(value = { "artisticContents", "user" }, allowSetters = true)
-    private Set<Project> projects = new HashSet<>();
-
-    @Relationship("HAS_USER")
-    @JsonIgnoreProperties(value = { "favourites","notifications","projects","followed","followers" }, allowSetters = true)
-    private Set<User> followed = new HashSet<>();
-
-    @Relationship("HAS_USER")
-    @JsonIgnoreProperties(value = { "favourites","notifications","projects","followed","followers" }, allowSetters = true)
-    private Set<User> followers = new HashSet<>();
 
     @Relationship("HAS_ROLES")
     private List<Role> roles = new ArrayList<>();

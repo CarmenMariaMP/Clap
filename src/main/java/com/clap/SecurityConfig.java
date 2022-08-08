@@ -1,5 +1,8 @@
 package com.clap;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +12,8 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
@@ -19,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer{
     private final UserService userservice;
     private final BCryptPasswordEncoder passwordEncoder;
 
@@ -64,5 +69,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web
                 .ignoring()
                 .antMatchers("/resources/**");
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        exposeDirectory("user-photos", registry);
+    }
+     
+    private void exposeDirectory(String dirName, ResourceHandlerRegistry registry) {
+        Path uploadDir = Paths.get(dirName);
+        String uploadPath = uploadDir.toFile().getAbsolutePath();
+         
+        if (dirName.startsWith("../")) dirName = dirName.replace("../", "");
+         
+        registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/"+ uploadPath + "/");
     }
 }

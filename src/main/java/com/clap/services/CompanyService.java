@@ -1,34 +1,49 @@
 package com.clap.services;
 
+import java.time.Instant;
+import java.util.Date;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.clap.model.Company;
-import com.clap.model.DataModels.CompanyRegisterData;
+import com.clap.model.dataModels.CompanyManagementData;
+import com.clap.model.dataModels.CompanyRegisterData;
 import com.clap.repository.CompanyRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class CompanyService {
-    CompanyRepository companyRepository;
-	UserService userService;
+	private final CompanyRepository companyRepository;
+	private final PasswordEncoder crypt;
 
-	public CompanyService(CompanyRepository companyRepository, UserService userService) {
-		this.companyRepository = companyRepository;
-		this.userService = userService;
-	}
-
-    public Company registerCompany(CompanyRegisterData companyRegisterData) throws Exception {
+	public Company registerCompany(CompanyRegisterData companyRegisterData)
+			throws Exception {
 		Company company = companyRegisterData.toCompany();
-		company.setType("COMPANY");
-		company = (Company) userService.register(company);
-
-		return companyRepository.save(company);
+		return register(company);
 	}
-    
+
+	private Company register(Company company) throws Exception {
+		company.setType(String.format("COMPANY"));
+		company.setPassword(crypt.encode(company.getPassword()));
+		company.setCreatedDate(Date.from(Instant.now()));
+		company.setPhotoUrl("/img/account.png");
+		return companyRepository.save(company);
+
+	}
+
 	public Company getCompanyByUsername(String username) {
-        return companyRepository.getCompanyByUsername(username);
-    }
+		return companyRepository.getCompanyByUsername(username);
+	}
 
 	public Company getCompanyId(String userId) {
-        return companyRepository.getCompanyById(userId);
+		return companyRepository.getCompanyById(userId);
+	}
+
+	public void updateCompany(CompanyManagementData companyManagementData, Company company){
+        companyManagementData.updateCompany(company);
+        companyRepository.save(company);
     }
 }

@@ -1,4 +1,4 @@
-package com.clap.model.DataModels;
+package com.clap.model.dataModels;
 
 import lombok.Data;
 

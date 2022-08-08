@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <div th:replace="headerFragment :: headerFragment"></div>
+  <title>Privacy requests | Clap</title>
+  <link rel="shortcut icon" th:href="@{/img/lira_logo.png}">
+</head>
+
+<body>
+  <div th:replace="navbarFragment :: navbarFragment"> </div>
+  <section class="h-100 py-5 h-custom">
+    <div class="container h-100" th:fragment="header">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-8 col-xl-6">
+          <div class="card rounded-3 container">
+            <div class="d-flex justify-content-center" style="margin-top:60px ;">
+              <a class="navbar-brand" href="/"><img th:src="@{/img/clap_logo_horizontal.png}" width="300"
+                  height="85"></a>
+            </div>
+            <h2 class="d-flex justify-content-center dark-blue-text">Privacy requests</h2>
+            <div class="card-body row">
+              <th-block data-th-unless="${privacyRequestData.getPrivacyRequests().isEmpty()}">
+                <th-block data-th-each="request : ${privacyRequestData.getPrivacyRequests()}">
+                  <th-block data-th-if="${request.getRequestState()=='PENDING'}">
+                  <div>
+                    <div class="alert d-flex align-items-center dark-blue-text"style="border: 1px solid #c6aa23;border-radius: 25px;" role="alert">
+                      <div class="col-md-1">
+                        <img class="rounded-circle shadow-1-strong me-3" th:src="${contentCreator.photoUrl}" alt="avatar"
+                          width="40" height="40" />
+                      </div>
+                      <div style="margin-left:10px ;" class="col-md-3">
+                        @<span data-th-text="${request.getCompanyUsername()}"></span>
+                      </div>
+                      <div class="d-flex justify-content-end col-md-7">
+                        <div class="col-md-8 d-flex justify-content-end row">
+                          <form method="POST" class="d-flex justify-content-end"
+                              data-th-action="@{'/privacyRequests/' + ${request.getId()} +'/acceptPrivacyRequest/'}">
+                          <button type="submit" class="btn mb-1 dark-blue-text"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                          </svg></button>
+                          </form>
+                        </div>
+                        <div class="col-md-4 d-flex justify-content-end row">
+                          <form method="POST" class="d-flex justify-content-end"
+                              data-th-action="@{'/privacyRequests/' + ${request.getId()} +'/declinePrivacyRequest/'}">
+                          <button type="submit" class="btn mb-1 dark-blue-text"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                          </svg></button>
+                        </form>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                  </div>
+            </div>
+            </th-block>
+            </th-block>
+          </th-block>
+            <th-block data-th-if="${pendingRequests==0}">
+              <div class="alert d-flex justify-content-center gold dark-blue-text" role="alert">
+                No privacy requests to display
+              </div>
+            </th-block>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+
+</html>

@@ -6,7 +6,9 @@ import com.clap.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
+import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,7 +48,7 @@ public class UserService implements UserDetailsService {
             throw new Exception("Username already registered!");
         } else {
             user.setPassword(crypt.encode(user.getPassword()));
-            user.setCreatedDate(new Date());
+            user.setCreatedDate(Date.from(Instant.now()));
             return userRepository.save(user);
         }
     }
@@ -71,6 +73,10 @@ public class UserService implements UserDetailsService {
 
     public String getTypeById(String user_id) {
         return userRepository.getTypeById(user_id);
+    }
+
+    public List<String> getAllUsernames(){
+        return userRepository.getAllUsernames();
     }
 
     public Boolean userExists(User user) {
