@@ -4,16 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.clap.model.Company;
-import com.clap.model.ContentCreator;
 import com.clap.model.PrivacyRequest;
 import com.clap.model.User;
-import com.clap.model.dataModels.PrivacyRequestData;
 import com.clap.services.CompanyService;
 import com.clap.services.ContentCreatorService;
 import com.clap.services.PrivacyRequestService;
@@ -52,30 +48,33 @@ public class PrivacyRequestController {
 	}
 
     @RequestMapping("/privacyRequests")
-	public String privacyRequestStateView(Map<String, Object> model, @ModelAttribute PrivacyRequestData privacyRequestData) {
+	public String privacyRequestStateView(Map<String, Object> model) {
         String username = userService.getLoggedUser();
         if (username == null) {
             return "redirect:/login";
         } else {
             String userType = userService.getTypeByUsername(username);
             if(userType.equals("CONTENT_CREATOR")){
-                ContentCreator contentCreator = contentCreatorService.getContentCreatorByUsername(username);
-                privacyRequestData.setContentCreator(contentCreator);
-                privacyRequestData.setPrivacyRequests(privacyRequestService.getPrivacyRequestsByContentCreatorUsernme(username));
+                List<PrivacyRequest> privacyRequests = privacyRequestService.getPrivacyRequestsByContentCreatorUsername(username);
+                for(int i=0;i<privacyRequests.size();i++){
+                    String companyUsername= privacyRequests.get(i).getCompanyUsername();
+                    privacyRequests.get(i).setCompany(companyService.getCompanyByUsername(companyUsername));
+                }
                 Integer pendingRequests = privacyRequestService.getNumberPendingRequestsByContentCreator(username, "PENDING");
                 try{
-                    model.put("privacyRequestData", privacyRequestData);
+                    model.put("privacyRequests", privacyRequests);
                     model.put("pendingRequests",pendingRequests);
-                    model.put("contentCreator", contentCreator);
                 }catch(Exception e){
                     e.getStackTrace();
                     return String.format("redirect:/choose_category.html");
                 }
                 return "response_requests.html";
             }else{
-                Company company = companyService.getCompanyByUsername(username);
                 List<PrivacyRequest> privacyRequests = privacyRequestService.getPrivacyRequestsByCompany(username);
-                model.put("company", company);
+                for(int i=0;i<privacyRequests.size();i++){
+                    String contentCreatorUsername= privacyRequests.get(i).getContentCreatorUsername();
+                    privacyRequests.get(i).setContentCreator(contentCreatorService.getContentCreatorByUsername(contentCreatorUsername));
+                }
                 model.put("privacyRequests",privacyRequests);
                 return "requests_state.html";
             }

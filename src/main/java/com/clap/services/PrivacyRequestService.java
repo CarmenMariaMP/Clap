@@ -37,7 +37,7 @@ public class PrivacyRequestService {
         return privacyRequestRepository.findById(requestId);
     }
 
-    public List<PrivacyRequest> getPrivacyRequestsByContentCreatorUsernme(String username) {
+    public List<PrivacyRequest> getPrivacyRequestsByContentCreatorUsername(String username) {
         return privacyRequestRepository.findPrivacyRequestsByContentCreatorUsernme(username);
     }
 

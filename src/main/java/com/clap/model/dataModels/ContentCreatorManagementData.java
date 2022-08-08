@@ -42,6 +42,6 @@ public class ContentCreatorManagementData {
 		contentCreator.setCity(getCity());
 		contentCreator.setCountry(getCountry());
 		contentCreator.setPhone(getPhone());
-		contentCreator.setPhotoUrl(photoUrl);
+		contentCreator.setPhotoUrl(getPhotoUrl());
 	}
 }

@@ -24,7 +24,7 @@
                 <th-block data-th-each="request : ${privacyRequests}">
                     <div class="alert d-flex align-items-center dark-blue-text" style="border: 1px solid #c6aa23;border-radius: 25px;" role="alert">
                       <div class="col-md-2">
-                        <img class="rounded-circle shadow-1-strong me-3" th:src="${company.photoUrl}" alt="avatar"
+                        <img class="rounded-circle shadow-1-strong me-3" th:src="${request.contentCreator.photoUrl}" alt="avatar"
                           width="40" height="40" />
                       </div>
                       <div class="col-md-5">
