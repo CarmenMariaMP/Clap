@@ -33,8 +33,13 @@ public class SubscriptionController {
             if(follower.getUsername().equals(followed.getUsername())){
                 return String.format("redirect:/profile/%s", userId);
             }
-            model.put("alreadySubscribed", alreadySubscribed);
-            subscriptionService.subscribeTo(followed, follower);
+            try{
+                model.put("alreadySubscribed", alreadySubscribed);
+                subscriptionService.subscribeTo(followed, follower);
+            }catch(Exception e){
+                e.getStackTrace();
+                return String.format("redirect:/profile/%s", userId);
+            }
             return String.format("redirect:/profile/%s", userId);
         }
 	}
@@ -54,8 +59,13 @@ public class SubscriptionController {
             if(follower.getUsername().equals(followed.getUsername())){
                 return String.format("redirect:/profile/%s", userId);
             }
-            subscriptionService.unsubscribeFrom(followed, follower);
-            model.put("alreadySubscribed", alreadySubscribed);
+            try{
+                model.put("alreadySubscribed", alreadySubscribed);
+                subscriptionService.unsubscribeFrom(followed, follower);
+            }catch(Exception e){
+                e.getStackTrace();
+                return String.format("redirect:/profile/%s", userId);
+            }
             return String.format("redirect:/profile/%s", userId);
         }
 	}

@@ -1,4 +1,4 @@
-package com.clap.model.DataModels;
+package com.clap.model.dataModels;
 
 import java.time.Instant;
 import java.util.Date;
@@ -37,6 +37,8 @@ public class ContentCreatorRegisterData {
 
 	String city;
 
+	String photoUrl;
+
 
 	public ContentCreator toContentCreator() {
 		ContentCreator contentCreator = new ContentCreator();
@@ -49,8 +51,7 @@ public class ContentCreatorRegisterData {
 		contentCreator.setCountry(getCountry());
 		contentCreator.setPhone(getPhone());
 		contentCreator.setPassword(getPassword());
-		contentCreator.setPhotoUrl("");
+		contentCreator.setPhotoUrl(getPhotoUrl());
 		return contentCreator;
 	}
-
 }

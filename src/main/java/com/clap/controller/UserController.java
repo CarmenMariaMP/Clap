@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.clap.model.ArtisticContent;
+import com.clap.model.User;
 import com.clap.repository.ArtisticContentRepository;
 import com.clap.services.UserService;
 
@@ -58,4 +59,18 @@ public class UserController {
         }
         return "redirect:/login?logout";
     }
+
+    @GetMapping("/account")
+	public String getManageUserAccount() {
+		String username = userService.getLoggedUser();
+		if (username == null) {
+			return "redirect:/login";
+		}
+        User user = userService.getUserByUsername(username).orElse(null);
+		if (user.getType().equals("CONTENT_CREATOR")) {
+			return "redirect:/account/content_creator";
+		} else {
+			return "redirect:/account/company";
+		}
+	}
 }

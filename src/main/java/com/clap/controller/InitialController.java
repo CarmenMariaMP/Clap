@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.clap.model.Validators.CompanyRegisterValidator;
 import com.clap.model.Validators.ContentCreatorRegisterValidator;
-import com.clap.model.DataModels.GeneralUploadData;
+import com.clap.model.dataModels.GeneralUploadData;
 import com.clap.repository.ArtisticContentRepository;
 import com.clap.repository.CompanyRepository;
 import com.clap.repository.ContentCreatorRepository;
@@ -102,14 +102,9 @@ public class InitialController {
         return "list_favourites.html";
     }
 
-    @GetMapping("/manage_creator_account")
-    public String manage_creator_account() {
-        return "manage_creator_account.html";
-    }
-
-    @GetMapping("/manage_company_account")
-    public String manage_company_account() {
-        return "manage_company_account.html";
+    @GetMapping("/response_requests.html")
+    public String response_requests() {
+        return "response_requests.html";
     }
 
     @GetMapping("/notifications")

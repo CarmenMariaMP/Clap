@@ -7,7 +7,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.clap.model.DataModels.CompanyRegisterData;
+import com.clap.model.dataModels.CompanyRegisterData;
 
 @Component
 public class CompanyRegisterValidator implements Validator {
@@ -23,6 +23,7 @@ public class CompanyRegisterValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "", "Username cannot be empty!");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "", "Email cannot be empty!");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phone", "", "Phone cannot be empty!");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "", "Password cannot be empty!");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "",
 				"Password confirmation cannot be empty!");
@@ -49,12 +50,12 @@ public class CompanyRegisterValidator implements Validator {
             errors.rejectValue("email", "", "The email entered is invalid");
         }
 
-        if (errors.getFieldErrorCount("phone") == 0 && !patternMatches(companyRegisterData.getEmail(),"/^([0-9])*$/+/^([0-9])*$")){
+        if (errors.getFieldErrorCount("phone") == 0 && !patternMatches(companyRegisterData.getPhone(),"^((\\+)?[1-9]{1,2})?([-\\s\\.])?((\\(\\d{1,4}\\))|\\d{1,4})(([-\\s\\.])?[0-9]{1,12}){1,2}$")){
             errors.rejectValue("phone", "", "The phone entered is invalid");
         }
 
-        if (errors.getFieldErrorCount("taxIdNumber") == 0 && !patternMatches(companyRegisterData.getTaxIdNumber(),"")){
-            errors.rejectValue("taxIdNumber", "", "The tax Id number entered is invalid");
+        if (errors.getFieldErrorCount("taxIdNumber") == 0 && !patternMatches(companyRegisterData.getTaxIdNumber(),"^([0-9]{9})$")){
+            errors.rejectValue("taxIdNumber", "", "The tax Id number entered is invalid, it must have 9 numbers");
         }
         
     }

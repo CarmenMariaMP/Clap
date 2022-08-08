@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.clap.model.ArtisticContent;
 import com.clap.model.Company;
 import com.clap.model.ContentCreator;
+import com.clap.model.PrivacyRequest;
 import com.clap.model.User;
-import com.clap.model.DataModels.UserProfileData;
+import com.clap.model.dataModels.UserProfileData;
 import com.clap.repository.CompanyRepository;
 import com.clap.repository.ContentCreatorRepository;
 import com.clap.services.ArtisticContentService;
+import com.clap.services.PrivacyRequestService;
 import com.clap.services.SubscriptionService;
 import com.clap.services.UserService;
 
@@ -31,6 +33,7 @@ public class ProfileController {
     private final UserService userService;
     private final ArtisticContentService artisticContentService;
     private final SubscriptionService subscriptionService;
+    private final PrivacyRequestService privacyRequestService;
 
     @GetMapping("/profile")
     public String profile() {
@@ -121,12 +124,19 @@ public class ProfileController {
 
             List<ArtisticContent> attached_contents = new ArrayList<ArtisticContent>();
 
+            String privacyRequestState="";
+            PrivacyRequest pr = privacyRequestService.getRequestByCreatorAndCompany(followed.getUsername(), logged_username).orElse(null);
+            if(pr!=null){
+                privacyRequestState = pr.getRequestState();
+            }
+
             model.put("type", type);
             model.put("userProfileData", userProfileData);
             model.put("uploaded_contents", uploaded_contents);
             model.put("attached_contents", attached_contents);
             model.put("alreadySubscribed", alreadySubscribed);
             model.put("self_profile", self_profile);
+            model.put("privacyRequestState", privacyRequestState);
         }
         return "profile.html";
     }

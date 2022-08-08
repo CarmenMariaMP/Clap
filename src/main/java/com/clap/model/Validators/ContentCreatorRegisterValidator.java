@@ -7,7 +7,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.clap.model.DataModels.ContentCreatorRegisterData;
+import com.clap.model.dataModels.ContentCreatorRegisterData;
 
 @Component
 public class ContentCreatorRegisterValidator implements Validator {
@@ -23,6 +23,7 @@ public class ContentCreatorRegisterValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "", "Username cannot be empty!");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "", "Email cannot be empty!");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phone", "", "Phone cannot be empty!");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "", "Password cannot be empty!");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "",
 				"Password confirmation cannot be empty!");
@@ -49,7 +50,7 @@ public class ContentCreatorRegisterValidator implements Validator {
             errors.rejectValue("email", "", "The email entered is invalid");
         }
 
-        if (errors.getFieldErrorCount("phone") == 0 && !patternMatches(contentCreatorRegisterData.getEmail(),"/^([0-9])*$/+/^([0-9])*$")){
+        if (errors.getFieldErrorCount("phone") == 0 && !patternMatches(contentCreatorRegisterData.getPhone(),"^((\\+)?[1-9]{1,2})?([-\\s\\.])?((\\(\\d{1,4}\\))|\\d{1,4})(([-\\s\\.])?[0-9]{1,12}){1,2}$")){
             errors.rejectValue("phone", "", "The phone entered is invalid");
         }
         

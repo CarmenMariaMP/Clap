@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -72,6 +73,10 @@ public class UserService implements UserDetailsService {
 
     public String getTypeById(String user_id) {
         return userRepository.getTypeById(user_id);
+    }
+
+    public List<String> getAllUsernames(){
+        return userRepository.getAllUsernames();
     }
 
     public Boolean userExists(User user) {

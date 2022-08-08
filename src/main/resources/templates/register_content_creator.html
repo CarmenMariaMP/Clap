@@ -4,8 +4,9 @@
 <head>
   <div th:replace="headerFragment :: headerFragment"></div>
   <title>Register content creator | Clap</title>
-<link rel="shortcut icon" th:href="@{/img/lira_logo.png}">
+  <link rel="shortcut icon" th:href="@{/img/lira_logo.png}">
 </head>
+
 <body>
   <section class="h-100 h-custom">
     <div class="container h-100">
@@ -21,28 +22,29 @@
             <div class="card-body p-4 p-md-5">
 
               <form class="px-md-2" method="POST" data-th-action="@{/register_content_creator.html}"
-              data-th-object="${contentCreatorRegisterData}">
-              <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
-                <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
-              </div>
+                data-th-object="${contentCreatorRegisterData}">
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                  <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+                </div>
                 <div class="form-outline mb-4">
                   <div class="row">
                     <div class="col-md-2">
                       <label class="form-label" for="username">Username</label>
                     </div>
                     <div class="col-md-10">
-                      <input type="text" id="username" class="form-control" th:field=*{username} placeholder="username"/>
+                      <input type="text" id="username" class="form-control" th:field=*{username}
+                        placeholder="username" />
                     </div>
                   </div>
                 </div>
-
                 <div class="form-outline mb-4">
                   <div class="row">
                     <div class="col-md-2">
                       <label class="form-label" for="fullname">Full name</label>
                     </div>
                     <div class="col-md-10">
-                      <input type="text" id="fullname" class="form-control" th:field=*{fullName} placeholder="Full name"/>
+                      <input type="text" id="fullname" class="form-control" th:field=*{fullName}
+                        placeholder="Full name" />
                     </div>
                   </div>
                 </div>
@@ -53,7 +55,8 @@
                       <label class="form-label" for="email">Email</label>
                     </div>
                     <div class="col-md-10">
-                      <input type="text" id="email" class="form-control" th:field=*{email} placeholder="example@gmail.com"/>
+                      <input type="text" id="email" class="form-control" th:field=*{email}
+                        placeholder="example@gmail.com" />
                     </div>
                   </div>
                 </div>
@@ -64,7 +67,7 @@
                       <label class="form-label" for="city">City</label>
                     </div>
                     <div class="col-md-10">
-                      <input type="text" id="city" class="form-control" th:field=*{city} placeholder="City"/>
+                      <input type="text" id="city" class="form-control" th:field=*{city} placeholder="City" />
                     </div>
                   </div>
                 </div>
@@ -86,7 +89,8 @@
                       <label class="form-label" for="phoneNumber">Phone number</label>
                     </div>
                     <div class="col-md-10">
-                      <input type="text" id="phoneNumber" class="form-control" th:field=*{phone} placeholder="+34 666666666" />
+                      <input type="text" id="phoneNumber" class="form-control" th:field=*{phone}
+                        placeholder="+34 666666666" />
                     </div>
                   </div>
                 </div>
@@ -97,7 +101,8 @@
                       <label class="form-label" for="password">Password</label>
                     </div>
                     <div class="col-md-10">
-                      <input type="password" id="password" class="form-control" th:field=*{password} placeholder="Your password"/>
+                      <input type="password" id="password" class="form-control" th:field=*{password}
+                        placeholder="Your password" />
                     </div>
                   </div>
                 </div>
@@ -108,7 +113,8 @@
                       <label class="form-label" for="confirmPassword">Confirm password</label>
                     </div>
                     <div class="col-md-10">
-                      <input type="password" id="confirmPassword" class="form-control" th:field=*{confirmPassword} placeholder="Confirm your password" />
+                      <input type="password" id="confirmPassword" class="form-control" th:field=*{confirmPassword}
+                        placeholder="Confirm your password" />
                     </div>
                   </div>
                 </div>

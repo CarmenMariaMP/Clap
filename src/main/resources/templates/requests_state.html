@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <div th:replace="headerFragment :: headerFragment"></div>
+  <title>Privacy requests | Clap</title>
+  <link rel="shortcut icon" th:href="@{/img/lira_logo.png}">
+</head>
+
+<body>
+  <div th:replace="navbarFragment :: navbarFragment"> </div>
+  <section class="h-100 py-5 h-custom">
+    <div class="container h-100" th:fragment="header">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-8 col-xl-6">
+          <div class="card rounded-3 container">
+            <div class="d-flex justify-content-center" style="margin-top:60px ;">
+              <a class="navbar-brand" href="/"><img th:src="@{/img/clap_logo_horizontal.png}" width="300"
+                  height="85"></a>
+            </div>
+            <h2 class="d-flex justify-content-center dark-blue-text">Privacy requests</h2>
+            <div class="card-body row">
+              <th-block data-th-unless="${privacyRequests.isEmpty()}">
+                <th-block data-th-each="request : ${privacyRequests}">
+                    <div class="alert d-flex align-items-center dark-blue-text" style="border: 1px solid #c6aa23;border-radius: 25px;" role="alert">
+                      <div class="col-md-2">
+                        <img class="rounded-circle shadow-1-strong me-3" th:src="${company.photoUrl}" alt="avatar"
+                          width="40" height="40" />
+                      </div>
+                      <div class="col-md-5">
+                        @<span data-th-text="${request.getContentCreatorUsername()}"></span>
+                      </div>
+                        <div class="col-md-5 d-flex justify-content-center" style="margin-left:10px ;">
+                          <span data-th-text="${request.getRequestState()}"></span>
+                        </div>
+                      <br>
+                    </div>
+                </th-block>
+              </th-block>
+              <th-block data-th-if="${privacyRequests.isEmpty()}">
+                <div class="alert d-flex justify-content-center gold dark-blue-text" role="alert">
+                  No privacy requests to display
+                </div>
+              </th-block>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+</body>
+
+</html>

@@ -1,5 +1,6 @@
 package com.clap.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.neo4j.repository.Neo4jRepository;
@@ -25,4 +26,7 @@ public interface UserRepository extends Neo4jRepository<User, String> {
 
     @Query ("MATCH (n:User{user_id:$user_id}) return n.type")
     String getTypeById(String user_id);
+
+    @Query("MATCH (u:User)" +"  return u.username")
+    List<String> getAllUsernames();
 }
