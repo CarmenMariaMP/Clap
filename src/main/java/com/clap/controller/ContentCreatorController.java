@@ -82,7 +82,7 @@ public class ContentCreatorController {
     }
 
     @PostMapping("/account/content_creator")
-    public String doManageContentCreatorAccount(
+    public String manageContentCreatorAccount(
             @Valid @ModelAttribute("contentCreatorManagementData") ContentCreatorManagementData contentCreatorManagementData,
             BindingResult result,Map<String, Object> model,@RequestParam("image") MultipartFile multipartFile) throws IOException {
         String username = userService.getLoggedUser();
@@ -93,29 +93,46 @@ public class ContentCreatorController {
         if (!contentCreator.getType().equals("CONTENT_CREATOR")) {
             return "redirect:/account";
         }
-        contentCreatorManagementValidator.validate(contentCreatorManagementData, result);
-        if (result.hasErrors()) {
-            return "manage_creator_account.html";
-        }
-        contentCreatorService.updateContentCreator(contentCreatorManagementData, contentCreator);
         
         String new_fileName ="";
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         String png = "png";
-        String jpeg = "jpg";
-        if(png.contains(fileName)){
+        String PNG = "PNG";
+        String jpg = "jpg";
+        String jpeg = "jpeg";
+        if(fileName.contains(png)){
             new_fileName = "profile.png";
         }
-        if(jpeg.contains(fileName)){
+        else if(fileName.contains(PNG)){
+            new_fileName = "profile.PNG";
+        }
+        else if(fileName.contains(jpg)){
             new_fileName = "profile.jpg";
         }
-        contentCreator.setPhotoUrl(new_fileName);
-        contentCreatorRepository.save(contentCreator);
-        String uploadDir = "user-photos/" + contentCreator.getId()+"/profile";
-        FileUploadUtil.saveFile(uploadDir, new_fileName, multipartFile);
+        else if(fileName.contains(jpeg)){
+            new_fileName = "profile.jpeg";
+        }else if(!fileName.equals("")){
+            new_fileName="other";
+        }
+        if (new_fileName==""){
+            contentCreator.setPhotoUrl(contentCreator.getPhotoUrl());
+            contentCreatorRepository.save(contentCreator);
+        }else{
+            contentCreator.setPhotoUrl("/img/user-photos/" + contentCreator.getId()+"/profile/"+new_fileName);
+            contentCreatorRepository.save(contentCreator);
+            String uploadDir = "src/main/resources/static/img/user-photos/" + contentCreator.getId()+"/profile";
+            FileUploadUtil.saveFile(uploadDir, new_fileName, multipartFile);
+        }
+        contentCreatorManagementData.setPhotoUrl(contentCreator.getPhotoUrl());
+        contentCreatorManagementValidator.validate(contentCreatorManagementData, result);
+        if (result.hasErrors()) {
+            return "manage_creator_account.html";
+        }
 
+        contentCreatorService.updateContentCreator(contentCreatorManagementData, contentCreator);
+        
         model.put("contentCreatorManagementData",contentCreatorManagementData);
-        model.put("photoUrl",contentCreator.getPhotoUrl());
+        model.put("contentCreator",contentCreator);
         if(contentCreatorManagementData.getUsername().equals(username)){
             return "redirect:/choose_category.html";
         }
