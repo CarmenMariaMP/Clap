@@ -45,7 +45,7 @@ public class ProfileController {
             System.out.println("------------------------");
         System.out.println(type);
             if (type.equals("CONTENT_CREATOR")) {
-                ContentCreator contentCreator = contentCreatorRepository.getContentCreatorByUsername(username);;
+                ContentCreator contentCreator = contentCreatorRepository.getContentCreatorByUsername(username);
                 return String.format("redirect:/profile/%s", contentCreator.getId());
             } else {
                 Company company = companyRepository.getCompanyByUsername(username);
@@ -53,6 +53,7 @@ public class ProfileController {
             }
         }
     }
+    
     public User toUserFromContentCreator(ContentCreator contentCreator) {
         User user = new User();
         user.setUsername(contentCreator.getUsername());
@@ -137,6 +138,7 @@ public class ProfileController {
             model.put("alreadySubscribed", alreadySubscribed);
             model.put("self_profile", self_profile);
             model.put("privacyRequestState", privacyRequestState);
+            model.put("logged_username", logged_username);
         }
         return "profile.html";
     }

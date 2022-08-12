@@ -56,7 +56,8 @@ public class UserService implements UserDetailsService {
     public User setUserArtisticContent(String title, ArtisticContent content) {
         User user = userRepository.getOwnerByTitle(title);
         content.setOwner(user);
-        return null;
+        userRepository.save(user);
+        return user;
     }
 
     public Optional<User> getUserByUsername(String username) {

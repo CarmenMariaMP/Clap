@@ -2,11 +2,13 @@ package com.clap.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,16 +25,20 @@ import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
  * A ArtisticContent.
  */
 @Node
-@Getter
-@Setter
+@Data
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = { "tags","owner","users_favourites"})
+@NoArgsConstructor
 public abstract class ArtisticContent implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Property("artistic_content_id")
     @Id
     @GeneratedValue(UUIDStringGenerator.class)
     private String id;
 
+    @Property("type")
     @NotNull
 	String type;
 
@@ -46,12 +52,12 @@ public abstract class ArtisticContent implements Serializable {
     private String contentUrl;
 
     @Property("upload_date")
-    private LocalDate uploadDate;
+    private Date uploadDate;
 
     @Property("viewCount")
-    private String viewCount;
+    private Integer viewCount;
 
-    @Relationship(value = "HAS_ARTISTIC_CONTENT_TAG", direction = Relationship.Direction.INCOMING)
+    @Relationship(value = "HAS_ARTISTIC_CONTENT_TAG", direction = Relationship.Direction.OUTGOING)
     @JsonIgnoreProperties(value = { "artisticContents" }, allowSetters = true)
     private Set<Tag> tags = new HashSet<>();
 
@@ -66,72 +72,5 @@ public abstract class ArtisticContent implements Serializable {
     public ArtisticContent title(String title) {
         this.setTitle(title);
         return this;
-    }
-
-    public ArtisticContent description(String description) {
-        this.setDescription(description);
-        return this;
-    }
-
-    public ArtisticContent contentUrl(String contentUrl) {
-        this.setContentUrl(contentUrl);
-        return this;
-    }
-
-    public ArtisticContent uploadDate(LocalDate uploadDate) {
-        this.setUploadDate(uploadDate);
-        return this;
-    }
-
-    public ArtisticContent viewCount(String viewCount) {
-        this.setViewCount(viewCount);
-        return this;
-    }
-
-    public ArtisticContent tags(Set<Tag> tags) {
-        this.setTags(tags);
-        return this;
-    }
-
-    public ArtisticContent addTag(Tag tag) {
-        this.tags.add(tag);
-        tag.getArtisticContents().add(this);
-        return this;
-    }
-
-    public ArtisticContent removeTag(Tag tag) {
-        this.tags.remove(tag);
-        tag.getArtisticContents().remove(this);
-        return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof ArtisticContent)) {
-            return false;
-        }
-        return id != null && id.equals(((ArtisticContent) o).id);
-    }
-
-    @Override
-    public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
-        return getClass().hashCode();
-    }
-
-    // prettier-ignore
-    @Override
-    public String toString() {
-        return "ArtisticContent{" +
-            "id=" + getId() +
-            ", title='" + getTitle() + "'" +
-            ", description='" + getDescription() + "'" +
-            ", contentUrl='" + getContentUrl() + "'" +
-            ", uploadDate='" + getUploadDate() + "'" +
-            ", viewCount=" + getViewCount() +
-            "}";
     }
 }

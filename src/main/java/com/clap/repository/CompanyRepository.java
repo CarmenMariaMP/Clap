@@ -2,9 +2,11 @@ package com.clap.repository;
 
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
+import org.springframework.stereotype.Repository;
 
 import com.clap.model.Company;
 
+@Repository
 public interface CompanyRepository extends Neo4jRepository<Company, String>{
     @Query("MATCH (n:Company{username: $username} ) " + "return n")
 	Company getCompanyByUsername(String username);

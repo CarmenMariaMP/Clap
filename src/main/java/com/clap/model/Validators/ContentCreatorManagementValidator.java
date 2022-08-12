@@ -1,5 +1,6 @@
 package com.clap.model.Validators;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -62,14 +63,19 @@ public class ContentCreatorManagementValidator implements Validator {
                 }
             }
         }
-        String png = ".png";
-        String PNG = ".PNG";
-        String jpg = ".jpg";
-        String jpeg = ".jpeg";
-        if (!contentCreatorManagementData.getPhotoUrl().contains(png)
-                && !contentCreatorManagementData.getPhotoUrl().contains(PNG)
-                && !contentCreatorManagementData.getPhotoUrl().contains(jpg)
-                && !contentCreatorManagementData.getPhotoUrl().contains(jpeg)) {
+        List<String> validFileExtensions = new ArrayList<String>();
+        validFileExtensions.add(".png");
+        validFileExtensions.add(".PNG");
+        validFileExtensions.add(".jpg");
+        validFileExtensions.add(".jpeg");
+        Boolean isValid = false;
+        for(int i=0;i<validFileExtensions.size();i++){
+            if(contentCreatorManagementData.getPhotoUrl().contains(validFileExtensions.get(i))){
+                isValid =true;
+                break;
+            }
+        }
+        if(!isValid){
             errors.rejectValue("photoUrl", "", "Extension invalid. The valid extensions are .png, .PNG, .jpeg, .jpg");
         }
     }

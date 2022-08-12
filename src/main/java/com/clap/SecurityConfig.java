@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
         http
                 .authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .antMatchers("/", "/register_company.html", "/register_content_creator.html", "/resources/**",
+                .antMatchers("/", "/register_company.html", "/register_content_creator.html", "/no_privileges_view.html","/resources/**",
                         "/styles/**", "/img/**")
                 .permitAll()
                 .anyRequest().authenticated()

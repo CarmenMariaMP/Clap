@@ -96,10 +96,10 @@ public class ContentCreatorController {
         
         String new_fileName ="";
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        String png = "png";
-        String PNG = "PNG";
-        String jpg = "jpg";
-        String jpeg = "jpeg";
+        String png = ".png";
+        String PNG = ".PNG";
+        String jpg = ".jpg";
+        String jpeg = ".jpeg";
         if(fileName.contains(png)){
             new_fileName = "profile.png";
         }

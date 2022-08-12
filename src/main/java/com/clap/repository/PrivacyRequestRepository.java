@@ -5,9 +5,11 @@ import java.util.Optional;
 
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
+import org.springframework.stereotype.Repository;
 
 import com.clap.model.PrivacyRequest;
 
+@Repository
 public interface PrivacyRequestRepository extends Neo4jRepository<PrivacyRequest, String>{
     @Query("MATCH (p:PrivacyRequest)" +" -[:HAS_PRIVACY_REQUEST_CONTENT_CREATOR]" +" ->" +" (u:User{username: $username_content_creator}) " +" WITH p" +"  MATCH (p:PrivacyRequest)" +" -[:HAS_PRIVACY_REQUEST_COMPANY]" +" ->" +" (u:User{username: $username_company})" +"  return p")
     public Optional<PrivacyRequest> findByCreatorAndCompany(String username_content_creator, String username_company);

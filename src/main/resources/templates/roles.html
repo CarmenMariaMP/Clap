@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <div th:replace="headerFragment :: headerFragment"></div>
+  <title>Create general content | Clap</title>
+  <link rel="shortcut icon" th:href="@{/img/lira_logo.png}">
+</head>
+
+<body>
+  <div th:replace="navbarFragment :: navbarFragment"> </div>
+  <br>
+  <div class="d-flex justify-content-center" style="margin-top: 100px;">
+    <div class="col-md-4 d-flex justify-content-center">
+      <div class="card h-100">
+        <img th:src="@{/img/categories/general.png}" class="card-img-top" alt="..." width="180" height="190">
+      </div>
+    </div>
+  </div>
+  <section class="h-100 py-5 h-custom">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-8 col-xl-6">
+          <div class="card rounded-3 container">
+            <div class="d-flex justify-content-center" style="margin-top:60px ;">
+              <a class="navbar-brand" href="/"><img th:src="@{/img/clap_logo_horizontal.png}" width="300"
+                  height="85"></a>
+            </div>
+            <h2 class="d-flex justify-content-center dark-blue-text">Tag your team</h2>
+            <hr style="height:2px;border-width:0;" class="grey">
+            <div class="card-body p-4 p-md-5">
+              <form class="px-md-2" method="POST"
+                data-th-action="@{'/owner/' + ${user_id} +'/content/'+ ${artistic_content_id} +'/role/'}"
+                data-th-object="${role}" enctype="multipart/form-data">
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                  <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+                </div>
+                <div class="form-outline mb-4">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <label class="form-label" for="country">Team</label>
+                    </div>
+                    <div class="col-md-9 container border">
+                      <div class="form-outline mb-4">
+                        <br>
+                        <div class="row">
+                          <div class="col-md-2">
+                            <label class="form-label" for="username">@</label>
+                          </div>
+                          <div class="col-md-10">
+                            <input type="text" id="username" class="form-control" th:field=*{username}
+                              placeholder="username" />
+                          </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                          <div class="col-md-2">
+                            <label class="form-label" for="text">Role</label>
+                          </div>
+                          <div class="col-md-10">
+                            <input type="text" id="text" class="form-control" th:field=*{text} placeholder="Role" />
+                          </div>
+                        </div>
+                        <br>
+                        <div class="d-flex justify-content-center">
+                          <button type="submit" class="btn btn-lg mb-1 gold dark-blue-text">Add</button>
+                        </div>
+                      </div>
+                      <th-block data-th-each="role : ${existingRoles}">
+                        <br>
+                        <div class="container border">
+                          <div class="row">
+                            <div class="col-md-10">
+                              <h6> Username: @<span data-th-text="${role.getUsername()}"></span> </h6>
+                              <h6> Role: <span data-th-text="${role.getText()}"></span> </h6>
+                            </div>
+                            <div class="col-md-2 d-flex justify-content-center">
+                              <form class="px-md-2" method="POST"
+                                data-th-action="@{'/owner/' + ${user_id} +'/content/'+ ${artistic_content_id} +'/role/delete'}"
+                                data-th-object="${role}" enctype="multipart/form-data">
+                                <button type="submit" class="btn gold dark-blue-text" href="https://dle.rae.es/pata"
+                                  style="margin-top: 10px;margin-bottom:10px;">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-x-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                    <path
+                                      d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                  </svg>
+                                </button>
+                                </form>
+                            </div>
+                          </div>
+                        </div>
+                      </th-block>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-center row">
+                  <div class="col-md-5 d-flex justify-content-center row">
+                    <a type="submit" class="btn btn-lg mb-1  gold dark-blue-text"
+                      th:href="@{'/owner/' + ${user_id} +'/content/'+ ${artistic_content_id} +'/tag/'}">
+                      Continue</a>
+                  </div>
+                </div>
+
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+
+</html>
