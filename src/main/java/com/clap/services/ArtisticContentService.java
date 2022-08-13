@@ -35,6 +35,10 @@ public class ArtisticContentService {
     return artisticContentRepository.findById(id);
   }
 
+  public ArtisticContent getByRoleId(String role_id) {
+    return artisticContentRepository.findByRoleId(role_id);
+  }
+
   public void deleteContent(ArtisticContent artisticContent) {
     artisticContentRepository.delete(artisticContent);
   }

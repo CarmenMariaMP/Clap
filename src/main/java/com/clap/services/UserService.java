@@ -80,6 +80,10 @@ public class UserService implements UserDetailsService {
         return userRepository.getAllUsernames();
     }
 
+    public User getUserByArtisticContentId(String artistic_content_id){
+        return userRepository.findUserByArtisticContentId(artistic_content_id);
+    }
+
     public Boolean userExists(User user) {
         Boolean userExist = false;
         Optional<User> userFound = getUserByUsername(user.getUsername());

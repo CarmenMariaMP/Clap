@@ -79,6 +79,10 @@ public class PhotographyController {
     public String getContentView(@PathVariable String user_id, @PathVariable String artistic_content_id,
             Map<String, Object> model,
             @ModelAttribute ArtisticContentData artisticContentData) {
+        String username = userService.getLoggedUser();
+        if (username == null) {
+            return "redirect:/login";
+        }
         String contentType = artisticContentService.getTypeById(artistic_content_id);
         if (contentType == null) {
             return "redirect:/choose_category.html";
@@ -88,6 +92,10 @@ public class PhotographyController {
         }
         User owner = userService.getUserById(user_id).orElse(null);
         Photography photographyContent = photographyService.getPhotographyContentById(artistic_content_id);
+        photographyContent.setOwner(owner);
+        if (!username.equals(photographyContent.getOwner().getUsername())) {
+            photographyService.updateViewsPhotographyContent(photographyContent);
+        }
         artisticContentData.setTitle(photographyContent.getTitle());
         artisticContentData.setDescription(photographyContent.getDescription());
         artisticContentData.setCamera(photographyContent.getCamera());

@@ -43,7 +43,7 @@ public class UserController {
         }
         model.addAttribute("contents", contents);
         model.addAttribute("logged_user", logged_user);
-        return "landing_page";
+        return "landing_page.html";
 
     }
 

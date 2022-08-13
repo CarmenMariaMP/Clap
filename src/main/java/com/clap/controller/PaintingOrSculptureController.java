@@ -81,6 +81,10 @@ public class PaintingOrSculptureController {
     public String getContentView(@PathVariable String user_id, @PathVariable String artistic_content_id,
             Map<String, Object> model,
             @ModelAttribute ArtisticContentData artisticContentData) {
+        String username = userService.getLoggedUser();
+        if (username == null) {
+            return "redirect:/login";
+        }
         String contentType = artisticContentService.getTypeById(artistic_content_id);
         if (contentType == null) {
             return "redirect:/choose_category.html";
@@ -91,6 +95,10 @@ public class PaintingOrSculptureController {
         User owner = userService.getUserById(user_id).orElse(null);
         PaintingOrSculpture paintingOrSculptureContent = paintingOrSculptureService
                 .getPaintingOrSculptureContentById(artistic_content_id);
+                paintingOrSculptureContent.setOwner(owner);
+        if (!username.equals(paintingOrSculptureContent.getOwner().getUsername())) {
+            paintingOrSculptureService.updateViewsPaintingOrSculptureContent(paintingOrSculptureContent);
+        }
         artisticContentData.setTitle(paintingOrSculptureContent.getTitle());
         artisticContentData.setDescription(paintingOrSculptureContent.getDescription());
         artisticContentData.setMaterials(paintingOrSculptureContent.getMaterials());

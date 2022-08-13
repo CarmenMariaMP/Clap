@@ -35,7 +35,7 @@ public class CinemaController {
     private final CinemaService cinemaService;
     private final ArtisticContentService artisticContentService;
     private final ArtisticUploadDataValidator cinemaUploadDataValidator;
-    
+
     @GetMapping("/create_cinema_content")
     public String createCinemaContentView(Map<String, Object> model) {
         String username = userService.getLoggedUser();
@@ -63,13 +63,14 @@ public class CinemaController {
         genres.add("Western");
 
         model.put("cinemaUploadData", new ArtisticContentData());
-        model.put("genres",genres);
+        model.put("genres", genres);
         return "create_cinema_content.html";
     }
 
     @PostMapping("/create_cinema_content")
     public String createCinemaContent(@Valid @ModelAttribute("cinemaUploadData") ArtisticContentData cinemaUploadData,
-    BindingResult result,Map<String, Object> model,@RequestParam("file") MultipartFile multipartFile,@RequestParam(value = "genres", required = false) String genres) throws Exception {
+            BindingResult result, Map<String, Object> model, @RequestParam("file") MultipartFile multipartFile,
+            @RequestParam(value = "genres", required = false) String genres) throws Exception {
         String username = userService.getLoggedUser();
         if (username == null) {
             return "redirect:/login";
@@ -77,39 +78,47 @@ public class CinemaController {
         User user = userService.getUserByUsername(username).orElse(null);
 
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        if(fileName.isBlank()){
-            fileName="invalidFileName";
+        if (fileName.isBlank()) {
+            fileName = "invalidFileName";
         }
-        cinemaUploadData.setContentUrl("/img/user-files/" + user.getId()+"/cinema/"+fileName);
+        cinemaUploadData.setContentUrl("/img/user-files/" + user.getId() + "/cinema/" + fileName);
         cinemaUploadData.setMultipartFile(multipartFile);
-        String uploadDir = "src/main/resources/static/img/user-files/" + user.getId()+"/cinema";
+        String uploadDir = "src/main/resources/static/img/user-files/" + user.getId() + "/cinema";
         FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 
         cinemaUploadDataValidator.validate(cinemaUploadData, result);
         if (result.hasErrors()) {
             return "create_cinema_content.html";
         }
-        Cinema cinemaContent = cinemaService.uploadCinemaContent(cinemaUploadData,user);
-
+        Cinema cinemaContent = cinemaService.uploadCinemaContent(cinemaUploadData, user);
 
         String g = genres;
         model.put("cinemaUploadData", cinemaUploadData);
-        return String.format("redirect:/owner/%s/content/%s/role",cinemaContent.getOwner().getId(),cinemaContent.getId());
+        return String.format("redirect:/owner/%s/content/%s/role", cinemaContent.getOwner().getId(),
+                cinemaContent.getId());
     }
-    
 
     @RequestMapping("/owner/{user_id}/content/{artistic_content_id}/cinema")
-    public String getCinemaContentView(@PathVariable String user_id,@PathVariable String artistic_content_id, Map<String, Object> model,
+    public String getCinemaContentView(@PathVariable String user_id, @PathVariable String artistic_content_id,
+            Map<String, Object> model,
             @ModelAttribute ArtisticContentData artisticContentData) {
+        String username = userService.getLoggedUser();
+        if (username == null) {
+            return "redirect:/login";
+        }
         String contentType = artisticContentService.getTypeById(artistic_content_id);
         if (contentType == null) {
             return "redirect:/choose_category.html";
-        } 
+        }
         if (!contentType.equals("CINEMA")) {
             return "redirect:/choose_category.html";
-        } 
+        }
         User owner = userService.getUserById(user_id).orElse(null);
         Cinema cinemaContent = cinemaService.getCinemaContentById(artistic_content_id);
+        cinemaContent.setOwner(owner);
+        if (!username.equals(cinemaContent.getOwner().getUsername())) {
+            cinemaService.updateViewsCinemaContent(cinemaContent);
+        }
         artisticContentData.setTitle(cinemaContent.getTitle());
         artisticContentData.setDescription(cinemaContent.getDescription());
         artisticContentData.setType(contentType);
@@ -119,7 +128,7 @@ public class CinemaController {
         artisticContentData.setId(cinemaContent.getId());
 
         model.put("artisticContentData", artisticContentData);
-        model.put("contentType",contentType);
+        model.put("contentType", contentType);
         return "view_content.html";
     }
 }

@@ -35,7 +35,7 @@ public class DanceController {
     private final DanceService danceService;
     private final ArtisticContentService artisticContentService;
     private final ArtisticUploadDataValidator danceUploadDataValidator;
-    
+
     @GetMapping("/create_dance_content")
     public String createDanceContentView(Map<String, Object> model) {
         String username = userService.getLoggedUser();
@@ -63,13 +63,14 @@ public class DanceController {
         genres.add("Western");
 
         model.put("danceUploadData", new ArtisticContentData());
-        model.put("genres",genres);
+        model.put("genres", genres);
         return "create_dance_content.html";
     }
 
     @PostMapping("/create_dance_content")
     public String createDanceContent(@Valid @ModelAttribute("danceUploadData") ArtisticContentData danceUploadData,
-    BindingResult result,Map<String, Object> model,@RequestParam("file") MultipartFile multipartFile,@RequestParam(value = "genres", required = false) String genres) throws Exception {
+            BindingResult result, Map<String, Object> model, @RequestParam("file") MultipartFile multipartFile,
+            @RequestParam(value = "genres", required = false) String genres) throws Exception {
         String username = userService.getLoggedUser();
         if (username == null) {
             return "redirect:/login";
@@ -77,39 +78,47 @@ public class DanceController {
         User user = userService.getUserByUsername(username).orElse(null);
 
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        if(fileName.isBlank()){
-            fileName="invalidFileName";
+        if (fileName.isBlank()) {
+            fileName = "invalidFileName";
         }
-        danceUploadData.setContentUrl("/img/user-files/" + user.getId()+"/dance/"+fileName);
+        danceUploadData.setContentUrl("/img/user-files/" + user.getId() + "/dance/" + fileName);
         danceUploadData.setMultipartFile(multipartFile);
-        String uploadDir = "src/main/resources/static/img/user-files/" + user.getId()+"/dance";
+        String uploadDir = "src/main/resources/static/img/user-files/" + user.getId() + "/dance";
         FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 
         danceUploadDataValidator.validate(danceUploadData, result);
         if (result.hasErrors()) {
             return "create_dance_content.html";
         }
-        Dance danceContent = danceService.uploadDanceContent(danceUploadData,user);
-
+        Dance danceContent = danceService.uploadDanceContent(danceUploadData, user);
 
         String g = genres;
         model.put("danceUploadData", danceUploadData);
-        return String.format("redirect:/owner/%s/content/%s/role",danceContent.getOwner().getId(),danceContent.getId());
+        return String.format("redirect:/owner/%s/content/%s/role", danceContent.getOwner().getId(),
+                danceContent.getId());
     }
-    
 
     @RequestMapping("/owner/{user_id}/content/{artistic_content_id}/dance")
-    public String getDanceContentView(@PathVariable String user_id,@PathVariable String artistic_content_id, Map<String, Object> model,
+    public String getDanceContentView(@PathVariable String user_id, @PathVariable String artistic_content_id,
+            Map<String, Object> model,
             @ModelAttribute ArtisticContentData artisticContentData) {
+        String username = userService.getLoggedUser();
+        if (username == null) {
+            return "redirect:/login";
+        }
         String contentType = artisticContentService.getTypeById(artistic_content_id);
         if (contentType == null) {
             return "redirect:/choose_category.html";
-        } 
+        }
         if (!contentType.equals("DANCE")) {
             return "redirect:/choose_category.html";
-        } 
+        }
         User owner = userService.getUserById(user_id).orElse(null);
         Dance danceContent = danceService.getDanceContentById(artistic_content_id);
+        danceContent.setOwner(owner);
+        if (!username.equals(danceContent.getOwner().getUsername())) {
+            danceService.updateViewsDanceContent(danceContent);
+        }
         artisticContentData.setTitle(danceContent.getTitle());
         artisticContentData.setDescription(danceContent.getDescription());
         artisticContentData.setMusic(danceContent.getMusic());
@@ -120,7 +129,7 @@ public class DanceController {
         artisticContentData.setId(danceContent.getId());
 
         model.put("artisticContentData", artisticContentData);
-        model.put("contentType",contentType);
+        model.put("contentType", contentType);
         return "view_content.html";
     }
 }

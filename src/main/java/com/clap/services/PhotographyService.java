@@ -31,6 +31,12 @@ public class PhotographyService {
     private Photography upload(Photography photographyContent) throws Exception {
         photographyContent.setUploadDate(Date.from(Instant.now()));
         photographyContent.setType("PHOTOGRAPHY");
+        photographyContent.setViewCount(0);
         return photographyRepository.save(photographyContent);
+    }
+
+    public Photography updateViewsPhotographyContent(Photography photography) {
+        photography.setViewCount(photography.getViewCount()+1);   
+        return photographyRepository.save(photography);
     }
 }

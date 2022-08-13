@@ -24,4 +24,7 @@ public interface ArtisticContentRepository extends Neo4jRepository<ArtisticConte
 
     @Query ("MATCH (a:ArtisticContent{artistic_content_id:$artistic_content_id}) " + "return a.type")
     String getTypeById(String artistic_content_id);
+
+    @Query("MATCH (r:Role{role_id:$role_id})" + "-[:HAS_ROLE_ARTISTIC_CONTENT] " + "->" + "(a:ArtisticContent) " + " return a")
+    ArtisticContent findByRoleId(String role_id);
 }

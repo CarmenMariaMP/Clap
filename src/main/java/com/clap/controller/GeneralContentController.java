@@ -33,7 +33,7 @@ public class GeneralContentController {
     private final GeneralContentService generalContentService;
     private final ArtisticContentService artisticContentService;
     private final ArtisticUploadDataValidator generalUploadDataValidator;
-    
+
     @GetMapping("/create_general_content")
     public String createGeneralContentView(Map<String, Object> model) {
         String username = userService.getLoggedUser();
@@ -45,8 +45,10 @@ public class GeneralContentController {
     }
 
     @PostMapping("/create_general_content")
-    public String createGeneralContent(@Valid @ModelAttribute("generalUploadData") ArtisticContentData generalUploadData,
-    BindingResult result,Map<String, Object> model,@RequestParam("file") MultipartFile multipartFile) throws Exception {
+    public String createGeneralContent(
+            @Valid @ModelAttribute("generalUploadData") ArtisticContentData generalUploadData,
+            BindingResult result, Map<String, Object> model, @RequestParam("file") MultipartFile multipartFile)
+            throws Exception {
         String username = userService.getLoggedUser();
         if (username == null) {
             return "redirect:/login";
@@ -54,48 +56,56 @@ public class GeneralContentController {
         User user = userService.getUserByUsername(username).orElse(null);
 
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        if(fileName.isBlank()){
-            fileName="invalidFileName";
+        if (fileName.isBlank()) {
+            fileName = "invalidFileName";
         }
-        generalUploadData.setContentUrl("/img/user-files/" + user.getId()+"/general/"+fileName);
+        generalUploadData.setContentUrl("/img/user-files/" + user.getId() + "/general/" + fileName);
         generalUploadData.setMultipartFile(multipartFile);
-        String uploadDir = "src/main/resources/static/img/user-files/" + user.getId()+"/general";
+        String uploadDir = "src/main/resources/static/img/user-files/" + user.getId() + "/general";
         FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 
         generalUploadDataValidator.validate(generalUploadData, result);
         if (result.hasErrors()) {
             return "create_general_content.html";
         }
-        General generalContent = generalContentService.uploadGeneralContent(generalUploadData,user);
-
+        General generalContent = generalContentService.uploadGeneralContent(generalUploadData, user);
 
         model.put("generalUploadData", generalUploadData);
-        return String.format("redirect:/owner/%s/content/%s/role",generalContent.getOwner().getId(),generalContent.getId());
+        return String.format("redirect:/owner/%s/content/%s/role", generalContent.getOwner().getId(),
+                generalContent.getId());
     }
-    
 
     @RequestMapping("/owner/{user_id}/content/{artistic_content_id}/general")
-    public String getContentView(@PathVariable String user_id,@PathVariable String artistic_content_id, Map<String, Object> model,
+    public String getContentView(@PathVariable String user_id, @PathVariable String artistic_content_id,
+            Map<String, Object> model,
             @ModelAttribute ArtisticContentData artisticContentData) {
+        String username = userService.getLoggedUser();
+        if (username == null) {
+            return "redirect:/login";
+        }
         String contentType = artisticContentService.getTypeById(artistic_content_id);
         if (contentType == null) {
             return "redirect:/choose_category.html";
-        } 
+        }
         if (!contentType.equals("GENERAL")) {
             return "redirect:/choose_category.html";
-        } 
+        }
         User owner = userService.getUserById(user_id).orElse(null);
         General generalContent = generalContentService.getGeneralContentById(artistic_content_id);
+        generalContent.setOwner(owner);
+        if (!username.equals(generalContent.getOwner().getUsername())) {
+            generalContentService.updateViewsGeneralContent(generalContent);
+        }
         artisticContentData.setTitle(generalContent.getTitle());
         artisticContentData.setDescription(generalContent.getDescription());
         artisticContentData.setType(contentType);
         artisticContentData.setContentUrl(generalContent.getContentUrl());
-        artisticContentData.setViewCount(0);
+        artisticContentData.setViewCount(generalContent.getViewCount());
         artisticContentData.setOwner(owner);
         artisticContentData.setId(generalContent.getId());
 
         model.put("artisticContentData", artisticContentData);
-        model.put("contentType",contentType);
+        model.put("contentType", contentType);
         return "view_content.html";
     }
 }

@@ -30,7 +30,13 @@ public class PaintingOrSculptureService {
     private PaintingOrSculpture upload(PaintingOrSculpture paintingOrSculpture) throws Exception {
         paintingOrSculpture.setUploadDate(Date.from(Instant.now()));
         paintingOrSculpture.setType("PAINTING_SCULPTURE");
+        paintingOrSculpture.setViewCount(0);
         return paintingOrSculptureRepository.save(paintingOrSculpture);
 
+    }
+
+    public PaintingOrSculpture updateViewsPaintingOrSculptureContent(PaintingOrSculpture paintingOrSculpture) {
+        paintingOrSculpture.setViewCount(paintingOrSculpture.getViewCount()+1);   
+        return paintingOrSculptureRepository.save(paintingOrSculpture);
     }
 }

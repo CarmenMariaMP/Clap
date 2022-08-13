@@ -15,10 +15,10 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class DanceService {
-    private final DanceRepository generalRepository;
+    private final DanceRepository danceRepository;
 
     public Dance getDanceContentById(String artistic_content_id) {
-		return generalRepository.findDanceContentById(artistic_content_id);
+		return danceRepository.findDanceContentById(artistic_content_id);
 	}
 
     public Dance uploadDanceContent(ArtisticContentData danceUploadData, User owner)
@@ -31,7 +31,13 @@ public class DanceService {
     private Dance upload(Dance danceContent) throws Exception {
         danceContent.setUploadDate(Date.from(Instant.now()));
         danceContent.setType("DANCE");
-        return generalRepository.save(danceContent);
+        danceContent.setViewCount(0);
+        return danceRepository.save(danceContent);
 
+    }
+
+    public Dance updateViewsDanceContent(Dance dance) {
+        dance.setViewCount(dance.getViewCount()+1);   
+        return danceRepository.save(dance);
     }
 }

@@ -29,4 +29,7 @@ public interface UserRepository extends Neo4jRepository<User, String> {
 
     @Query("MATCH (u:User)" +"  return u.username")
     List<String> getAllUsernames();
+
+    @Query("MATCH (u:User)" +"-[:HAS_ARTISTIC_CONTENT_OWNER]" +"->" +"(ac:ArtisticContent{artistic_content_id: $artistic_content_id}) " +"return u")
+    User findUserByArtisticContentId(String artistic_content_id);
 }

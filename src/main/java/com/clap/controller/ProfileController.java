@@ -1,8 +1,10 @@
 package com.clap.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +16,14 @@ import com.clap.model.ArtisticContent;
 import com.clap.model.Company;
 import com.clap.model.ContentCreator;
 import com.clap.model.PrivacyRequest;
+import com.clap.model.Role;
 import com.clap.model.User;
 import com.clap.model.dataModels.UserProfileData;
 import com.clap.repository.CompanyRepository;
 import com.clap.repository.ContentCreatorRepository;
 import com.clap.services.ArtisticContentService;
 import com.clap.services.PrivacyRequestService;
+import com.clap.services.RoleService;
 import com.clap.services.SubscriptionService;
 import com.clap.services.UserService;
 
@@ -34,6 +38,7 @@ public class ProfileController {
     private final ArtisticContentService artisticContentService;
     private final SubscriptionService subscriptionService;
     private final PrivacyRequestService privacyRequestService;
+    private final RoleService roleService;
 
     @GetMapping("/profile")
     public String profile() {
@@ -43,7 +48,7 @@ public class ProfileController {
         } else {
             String type = userService.getTypeByUsername(username);
             System.out.println("------------------------");
-        System.out.println(type);
+            System.out.println(type);
             if (type.equals("CONTENT_CREATOR")) {
                 ContentCreator contentCreator = contentCreatorRepository.getContentCreatorByUsername(username);
                 return String.format("redirect:/profile/%s", contentCreator.getId());
@@ -53,9 +58,10 @@ public class ProfileController {
             }
         }
     }
-    
+
     public User toUserFromContentCreator(ContentCreator contentCreator) {
         User user = new User();
+        user.setId(contentCreator.getId());
         user.setUsername(contentCreator.getUsername());
         user.setPassword(contentCreator.getPassword());
         user.setEmail(contentCreator.getEmail());
@@ -66,6 +72,7 @@ public class ProfileController {
 
     public User toUserFromCompany(Company company) {
         User user = new User();
+        user.setId(company.getId());
         user.setUsername(company.getUsername());
         user.setPassword(company.getPassword());
         user.setEmail(company.getEmail());
@@ -84,17 +91,18 @@ public class ProfileController {
             String logged_username = userService.getLoggedUser();
             User follower = userService.getUserByUsername(logged_username).orElse(null);
             User followed = userService.getUserById(user_id).orElse(null);
-            Boolean alreadySubscribed = subscriptionService.isAlreadySubscribedTo(followed.getUsername(), follower.getUsername());
-            Boolean self_profile=false;
-            if(follower.getUsername().equals(followed.getUsername())){
-                self_profile=true;
+            Boolean alreadySubscribed = subscriptionService.isAlreadySubscribedTo(followed.getUsername(),
+                    follower.getUsername());
+            Boolean self_profile = false;
+            if (follower.getUsername().equals(followed.getUsername())) {
+                self_profile = true;
             }
 
             String username = "";
             User owner = new User();
             ContentCreator contentCreator = new ContentCreator();
             Company company = new Company();
-           
+
             if (type.equals("CONTENT_CREATOR")) {
                 contentCreator = contentCreatorRepository.getContentCreatorById(user_id);
                 userProfileData.setContentCreator(contentCreator);
@@ -123,11 +131,21 @@ public class ProfileController {
             }
             userProfileData.setTotalPosts(total_posts);
 
-            List<ArtisticContent> attached_contents = new ArrayList<ArtisticContent>();
+            Set<ArtisticContent> attached_contents = new HashSet<ArtisticContent>();
 
-            String privacyRequestState="";
-            PrivacyRequest pr = privacyRequestService.getRequestByCreatorAndCompany(followed.getUsername(), logged_username).orElse(null);
-            if(pr!=null){
+            List<Role> roles_user = roleService.getRolesByUsername(username);
+            for (int i = 0; i < roles_user.size(); i++) {
+                String id = roles_user.get(i).getId();
+                ArtisticContent ac = artisticContentService.getByRoleId(id);
+                User user = userService.getUserByArtisticContentId(ac.getId());
+                ac.setOwner(user);
+                attached_contents.add(ac);
+            }
+
+            String privacyRequestState = "";
+            PrivacyRequest pr = privacyRequestService
+                    .getRequestByCreatorAndCompany(followed.getUsername(), logged_username).orElse(null);
+            if (pr != null) {
                 privacyRequestState = pr.getRequestState();
             }
 

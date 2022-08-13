@@ -33,7 +33,7 @@ public class MusicController {
     private final MusicService musicService;
     private final ArtisticContentService artisticContentService;
     private final ArtisticUploadDataValidator musicUploadDataValidator;
-    
+
     @GetMapping("/create_music_content")
     public String createMusicContentView(Map<String, Object> model) {
         String username = userService.getLoggedUser();
@@ -46,7 +46,8 @@ public class MusicController {
 
     @PostMapping("/create_music_content")
     public String createGeneralContent(@Valid @ModelAttribute("musicUploadData") ArtisticContentData musicUploadData,
-    BindingResult result,Map<String, Object> model,@RequestParam("file") MultipartFile multipartFile) throws Exception {
+            BindingResult result, Map<String, Object> model, @RequestParam("file") MultipartFile multipartFile)
+            throws Exception {
         String username = userService.getLoggedUser();
         if (username == null) {
             return "redirect:/login";
@@ -54,38 +55,46 @@ public class MusicController {
         User user = userService.getUserByUsername(username).orElse(null);
 
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        if(fileName.isBlank()){
-            fileName="invalidFileName";
+        if (fileName.isBlank()) {
+            fileName = "invalidFileName";
         }
-        musicUploadData.setContentUrl("/img/user-files/" + user.getId()+"/music/"+fileName);
+        musicUploadData.setContentUrl("/img/user-files/" + user.getId() + "/music/" + fileName);
         musicUploadData.setMultipartFile(multipartFile);
-        String uploadDir = "src/main/resources/static/img/user-files/" + user.getId()+"/music";
+        String uploadDir = "src/main/resources/static/img/user-files/" + user.getId() + "/music";
         FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 
         musicUploadDataValidator.validate(musicUploadData, result);
         if (result.hasErrors()) {
             return "create_music_content.html";
         }
-        Music musicContent = musicService.uploadMusicContent(musicUploadData,user);
-
+        Music musicContent = musicService.uploadMusicContent(musicUploadData, user);
 
         model.put("musicUploadData", musicUploadData);
-        return String.format("redirect:/owner/%s/content/%s/role",musicContent.getOwner().getId(),musicContent.getId());
+        return String.format("redirect:/owner/%s/content/%s/role", musicContent.getOwner().getId(),
+                musicContent.getId());
     }
-    
 
     @RequestMapping("/owner/{user_id}/content/{artistic_content_id}/music")
-    public String getContentView(@PathVariable String user_id,@PathVariable String artistic_content_id, Map<String, Object> model,
+    public String getContentView(@PathVariable String user_id, @PathVariable String artistic_content_id,
+            Map<String, Object> model,
             @ModelAttribute ArtisticContentData artisticContentData) {
+        String username = userService.getLoggedUser();
+        if (username == null) {
+            return "redirect:/login";
+        }
         String contentType = artisticContentService.getTypeById(artistic_content_id);
         if (contentType == null) {
             return "redirect:/choose_category.html";
-        } 
+        }
         if (!contentType.equals("MUSIC")) {
             return "redirect:/choose_category.html";
-        } 
+        }
         User owner = userService.getUserById(user_id).orElse(null);
         Music musicContent = musicService.getMusicContentById(artistic_content_id);
+        musicContent.setOwner(owner);
+        if (!username.equals(musicContent.getOwner().getUsername())) {
+            musicService.updateViewsMusicContent(musicContent);
+        }
         artisticContentData.setTitle(musicContent.getTitle());
         artisticContentData.setDescription(musicContent.getDescription());
         artisticContentData.setGenres(musicContent.getGenres());
@@ -96,7 +105,7 @@ public class MusicController {
         artisticContentData.setId(musicContent.getId());
 
         model.put("artisticContentData", artisticContentData);
-        model.put("contentType",contentType);
+        model.put("contentType", contentType);
         return "view_content.html";
     }
 }

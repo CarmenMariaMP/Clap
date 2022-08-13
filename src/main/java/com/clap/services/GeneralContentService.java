@@ -21,6 +21,10 @@ public class GeneralContentService {
 		return generalRepository.findGeneralContentById(artistic_content_id);
 	}
 
+    public void save(General general) {
+		generalRepository.save(general);
+	}
+
     public General uploadGeneralContent(ArtisticContentData generalUploadData, User owner)
             throws Exception {
                 General generalContent = generalUploadData.toGeneralContent();
@@ -28,9 +32,15 @@ public class GeneralContentService {
         return upload(generalContent);
     }
 
+    public General updateViewsGeneralContent(General general) {
+        general.setViewCount(general.getViewCount()+1);   
+        return generalRepository.save(general);
+    }
+
     private General upload(General generalContent) throws Exception {
         generalContent.setUploadDate(Date.from(Instant.now()));
         generalContent.setType("GENERAL");
+        generalContent.setViewCount(0);
         return generalRepository.save(generalContent);
 
     }

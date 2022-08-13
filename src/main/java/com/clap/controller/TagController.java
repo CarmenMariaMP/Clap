@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.clap.model.Tag;
+import com.clap.model.Validators.TagValidator;
 import com.clap.services.ArtisticContentService;
 import com.clap.services.TagService;
 import com.clap.services.UserService;
@@ -25,6 +26,7 @@ public class TagController {
     private final UserService userService;
     private final TagService tagService;
     private final ArtisticContentService artisticContentService;
+    private final TagValidator tagValidator;
 
     @RequestMapping("/owner/{user_id}/content/{artistic_content_id}/tag")
     public String addRolesView(@PathVariable String user_id, @PathVariable String artistic_content_id,
@@ -49,6 +51,7 @@ public class TagController {
         if (username == null) {
             return "redirect:/login";
         }
+        tagValidator.validate(tag, result);
         if (result.hasErrors()) {
             return "tags.html";
         }

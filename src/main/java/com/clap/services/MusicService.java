@@ -31,7 +31,13 @@ public class MusicService {
     private Music upload(Music musicContent) throws Exception {
         musicContent.setUploadDate(Date.from(Instant.now()));
         musicContent.setType("MUSIC");
+        musicContent.setViewCount(0);
         return musicRepository.save(musicContent);
 
+    }
+
+    public Music updateViewsMusicContent(Music music) {
+        music.setViewCount(music.getViewCount()+1);   
+        return musicRepository.save(music);
     }
 }

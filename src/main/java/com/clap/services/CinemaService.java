@@ -31,7 +31,13 @@ public class CinemaService {
     private Cinema upload(Cinema cinemaContent) throws Exception {
         cinemaContent.setUploadDate(Date.from(Instant.now()));
         cinemaContent.setType("CINEMA");
+        cinemaContent.setViewCount(0);
         return cinemaRepository.save(cinemaContent);
 
+    }
+
+    public Cinema updateViewsCinemaContent(Cinema cinema) {
+        cinema.setViewCount(cinema.getViewCount()+1);   
+        return cinemaRepository.save(cinema);
     }
 }

@@ -22,6 +22,10 @@ public class RoleService {
         return roleRepository.findRolesByContentId(artistic_content_id, user_id);
     }
 
+    public List<Role> getRolesByUsername(String username) {
+        return roleRepository.findRolesByUsername(username);
+    }
+
     public void addRole(Role role, String username, String artistic_content_id){
         User user = userService.getUserByUsername(username).orElse(null);
         ArtisticContent artisticContent = artisticContentService.getContentById(artistic_content_id).orElse(null);
