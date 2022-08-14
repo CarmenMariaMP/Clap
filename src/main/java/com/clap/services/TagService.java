@@ -20,12 +20,12 @@ public class TagService {
         return tagRepository.findTagByText(text);
     }
 
-    public List<Tag> getTagsByContentIdAndUserId(String artistic_content_id,String user_id) {
-        return tagRepository.findTagsByContentId(artistic_content_id, user_id);
+    public List<Tag> getTagsByContentId(String artistic_content_id) {
+        return tagRepository.findTagsByContentId(artistic_content_id);
     }
 
     public void addTag(Tag tag, String artistic_content_id){
-        Tag existingTag = getTagByText("patata");
+        Tag existingTag = getTagByText(tag.getText());
         ArtisticContent artisticContent = artisticContentService.getContentById(artistic_content_id).orElse(null);
         if(existingTag==null){
             tag.getArtisticContents().add(artisticContent);

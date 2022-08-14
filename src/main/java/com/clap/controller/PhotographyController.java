@@ -1,5 +1,6 @@
 package com.clap.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -15,12 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.clap.model.Comment;
 import com.clap.model.Photography;
 import com.clap.model.User;
 import com.clap.model.Validators.ArtisticUploadDataValidator;
 import com.clap.model.dataModels.ArtisticContentData;
 import com.clap.model.utils.FileUploadUtil;
 import com.clap.services.ArtisticContentService;
+import com.clap.services.CommentService;
 import com.clap.services.PhotographyService;
 import com.clap.services.UserService;
 
@@ -32,6 +35,7 @@ public class PhotographyController {
     private final UserService userService;
     private final PhotographyService photographyService;
     private final ArtisticContentService artisticContentService;
+    private final CommentService commentService;
     private final ArtisticUploadDataValidator photographyUploadDataValidator;
 
     @GetMapping("/create_photography_content")
@@ -107,7 +111,11 @@ public class PhotographyController {
         artisticContentData.setViewCount(0);
         artisticContentData.setOwner(owner);
         artisticContentData.setId(photographyContent.getId());
-
+        
+        List<Comment> existingComments = commentService.getsCommentsByContentId(artistic_content_id);
+        
+        model.put("comment", new Comment());
+        model.put("existingComments", existingComments);
         model.put("artisticContentData", artisticContentData);
         model.put("contentType", contentType);
         return "view_content.html";

@@ -5,20 +5,20 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.clap.model.Tag;
+import com.clap.model.Comment;
 
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class TagValidator implements Validator{
+public class CommentValidator implements Validator{
     @Override
     public boolean supports(Class<?> clazz) {
-        return Tag.class.isAssignableFrom(clazz);
+        return Comment.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "text", "", "The tag cannot be empty!");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "text", "", "The comment cannot be empty!");
     }
 }

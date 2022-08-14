@@ -84,6 +84,14 @@ public class UserService implements UserDetailsService {
         return userRepository.findUserByArtisticContentId(artistic_content_id);
     }
 
+    public User getUserByCommentId(String id){
+        return userRepository.findUserByCommentId(id);
+    }
+
+    public User getUserByCommentResponseId(String id){
+        return userRepository.findUserByCommentResponseId(id);
+    }
+
     public Boolean userExists(User user) {
         Boolean userExist = false;
         Optional<User> userFound = getUserByUsername(user.getUsername());

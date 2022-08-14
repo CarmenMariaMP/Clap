@@ -39,6 +39,15 @@ public class ArtisticContentService {
     return artisticContentRepository.findByRoleId(role_id);
   }
 
+  public ArtisticContent getByCommentId(String comment_id) {
+    return artisticContentRepository.findByCommentId(comment_id);
+  }
+
+  public String getContentUrlById(String artistic_content_id) {
+    return artisticContentRepository.findContentUrlById(artistic_content_id);
+  }
+
+
   public void deleteContent(ArtisticContent artisticContent) {
     artisticContentRepository.delete(artisticContent);
   }

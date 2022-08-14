@@ -1,9 +1,12 @@
 package com.clap.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.hibernate.boot.archive.internal.FileInputStreamAccess;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -15,12 +18,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.clap.model.ArtisticContent;
+import com.clap.model.Comment;
+import com.clap.model.CommentResponse;
 import com.clap.model.General;
 import com.clap.model.User;
 import com.clap.model.Validators.ArtisticUploadDataValidator;
 import com.clap.model.dataModels.ArtisticContentData;
 import com.clap.model.utils.FileUploadUtil;
+import com.clap.repository.CommentRepository;
 import com.clap.services.ArtisticContentService;
+import com.clap.services.CommentResponseService;
+import com.clap.services.CommentService;
 import com.clap.services.GeneralContentService;
 import com.clap.services.UserService;
 
@@ -32,7 +41,10 @@ public class GeneralContentController {
     private final UserService userService;
     private final GeneralContentService generalContentService;
     private final ArtisticContentService artisticContentService;
+    private final CommentService commentService;
+    private final CommentResponseService commentResponseService;
     private final ArtisticUploadDataValidator generalUploadDataValidator;
+    private final CommentRepository commentRepository;
 
     @GetMapping("/create_general_content")
     public String createGeneralContentView(Map<String, Object> model) {
@@ -63,6 +75,7 @@ public class GeneralContentController {
         generalUploadData.setMultipartFile(multipartFile);
         String uploadDir = "src/main/resources/static/img/user-files/" + user.getId() + "/general";
         FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+
 
         generalUploadDataValidator.validate(generalUploadData, result);
         if (result.hasErrors()) {
@@ -104,6 +117,37 @@ public class GeneralContentController {
         artisticContentData.setOwner(owner);
         artisticContentData.setId(generalContent.getId());
 
+        List<Comment> existingComments = commentService.getsCommentsByContentId(artistic_content_id);
+        for(int i=0;i<existingComments.size();i++){
+            Comment comment = existingComments.get(i);
+            String comment_id = comment.getId();
+            User user_comment = userService.getUserByCommentId(comment_id);
+            ArtisticContent artisticContent = artisticContentService.getByCommentId(comment_id);
+            comment.setUser(user_comment);
+            comment.setArtisticContent(artisticContent);
+            List<CommentResponse> commentResponses = commentResponseService.getCommentResponsesByCommentId(comment_id);
+            comment.setCommentResponses(commentResponses);
+            for(int j=0;j<commentResponses.size();j++){
+                User user_comment_response = userService.getUserByCommentResponseId(commentResponses.get(j).getId());
+                commentResponses.get(j).setUser(user_comment_response);
+                commentResponses.get(j).setComment(comment);
+            }
+        }
+
+        List<String> videoExtensions = new ArrayList<String>();
+        videoExtensions.add(".mp4");
+        Boolean isVideo = false;
+        String fileUrl = artisticContentService.getContentUrlById(artistic_content_id);
+        for(int i=0;i<videoExtensions.size();i++){
+            if(fileUrl.contains(videoExtensions.get(i))){
+                isVideo =true;
+                break;
+            }
+        }
+        
+        model.put("isVideo",isVideo);
+        model.put("comment", new Comment());
+        model.put("existingComments", existingComments);
         model.put("artisticContentData", artisticContentData);
         model.put("contentType", contentType);
         return "view_content.html";

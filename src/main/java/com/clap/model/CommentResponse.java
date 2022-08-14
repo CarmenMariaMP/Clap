@@ -9,7 +9,6 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
@@ -24,9 +23,9 @@ import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 @Node
 @Data
 @EqualsAndHashCode(of = "id")
-@ToString(exclude = { "user","artisticContent"})
+@ToString(exclude = { "comment"})
 @NoArgsConstructor
-public class Comment implements Serializable {
+public class CommentResponse implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -40,14 +39,11 @@ public class Comment implements Serializable {
     @Property("date")
     private Date date;
 
-    @Property("comment_responses")
-    private List<CommentResponse> commentResponses;
+    @Relationship(value = "BELONGS_TO_COMMENT", direction = Relationship.Direction.OUTGOING)
+    @JsonIgnoreProperties(value = { "user","artisticContent"}, allowSetters = true)
+    private Comment comment;
 
-    @Relationship(value = "HAS_COMMENT_USER", direction = Relationship.Direction.OUTGOING)
+    @Relationship(value = "HAS_COMMENT_RESPONSE_USER", direction = Relationship.Direction.OUTGOING)
     @JsonIgnoreProperties(value = { "privacyRequests" }, allowSetters = true)
     private User user;
-
-    @Relationship(value = "HAS_COMMENT_ARTISTIC_CONTENT", direction = Relationship.Direction.OUTGOING)
-    @JsonIgnoreProperties(value = { "privacyRequests" }, allowSetters = true)
-    private ArtisticContent artisticContent;
 }

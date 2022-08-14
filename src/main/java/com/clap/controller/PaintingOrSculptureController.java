@@ -1,5 +1,6 @@
 package com.clap.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -15,12 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.clap.model.Comment;
 import com.clap.model.PaintingOrSculpture;
 import com.clap.model.User;
 import com.clap.model.Validators.ArtisticUploadDataValidator;
 import com.clap.model.dataModels.ArtisticContentData;
 import com.clap.model.utils.FileUploadUtil;
 import com.clap.services.ArtisticContentService;
+import com.clap.services.CommentService;
 import com.clap.services.PaintingOrSculptureService;
 import com.clap.services.UserService;
 
@@ -32,6 +35,7 @@ public class PaintingOrSculptureController {
     private final UserService userService;
     private final PaintingOrSculptureService paintingOrSculptureService;
     private final ArtisticContentService artisticContentService;
+    private final CommentService commentService;
     private final ArtisticUploadDataValidator paintinOrSculptureUploadDataValidator;
 
     @GetMapping("/create_painting_or_sculpture_content")
@@ -111,6 +115,10 @@ public class PaintingOrSculptureController {
         artisticContentData.setOwner(owner);
         artisticContentData.setId(paintingOrSculptureContent.getId());
 
+        List<Comment> existingComments = commentService.getsCommentsByContentId(artistic_content_id);
+        
+        model.put("comment", new Comment());
+        model.put("existingComments", existingComments);
         model.put("artisticContentData", artisticContentData);
         model.put("contentType", contentType);
         return "view_content.html";

@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
@@ -38,5 +38,5 @@ public class Tag implements Serializable {
 
     @Relationship("HAS_TAG_ARTISTIC_CONTENT")
     @JsonIgnoreProperties(value = { "tags", "projects" }, allowSetters = true)
-    private Set<ArtisticContent> artisticContents = new HashSet<>();
+    private List<ArtisticContent> artisticContents = new ArrayList<ArtisticContent>();
 }

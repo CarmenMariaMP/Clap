@@ -35,7 +35,7 @@ public class TagController {
         if (username == null) {
             return "redirect:/login";
         }
-        List<Tag> existingTags = tagService.getTagsByContentIdAndUserId(artistic_content_id, user_id);
+        List<Tag> existingTags = tagService.getTagsByContentId(artistic_content_id);
         model.put("tag", new Tag());
         model.put("user_id", user_id);
         model.put("artistic_content_id", artistic_content_id);
