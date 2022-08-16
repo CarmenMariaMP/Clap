@@ -82,6 +82,7 @@ public class ArtisticContentController {
         }
     }
 
+    /* 
     @PostMapping("/search")
     public String searchContent(@Valid @ModelAttribute("search") Search search, Map<String, Object> model,
             BindingResult result) {
@@ -109,4 +110,5 @@ public class ArtisticContentController {
         model.put("contents", contents);
         return "landing_page.html";
     }
+    */
 }
