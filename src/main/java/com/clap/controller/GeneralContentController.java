@@ -70,7 +70,7 @@ public class GeneralContentController {
         User user = userService.getUserByUsername(username).orElse(null);
 
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        if (fileName.isBlank()) {
+        if (fileName.equals("")) {
             fileName = "invalidFileName";
         }
         generalUploadData.setContentUrl("/img/user-files/" + user.getId() + "/general/" + fileName);
