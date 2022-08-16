@@ -22,6 +22,7 @@ public class ContentCreatorRegisterValidator implements Validator {
         ContentCreatorRegisterData contentCreatorRegisterData = (ContentCreatorRegisterData) target;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "", "Username cannot be empty!");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fullName", "", "Full name cannot be empty!");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "", "Email cannot be empty!");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phone", "", "Phone cannot be empty!");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "", "Password cannot be empty!");

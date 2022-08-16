@@ -1,5 +1,6 @@
 package com.clap.model.Validators;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -52,14 +53,31 @@ public class CompanyManagementValidator implements Validator {
             errors.rejectValue("taxIdNumber", "", "The tax Id number entered is invalid, it must have 9 numbers");
         }
 
-        List<String> usernames= userService.getAllUsernames();
+        List<String> usernames = userService.getAllUsernames();
         String username_logged_user = userService.getLoggedUser();
-        for (int i=0;i<usernames.size();i++){
-            if(errors.getFieldErrorCount("username") == 0 && !companyManagementData.getUsername().equals(username_logged_user)){
-                if(usernames.get(i).equals(companyManagementData.getUsername())){
+        for (int i = 0; i < usernames.size(); i++) {
+            if (errors.getFieldErrorCount("username") == 0
+                    && !companyManagementData.getUsername().equals(username_logged_user)) {
+                if (usernames.get(i).equals(companyManagementData.getUsername())) {
                     errors.rejectValue("username", "", "This username is taken. Try another one");
                 }
             }
+        }
+
+        List<String> validFileExtensions = new ArrayList<String>();
+        validFileExtensions.add(".png");
+        validFileExtensions.add(".PNG");
+        validFileExtensions.add(".jpg");
+        validFileExtensions.add(".jpeg");
+        Boolean isValid = false;
+        for(int i=0;i<validFileExtensions.size();i++){
+            if(companyManagementData.getPhotoUrl().contains(validFileExtensions.get(i))){
+                isValid =true;
+                break;
+            }
+        }
+        if(!isValid){
+            errors.rejectValue("photoUrl", "", "Extension invalid. The valid extensions are .png, .PNG, .jpeg, .jpg");
         }
         
     }

@@ -74,7 +74,6 @@ public class PrivacyRequestService {
         privacyRequest.setRequestDate(Date.from(Instant.now()));
         privacyRequest.setRequestState("PENDING");
         privacyRequestRepository.save(privacyRequest);
-        return;
     }
 
     public void acceptPrivacyRequest(User sender, String requestId) throws Exception {

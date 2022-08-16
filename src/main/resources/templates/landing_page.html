@@ -9,65 +9,79 @@
 </head>
 
 <body>
-  <section class="h-100 h-custom">
-    <div class="container h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-lg-8 col-xl-6">
-          <div class="card rounded-3 container">
-            <div class="d-flex justify-content-center" style="margin-top:20px ;">
-              <a class="navbar-brand" href="/"><img th:src="@{/img/clap_logo_horizontal.png}" width="300"
-                  height="85"></a>
-            </div>
-            <h2 class="d-flex justify-content-center dark-blue-text">Welcome to Clap!</h2>
-            <p class="small text-muted mb-1 d-flex justify-content-center">Not yet registered?</p>
-            <p class="small text-muted mb-1 d-flex justify-content-center"> Register as <a
-                style="margin-left: 4px; margin-right: 4px;" type="button" th:href="@{/register_content_creator.html}">
-                content creator
-              </a> or as
-              <a style="margin-left: 2px;" type="button" th:href="@{/register_company.html}">
-                company
-              </a>
-            </p>
-            <p class="small text-muted mb-1 d-flex justify-content-center" style="margin-top: 15px;">Log in?
-              <a style="margin-left: 2px; margin-right: 2px;" type="button" th:href="@{/login.html}">
-                Sign up
-              </a>
-            </p>
-            <hr style="height:2px;border-width:0;" class="grey">
-            <div class="alert d-flex justify-content-center gold dark-blue-text" role="alert" th:if="${contents.empty}">
-              There is currently no content, sorry for the inconvenience.
-            </div>
-            <div class="card-body p-4 p-md-5">
-              <div class="card mb-3" style="max-width: 540px;" th:each="content : ${contents}">
-                <div class="row g-0">
-                  <div class="col-md-4">
-                    <img th:src="${content.owner.photoUrl}"
-                      class="img-fluid rounded-start" alt="...">
-                    <h6 class="d-flex justify-content-center" style="margin-top: 5px;">@<span th:text="${content.owner.username}"></h6>
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title"><span th:text="${content.title}"></span></h5>
-                      <p class="card-text"><span th:text="${content.description}"></span></p>
-                      <div class="row">
-                        <p class="card-text col-md-8"><small class="text-muted">Category :
-                            <span th:text="${content.type}"></small></p>
-                        <p class="card-text col-md-4"><small class="text-muted"><span
-                              th:text="${content.viewCount}"></span> views</small></p>
-                      </div>
+  <span th:if="${logged_user}">
+    <div th:replace="navbarFragment :: navbarFragment"> </div>
+    <section class="h-100 py-5 h-custom">
+  </span>
+  <span th:unless="${logged_user}">
+    <section class="h-100 h-custom">
+  </span>
+  <div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-8 col-xl-6">
+        <div class="card rounded-3 container">
+          <div class="d-flex justify-content-center" style="margin-top:20px ;">
+            <a class="navbar-brand" href="/"><img th:src="@{/img/clap_logo_horizontal.png}" width="300" height="85"></a>
+          </div>
+          <h2 class="d-flex justify-content-center dark-blue-text">Welcome to Clap!</h2>
+          <span th:unless="${logged_user}">
+          <p class="small text-muted mb-1 d-flex justify-content-center">Not yet registered?</p>
+          <p class="small text-muted mb-1 d-flex justify-content-center"> Register as <a
+              style="margin-left: 4px; margin-right: 4px;" type="button" th:href="@{/register_content_creator.html}">
+              content creator
+            </a> or as
+            <a style="margin-left: 2px;" type="button" th:href="@{/register_company.html}">
+              company
+            </a>
+          </p>
+          <p class="small text-muted mb-1 d-flex justify-content-center" style="margin-top: 15px;">Log in?
+            <a style="margin-left: 2px; margin-right: 2px;" type="button" th:href="@{/login.html}">
+              Sign up
+            </a>
+          </p>
+        </span>
+          <hr style="height:2px;border-width:0;" class="grey">
+          <div class="alert d-flex justify-content-center gold dark-blue-text" role="alert" th:if="${contents.empty}">
+            There is currently no content, sorry for the inconvenience.
+          </div>
+          <div class="card-body p-4 p-md-5">
+            <div class="card mb-3" style="max-width: 540px;" th:each="content : ${contents}">
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <img th:src="${content.owner.photoUrl}" class="img-fluid rounded-start" alt="...">
+                  <h6 class="d-flex justify-content-center" style="margin-top: 5px;"><span th:unless="${logged_user}">
+                    <a href="/no_privileges_view.html">@ <span th:text="${content.owner.username}"></span></a></span>
+                  <span th:if="${logged_user}">
+                    <a th:href="@{'/profile/' + ${content.owner.id}}">@ <span th:text="${content.owner.username}"></span></a></span></h6>
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <span th:unless="${logged_user}">
+                        <a href="/no_privileges_view.html">Title: <span th:text="${content.title}"></span></a></span>
+                      <span th:if="${logged_user}">
+                        <a th:href="@{'/owner/' + ${content.owner.id} +'/content/'+ ${content.id}}">Title: <span th:text="${content.title}"></span></a></span>
+                    </h5>
+                    <p class="card-text">Description: <span th:text="${content.description}"></span></p>
+                    <div class="row">
+                      <p class="card-text col-md-8"><small class="text-muted">Category :
+                          <span th:text="${content.type}"></small></p>
+                      <p class="card-text col-md-4"><small class="text-muted"><span
+                            th:text="${content.viewCount}"></span> views</small></p>
                     </div>
                   </div>
                 </div>
               </div>
-              <br>
             </div>
+            <br>
           </div>
         </div>
       </div>
     </div>
-    </div>
-    </div>
-    </div>
+  </div>
+  </div>
+  </div>
+  </div>
   </section>
 
 </body>

@@ -56,7 +56,8 @@ public class UserService implements UserDetailsService {
     public User setUserArtisticContent(String title, ArtisticContent content) {
         User user = userRepository.getOwnerByTitle(title);
         content.setOwner(user);
-        return null;
+        userRepository.save(user);
+        return user;
     }
 
     public Optional<User> getUserByUsername(String username) {
@@ -79,6 +80,18 @@ public class UserService implements UserDetailsService {
         return userRepository.getAllUsernames();
     }
 
+    public User getUserByArtisticContentId(String artistic_content_id){
+        return userRepository.findUserByArtisticContentId(artistic_content_id);
+    }
+
+    public User getUserByCommentId(String id){
+        return userRepository.findUserByCommentId(id);
+    }
+
+    public User getUserByCommentResponseId(String id){
+        return userRepository.findUserByCommentResponseId(id);
+    }
+
     public Boolean userExists(User user) {
         Boolean userExist = false;
         Optional<User> userFound = getUserByUsername(user.getUsername());
@@ -99,5 +112,4 @@ public class UserService implements UserDetailsService {
         }
         return username;
     }
-
 }

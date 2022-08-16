@@ -11,12 +11,13 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.clap.model.ArtisticContent;
 import com.clap.model.User;
-import com.clap.repository.ArtisticContentRepository;
+import com.clap.services.ArtisticContentService;
 import com.clap.services.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,12 +25,17 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class UserController {
-    private final ArtisticContentRepository artisticContentRepository;
+    private final  ArtisticContentService artisticContentService;
     private final UserService userService;
 
     @GetMapping("/")
     public String index(Model model) {
-        List<ArtisticContent> contents = artisticContentRepository.getArtisticContent();
+        Boolean logged_user = false;
+        String username = userService.getLoggedUser();
+		if (username != null) {
+			logged_user=true;
+		}
+        List<ArtisticContent> contents = artisticContentService.getArtisticContent();
 
         for (int i = 0; i < contents.size(); i++) {
             ArtisticContent content = contents.get(i);
@@ -37,7 +43,14 @@ public class UserController {
             userService.setUserArtisticContent(title, content);
         }
         model.addAttribute("contents", contents);
-        return "landing_page";
+        model.addAttribute("logged_user", logged_user);
+        return "landing_page.html";
+
+    }
+
+    @GetMapping("/no_privileges_view.html")
+    public String choose_category() {
+        return "no_privileges_view.html";
     }
 
     @RequestMapping("/login.html")
@@ -73,4 +86,20 @@ public class UserController {
 			return "redirect:/account/company";
 		}
 	}
+
+    /* 
+    @PostMapping("/account/delete")
+	public String deleteUserAccount() {
+		String username = userService.getLoggedUser();
+		if (username == null) {
+			return "redirect:/login";
+		}
+        try {
+            userService.deleteAccount(username);
+        } catch (Exception e) {
+            return "redirect:/account/";
+        }
+        return "redirect:/";
+	}
+    */
 }

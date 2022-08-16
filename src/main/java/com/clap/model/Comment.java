@@ -2,11 +2,15 @@ package com.clap.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
@@ -18,8 +22,10 @@ import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
  * A Comment.
  */
 @Node
-@Getter
-@Setter
+@Data
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = { "user","artisticContent"})
+@NoArgsConstructor
 public class Comment implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,42 +38,16 @@ public class Comment implements Serializable {
     private String text;
 
     @Property("date")
-    private LocalDate date;
+    private Date date;
 
-    @Relationship(value = "HAS_COMMENT", direction = Relationship.Direction.INCOMING)
+    @Property("comment_responses")
+    private List<CommentResponse> commentResponses;
+
+    @Relationship(value = "HAS_COMMENT_USER", direction = Relationship.Direction.OUTGOING)
     @JsonIgnoreProperties(value = { "privacyRequests" }, allowSetters = true)
     private User user;
 
-    @Relationship(value = "HAS_COMMENT", direction = Relationship.Direction.INCOMING)
+    @Relationship(value = "HAS_COMMENT_ARTISTIC_CONTENT", direction = Relationship.Direction.OUTGOING)
     @JsonIgnoreProperties(value = { "privacyRequests" }, allowSetters = true)
     private ArtisticContent artisticContent;
-
-    // jhipster-needle-entity-add-field - JHipster will add fields here
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Comment)) {
-            return false;
-        }
-        return id != null && id.equals(((Comment) o).id);
-    }
-
-    @Override
-    public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
-        return getClass().hashCode();
-    }
-
-    // prettier-ignore
-    @Override
-    public String toString() {
-        return "Comment{" +
-            "id=" + getId() +
-            ", text='" + getText() + "'" +
-            ", date='" + getDate() + "'" +
-            "}";
-    }
 }
