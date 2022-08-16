@@ -11,6 +11,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -85,4 +86,20 @@ public class UserController {
 			return "redirect:/account/company";
 		}
 	}
+
+    /* 
+    @PostMapping("/account/delete")
+	public String deleteUserAccount() {
+		String username = userService.getLoggedUser();
+		if (username == null) {
+			return "redirect:/login";
+		}
+        try {
+            userService.deleteAccount(username);
+        } catch (Exception e) {
+            return "redirect:/account/";
+        }
+        return "redirect:/";
+	}
+    */
 }

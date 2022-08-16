@@ -43,8 +43,8 @@ public class TagController {
         return "tags.html";
     }
 
-    @PostMapping("/owner/{user_id}/content/{artistic_content_id}/tag")
-    public String addRoles(@Valid @ModelAttribute("tag") Tag tag,
+    @PostMapping("/owner/{user_id}/content/{artistic_content_id}/add_tag")
+    public String addTag(@Valid @ModelAttribute("tag") Tag tag,
             @PathVariable String user_id, @PathVariable String artistic_content_id, Map<String, Object> model,
             BindingResult result) {
         String username = userService.getLoggedUser();
@@ -66,4 +66,25 @@ public class TagController {
         model.put("contentType", contentType);
         return String.format("redirect:/owner/%s/content/%s/tag", user_id, artistic_content_id);
     }
+
+    @PostMapping("/owner/{user_id}/content/{artistic_content_id}/delete_tag/{tag_id}")
+    public String deleteTag(@PathVariable String user_id, @PathVariable String artistic_content_id,
+            @PathVariable String tag_id, Map<String, Object> model) {
+        String username = userService.getLoggedUser();
+        if (username == null) {
+            return "redirect:/login";
+        }
+        String contentType = artisticContentService.getTypeById(artistic_content_id);
+        try {
+            Tag tag = tagService.getById(tag_id).orElse(null);
+            tagService.deleteTag(tag, artistic_content_id);
+        } catch (Exception e) {
+            return "tags.html";
+        }
+        model.put("user_id", user_id);
+        model.put("artistic_content_id", artistic_content_id);
+        model.put("contentType", contentType);
+        return String.format("redirect:/owner/%s/content/%s/tag", user_id, artistic_content_id);
+    }
+
 }

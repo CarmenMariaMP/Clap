@@ -31,6 +31,10 @@ public class ArtisticContentService {
     return artisticContentRepository.findIdByTitle(title);
   }
 
+  public String getIdByContentUrl(String content_url) {
+    return artisticContentRepository.findIdByContentUrl(content_url);
+  }
+
   public Optional<ArtisticContent> getContentById(String id) {
     return artisticContentRepository.findById(id);
   }
@@ -45,6 +49,22 @@ public class ArtisticContentService {
 
   public String getContentUrlById(String artistic_content_id) {
     return artisticContentRepository.findContentUrlById(artistic_content_id);
+  }
+
+  public List<ArtisticContent> getFavouritesContentsByUsername(String username) {
+    return artisticContentRepository.findFavouritesContentsByUsername(username);
+  }
+
+  public List<ArtisticContent> getContentsByFavouriteId(String favourite_id) {
+    return artisticContentRepository.findContentsByFavouriteId(favourite_id);
+  }
+
+  public List<ArtisticContent> getContentsByLikeId(String like_id) {
+    return artisticContentRepository.findContentsByLikeId(like_id);
+  }
+
+  public List<ArtisticContent> getContentsByTagId(String tag_id) {
+    return artisticContentRepository.findContentsByTagId(tag_id);
   }
 
 

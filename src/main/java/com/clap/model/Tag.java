@@ -29,6 +29,7 @@ public class Tag implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Property("tag_id")
     @Id
     @GeneratedValue(UUIDStringGenerator.class)
     private String id;

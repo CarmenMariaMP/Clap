@@ -13,11 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.clap.model.Role;
-import com.clap.model.Tag;
 import com.clap.model.Validators.RoleValidator;
-import com.clap.services.ArtisticContentService;
 import com.clap.services.RoleService;
-import com.clap.services.TagService;
 import com.clap.services.UserService;
 
 import lombok.RequiredArgsConstructor;

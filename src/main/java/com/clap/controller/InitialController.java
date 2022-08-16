@@ -54,11 +54,6 @@ public class InitialController {
         return "create_project.html";
     }
 
-    @GetMapping("/list_favourites")
-    public String list_favourites() {
-        return "list_favourites.html";
-    }
-
     @GetMapping("/notifications")
     public String notifications() {
         return "notifications.html";

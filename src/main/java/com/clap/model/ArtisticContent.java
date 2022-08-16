@@ -65,7 +65,7 @@ public abstract class ArtisticContent implements Serializable {
     @JsonIgnoreProperties(value = { "favourites"}, allowSetters = true)
     private User owner;
 
-    @Relationship(value = "HAS_ARTISTIC_CONTENT", direction = Relationship.Direction.INCOMING)
+    @Relationship(value = "HAS_ARTISTIC_CONTENT_FAVOURITES_USERS", direction = Relationship.Direction.INCOMING)
     @JsonIgnoreProperties(value = { "favourites"}, allowSetters = true)
     private Set<User> users_favourites = new HashSet<>();
 

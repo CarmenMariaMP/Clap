@@ -22,6 +22,7 @@ public class CompanyRegisterValidator implements Validator {
         CompanyRegisterData companyRegisterData = (CompanyRegisterData) target;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "", "Username cannot be empty!");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "companyName", "", "Company Name cannot be empty!");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "", "Email cannot be empty!");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phone", "", "Phone cannot be empty!");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "", "Password cannot be empty!");

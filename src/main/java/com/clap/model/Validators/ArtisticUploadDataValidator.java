@@ -27,10 +27,15 @@ public class ArtisticUploadDataValidator implements Validator{
         ArtisticContentData artisticContentData = (ArtisticContentData) target;
         
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "", "Title cannot be empty!");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "", "Title cannot be empty!");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "multipartFile", "", "File cannot be empty!");
 
         if (errors.getFieldErrorCount("title")==0 && artisticContentService.getIdByTitle(artisticContentData.getTitle())!=null){
             errors.rejectValue("title", "", "This title already exists. Please enter a new one");
+        }
+
+        if (artisticContentService.getIdByContentUrl(artisticContentData.getContentUrl())!=null){
+            errors.rejectValue("contentUrl", "", "There is a file that already exists with this name. Please enter a new one");
         }
 
         List<String> validFileExtensions = new ArrayList<String>();
@@ -50,7 +55,7 @@ public class ArtisticUploadDataValidator implements Validator{
             errors.rejectValue("contentUrl", "", "File cannot be empty!");
         }else{
             if(!isValid){
-                errors.rejectValue("contentUrl", "", "Extension invalid. The valid extensions are .png, .PNG, .jpeg, .jpg");
+                errors.rejectValue("contentUrl", "", "Extension invalid. The valid extensions are .png, .PNG, .jpeg, .jpg, .mp4");
             }
         }
 

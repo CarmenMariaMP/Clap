@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.clap.model.Comment;
 import com.clap.model.Dance;
+import com.clap.model.Favourite;
 import com.clap.model.User;
 import com.clap.model.Validators.ArtisticUploadDataValidator;
 import com.clap.model.dataModels.ArtisticContentData;
@@ -26,6 +27,8 @@ import com.clap.model.utils.FileUploadUtil;
 import com.clap.services.ArtisticContentService;
 import com.clap.services.CommentService;
 import com.clap.services.DanceService;
+import com.clap.services.FavouriteService;
+import com.clap.services.LikeService;
 import com.clap.services.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -37,6 +40,8 @@ public class DanceController {
     private final DanceService danceService;
     private final ArtisticContentService artisticContentService;
     private final CommentService commentService;
+    private final FavouriteService favouriteService;
+    private final LikeService likeService;
     private final ArtisticUploadDataValidator danceUploadDataValidator;
 
     @GetMapping("/create_dance_content")
@@ -133,6 +138,26 @@ public class DanceController {
         
         List<Comment> existingComments = commentService.getsCommentsByContentId(artistic_content_id);
         
+        List<String> videoExtensions = new ArrayList<String>();
+        videoExtensions.add(".mp4");
+        Boolean isVideo = false;
+        String fileUrl = artisticContentService.getContentUrlById(artistic_content_id);
+        for(int i=0;i<videoExtensions.size();i++){
+            if(fileUrl.contains(videoExtensions.get(i))){
+                isVideo =true;
+                break;
+            }
+        }
+        User logged_user = userService.getUserByUsername(username).orElse(null);
+        Boolean alreadyFavourite = favouriteService.isAlreadyFavouriteOf(logged_user.getId(), artistic_content_id);
+        Boolean alreadyLike = likeService.isAlreadyLikeOf(logged_user.getId(), artistic_content_id);
+        Integer numberOfLikes = likeService.getLikeCount(artistic_content_id);
+        
+        model.put("alreadyFavourite",alreadyFavourite);
+        model.put("alreadyLike",alreadyLike);
+        model.put("numberOfLikes",numberOfLikes);
+        model.put("favourite", new Favourite());
+        model.put("isVideo",isVideo);
         model.put("comment", new Comment());
         model.put("existingComments", existingComments);
         model.put("artisticContentData", artisticContentData);

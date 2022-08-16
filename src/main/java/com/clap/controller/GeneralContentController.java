@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
-import org.hibernate.boot.archive.internal.FileInputStreamAccess;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -21,16 +20,18 @@ import org.springframework.web.multipart.MultipartFile;
 import com.clap.model.ArtisticContent;
 import com.clap.model.Comment;
 import com.clap.model.CommentResponse;
+import com.clap.model.Favourite;
 import com.clap.model.General;
 import com.clap.model.User;
 import com.clap.model.Validators.ArtisticUploadDataValidator;
 import com.clap.model.dataModels.ArtisticContentData;
 import com.clap.model.utils.FileUploadUtil;
-import com.clap.repository.CommentRepository;
 import com.clap.services.ArtisticContentService;
 import com.clap.services.CommentResponseService;
 import com.clap.services.CommentService;
+import com.clap.services.FavouriteService;
 import com.clap.services.GeneralContentService;
+import com.clap.services.LikeService;
 import com.clap.services.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -44,7 +45,8 @@ public class GeneralContentController {
     private final CommentService commentService;
     private final CommentResponseService commentResponseService;
     private final ArtisticUploadDataValidator generalUploadDataValidator;
-    private final CommentRepository commentRepository;
+    private final FavouriteService favouriteService;
+    private final LikeService likeService;
 
     @GetMapping("/create_general_content")
     public String createGeneralContentView(Map<String, Object> model) {
@@ -144,9 +146,19 @@ public class GeneralContentController {
                 break;
             }
         }
+
+        User logged_user = userService.getUserByUsername(username).orElse(null);
+        Boolean alreadyFavourite = favouriteService.isAlreadyFavouriteOf(logged_user.getId(), artistic_content_id);
+        Boolean alreadyLike = likeService.isAlreadyLikeOf(logged_user.getId(), artistic_content_id);
+        Integer numberOfLikes = likeService.getLikeCount(artistic_content_id);
         
+        model.put("alreadyFavourite",alreadyFavourite);
+        model.put("alreadyLike",alreadyLike);
+        model.put("numberOfLikes",numberOfLikes);
+        model.put("favourite", new Favourite());
         model.put("isVideo",isVideo);
         model.put("comment", new Comment());
+        model.put("commentResponse", new CommentResponse());
         model.put("existingComments", existingComments);
         model.put("artisticContentData", artisticContentData);
         model.put("contentType", contentType);
