@@ -65,7 +65,7 @@ public class MusicController {
         User user = userService.getUserByUsername(username).orElse(null);
 
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        if (fileName.isBlank()) {
+        if (fileName.equals("")) {
             fileName = "invalidFileName";
         }
         musicUploadData.setContentUrl("/img/user-files/" + user.getId() + "/music/" + fileName);

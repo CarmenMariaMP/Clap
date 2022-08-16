@@ -86,7 +86,7 @@ public class CinemaController {
         User user = userService.getUserByUsername(username).orElse(null);
 
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        if (fileName.isBlank()) {
+        if (fileName.equals("")) {
             fileName = "invalidFileName";
         }
         cinemaUploadData.setContentUrl("/img/user-files/" + user.getId() + "/cinema/" + fileName);

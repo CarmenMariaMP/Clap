@@ -66,7 +66,7 @@ public class PaintingOrSculptureController {
         User user = userService.getUserByUsername(username).orElse(null);
 
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        if (fileName.isBlank()) {
+        if (fileName.equals("")) {
             fileName = "invalidFileName";
         }
         paintingOrSculptureUploadData

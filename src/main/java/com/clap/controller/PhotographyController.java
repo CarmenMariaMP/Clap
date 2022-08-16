@@ -66,7 +66,7 @@ public class PhotographyController {
         User user = userService.getUserByUsername(username).orElse(null);
 
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        if (fileName.isBlank()) {
+        if (fileName.equals("")) {
             fileName = "invalidFileName";
         }
         photographyUploadData.setContentUrl("/img/user-files/" + user.getId() + "/photography/" + fileName);
