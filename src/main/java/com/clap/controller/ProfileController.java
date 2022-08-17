@@ -1,5 +1,7 @@
 package com.clap.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +18,7 @@ import com.clap.model.Company;
 import com.clap.model.ContentCreator;
 import com.clap.model.PrivacyRequest;
 import com.clap.model.Role;
+import com.clap.model.Search;
 import com.clap.model.User;
 import com.clap.model.dataModels.UserProfileData;
 import com.clap.repository.CompanyRepository;
@@ -83,8 +86,10 @@ public class ProfileController {
     @RequestMapping("/profile/{user_id}")
     public String getProfileView(@PathVariable String user_id, Map<String, Object> model,
             @ModelAttribute UserProfileData userProfileData) {
-        String type = userService.getTypeById(user_id);
-        if (type == null) {
+        String type_profile = userService.getTypeById(user_id);
+        String username_logged_user = userService.getLoggedUser();
+        String type_logged_user = userService.getTypeByUsername(username_logged_user);
+        if (type_profile == null) {
             return "redirect:/";
         } else {
             String logged_username = userService.getLoggedUser();
@@ -102,7 +107,7 @@ public class ProfileController {
             ContentCreator contentCreator = new ContentCreator();
             Company company = new Company();
 
-            if (type.equals("CONTENT_CREATOR")) {
+            if (type_profile.equals("CONTENT_CREATOR")) {
                 contentCreator = contentCreatorRepository.getContentCreatorById(user_id);
                 userProfileData.setContentCreator(contentCreator);
                 username = contentCreator.getUsername();
@@ -117,7 +122,7 @@ public class ProfileController {
 
             List<ArtisticContent> uploaded_contents = artisticContentService.getContentByOwner(username);
             Integer total_posts = uploaded_contents.size();
-            if (type.equals("CONTENT_CREATOR")) {
+            if (type_profile.equals("CONTENT_CREATOR")) {
                 for (int i = 0; i < total_posts; i++) {
                     owner = toUserFromContentCreator(contentCreator);
                     uploaded_contents.get(i).setOwner(owner);
@@ -133,12 +138,16 @@ public class ProfileController {
             Set<ArtisticContent> attached_contents = new HashSet<ArtisticContent>();
 
             List<Role> roles_user = roleService.getRolesByUsername(username);
+            List<String> roles = new ArrayList<String>();
+            Map<String,ArtisticContent> roles_and_content = new HashMap<>();
             for (int i = 0; i < roles_user.size(); i++) {
                 String id = roles_user.get(i).getId();
                 ArtisticContent ac = artisticContentService.getByRoleId(id);
                 User user = userService.getUserByArtisticContentId(ac.getId());
+                roles.add(roles_user.get(i).getText());
                 ac.setOwner(user);
                 attached_contents.add(ac);
+                roles_and_content.put(roles_user.get(i).getText(), ac);
             }
 
             String privacyRequestState = "";
@@ -148,7 +157,10 @@ public class ProfileController {
                 privacyRequestState = pr.getRequestState();
             }
 
-            model.put("type", type);
+            model.put("roles", roles);
+            model.put("roles_and_content", roles_and_content);
+            model.put("type_logged_user", type_logged_user);
+            model.put("type", type_profile);
             model.put("userProfileData", userProfileData);
             model.put("uploaded_contents", uploaded_contents);
             model.put("attached_contents", attached_contents);
@@ -156,6 +168,7 @@ public class ProfileController {
             model.put("self_profile", self_profile);
             model.put("privacyRequestState", privacyRequestState);
             model.put("logged_username", logged_username);
+            model.put("search", new Search());
         }
         return "profile.html";
     }

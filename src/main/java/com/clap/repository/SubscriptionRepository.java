@@ -15,8 +15,8 @@ public interface SubscriptionRepository extends Neo4jRepository<Subscription, St
     public Set<Subscription> findByFollower(User follower);
     public Set<Subscription> findByFollowed(User followed);
 
-    @Query("MATCH (s:Subscription)" +" -[:HAS_FOLLOWED]" +"->" +"(u:User{username: $username_followed}) " +"WITH collect(s) as out" +" MATCH (s:Subscription)" +" -[:HAS_FOLLOWER]" +"->" +"(u:User{username: $username_follower})" +"return s")
-    public Optional<Subscription> findByFollowerAndFollowed(String username_followed, String username_follower);
+    @Query("MATCH (s:Subscription)" +" -[:HAS_FOLLOWED]" +"->" +"(u:User{username: $username_followed}) " +"WITH s" +" MATCH (s:Subscription)" +" -[:HAS_FOLLOWER]" +"->" +"(u:User{username: $username_follower})" +"return s")
+    public Optional<Subscription> findByFollowedAndFollower(String username_followed, String username_follower);
 
     @Query("MATCH (s:Subscription)" +" -[:HAS_FOLLOWED]" +"->" +"(u:User{username: $username})" +"return count(s) as count")
     public Integer followersCount(String username);

@@ -23,6 +23,8 @@ public class ContentCreatorManagementData {
 
 	String photoUrl;
 
+	String biography;
+
 	public static ContentCreatorManagementData fromContentCreator(ContentCreator cc) {
 		ContentCreatorManagementData contentCreatorManagementData = new ContentCreatorManagementData();
 		contentCreatorManagementData.setUsername(cc.getUsername());
@@ -32,6 +34,7 @@ public class ContentCreatorManagementData {
 		contentCreatorManagementData.setCountry(cc.getCountry());
 		contentCreatorManagementData.setPhone(cc.getPhone());
 		contentCreatorManagementData.setPhotoUrl(cc.getPhotoUrl());
+		contentCreatorManagementData.setBiography(cc.getBiography());
 		return contentCreatorManagementData;
 	}
 
@@ -43,5 +46,6 @@ public class ContentCreatorManagementData {
 		contentCreator.setCountry(getCountry());
 		contentCreator.setPhone(getPhone());
 		contentCreator.setPhotoUrl(getPhotoUrl());
+		contentCreator.setBiography(getBiography());
 	}
 }

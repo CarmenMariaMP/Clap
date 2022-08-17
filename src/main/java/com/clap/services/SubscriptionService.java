@@ -22,7 +22,7 @@ public class SubscriptionService {
     }
 
     public Boolean isAlreadySubscribedTo(String username_followed, String username_follower) {
-        return subscriptionRepository.findByFollowerAndFollowed(username_followed, username_follower).isPresent();
+        return subscriptionRepository.findByFollowedAndFollower(username_followed, username_follower).isPresent();
     }
 
     public void subscribeTo(User followed, User follower) {
@@ -36,8 +36,8 @@ public class SubscriptionService {
         return;
     }
 
-    public void unsubscribeFrom(User follower, User followed) {
-        Subscription subscription = subscriptionRepository.findByFollowerAndFollowed(follower.getUsername(), followed.getUsername()).orElse(null);
+    public void unsubscribeFrom(User followed, User follower) {
+        Subscription subscription = subscriptionRepository.findByFollowedAndFollower(followed.getUsername(), follower.getUsername()).orElse(null);
         if (subscription!=null) {
             subscriptionRepository.delete(subscription);
         }

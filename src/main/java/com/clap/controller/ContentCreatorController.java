@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.clap.model.ContentCreator;
+import com.clap.model.Search;
 import com.clap.model.Validators.ContentCreatorManagementValidator;
 import com.clap.model.Validators.ContentCreatorRegisterValidator;
 import com.clap.model.dataModels.ContentCreatorManagementData;
@@ -42,6 +43,7 @@ public class ContentCreatorController {
             return "redirect:/login";
         }
         model.put("contentCreatorRegisterData", new ContentCreatorRegisterData());
+        model.put("search", new Search());
         return "register_content_creator.html";
     }
 
@@ -78,6 +80,7 @@ public class ContentCreatorController {
         ContentCreatorManagementData c = ContentCreatorManagementData.fromContentCreator(contentCreator);
         model.put("contentCreatorManagementData",c);
         model.put("photoUrl",contentCreator.getPhotoUrl());
+        model.put("search", new Search());
         return "manage_creator_account.html";
     }
 

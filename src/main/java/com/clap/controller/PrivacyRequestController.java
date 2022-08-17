@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.clap.model.PrivacyRequest;
+import com.clap.model.Search;
 import com.clap.model.User;
 import com.clap.services.CompanyService;
 import com.clap.services.ContentCreatorService;
@@ -75,6 +76,7 @@ public class PrivacyRequestController {
                     String contentCreatorUsername= privacyRequests.get(i).getContentCreatorUsername();
                     privacyRequests.get(i).setContentCreator(contentCreatorService.getContentCreatorByUsername(contentCreatorUsername));
                 }
+                model.put("search", new Search());
                 model.put("privacyRequests",privacyRequests);
                 return "requests_state.html";
             }

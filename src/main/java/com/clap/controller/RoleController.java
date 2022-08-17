@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.clap.model.Role;
+import com.clap.model.Search;
 import com.clap.model.Validators.RoleValidator;
 import com.clap.services.RoleService;
 import com.clap.services.UserService;
@@ -38,6 +39,7 @@ public class RoleController {
         model.put("user_id", user_id);
         model.put("artistic_content_id", artistic_content_id);
         model.put("existingRoles", existingRoles);
+        model.put("search", new Search());
         return "roles.html";
     }
 

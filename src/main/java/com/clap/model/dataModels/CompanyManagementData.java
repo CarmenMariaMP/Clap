@@ -23,6 +23,8 @@ public class CompanyManagementData {
 
 	String photoUrl;
 
+	String biography;
+
 	public static CompanyManagementData fromCompany(Company co) {
 		CompanyManagementData companyManagementData = new CompanyManagementData();
 		companyManagementData.setUsername(co.getUsername());
@@ -32,6 +34,7 @@ public class CompanyManagementData {
 		companyManagementData.setTaxIdNumber(co.getTaxIdNumber());
 		companyManagementData.setOfficeAddress(co.getOfficeAddress());
 		companyManagementData.setPhotoUrl(co.getPhotoUrl());
+		companyManagementData.setBiography(co.getBiography());
 		return companyManagementData;
 	}
 
@@ -43,5 +46,6 @@ public class CompanyManagementData {
 		company.setTaxIdNumber(getTaxIdNumber());
 		company.setOfficeAddress(getOfficeAddress());
 		company.setPhotoUrl(getPhotoUrl());
+		company.setBiography(getBiography());
 	}
 }

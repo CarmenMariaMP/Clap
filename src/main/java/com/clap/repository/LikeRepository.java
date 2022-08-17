@@ -10,7 +10,7 @@ import com.clap.model.Like;
 
 @Repository
 public interface LikeRepository extends Neo4jRepository<Like, String>{
-    @Query("MATCH (l:Like)" +" -[:HAS_LIKE_USER]" +"->" +"(u:User{user_id:$user_id})" +" WITH collect(l) as out" +" MATCH (l:Like) " +"-[:HAS_LIKE_ARTISTIC_CONTENT]" +"->" +"(a:ArtisticContent{artistic_content_id: $artistic_content_id})" +"return l")
+    @Query("MATCH (l:Like)" +" -[:HAS_LIKE_USER]" +"->" +"(u:User{user_id:$user_id})" +" WITH l" +" MATCH (l:Like) " +"-[:HAS_LIKE_ARTISTIC_CONTENT]" +"->" +"(a:ArtisticContent{artistic_content_id: $artistic_content_id})" +"return l")
     public Optional<Like> findByUserAndContent(String user_id, String artistic_content_id);
 
     @Query("MATCH (l:Like)" +" -[:HAS_LIKE_USER]" +"->" +"(u:User{user_id: $user_id})" +"return l")

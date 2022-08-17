@@ -22,6 +22,8 @@ import com.clap.model.Comment;
 import com.clap.model.CommentResponse;
 import com.clap.model.Favourite;
 import com.clap.model.General;
+import com.clap.model.Search;
+import com.clap.model.Tag;
 import com.clap.model.User;
 import com.clap.model.Validators.ArtisticUploadDataValidator;
 import com.clap.model.dataModels.ArtisticContentData;
@@ -32,6 +34,7 @@ import com.clap.services.CommentService;
 import com.clap.services.FavouriteService;
 import com.clap.services.GeneralContentService;
 import com.clap.services.LikeService;
+import com.clap.services.TagService;
 import com.clap.services.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -47,6 +50,7 @@ public class GeneralContentController {
     private final ArtisticUploadDataValidator generalUploadDataValidator;
     private final FavouriteService favouriteService;
     private final LikeService likeService;
+    private final TagService tagService;
 
     @GetMapping("/create_general_content")
     public String createGeneralContentView(Map<String, Object> model) {
@@ -55,6 +59,7 @@ public class GeneralContentController {
             return "redirect:/login";
         }
         model.put("generalUploadData", new ArtisticContentData());
+        model.put("search", new Search());
         return "create_general_content.html";
     }
 
@@ -151,7 +156,18 @@ public class GeneralContentController {
         Boolean alreadyFavourite = favouriteService.isAlreadyFavouriteOf(logged_user.getId(), artistic_content_id);
         Boolean alreadyLike = likeService.isAlreadyLikeOf(logged_user.getId(), artistic_content_id);
         Integer numberOfLikes = likeService.getLikeCount(artistic_content_id);
-        
+
+        List<Tag> tagList = tagService.getTagsByContentId(artistic_content_id);
+        String tags = "";
+        for(int z=0;z<tagList.size();z++){
+            if(z==1){
+                tags = "#"+tagList.get(z).getText();
+            }else{
+                tags = tags+",#"+tagList.get(z).getText();
+            }
+        }
+
+        model.put("tags",tags);
         model.put("alreadyFavourite",alreadyFavourite);
         model.put("alreadyLike",alreadyLike);
         model.put("numberOfLikes",numberOfLikes);
@@ -162,6 +178,7 @@ public class GeneralContentController {
         model.put("existingComments", existingComments);
         model.put("artisticContentData", artisticContentData);
         model.put("contentType", contentType);
+        model.put("search", new Search());
         return "view_content.html";
     }
 }

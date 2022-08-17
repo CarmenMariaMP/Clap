@@ -24,7 +24,6 @@ public class CompanyRegisterValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "", "Username cannot be empty!");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "companyName", "", "Company Name cannot be empty!");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "", "Email cannot be empty!");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phone", "", "Phone cannot be empty!");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "", "Password cannot be empty!");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "",
 				"Password confirmation cannot be empty!");
@@ -51,7 +50,7 @@ public class CompanyRegisterValidator implements Validator {
             errors.rejectValue("email", "", "The email entered is invalid");
         }
 
-        if (errors.getFieldErrorCount("phone") == 0 && !patternMatches(companyRegisterData.getPhone(),"^((\\+)?[1-9]{1,2})?([-\\s\\.])?((\\(\\d{1,4}\\))|\\d{1,4})(([-\\s\\.])?[0-9]{1,12}){1,2}$")){
+        if (!companyRegisterData.getPhone().isEmpty() && !patternMatches(companyRegisterData.getPhone(),"^((\\+)?[1-9]{1,2})?([-\\s\\.])?((\\(\\d{1,4}\\))|\\d{1,4})(([-\\s\\.])?[0-9]{1,12}){1,2}$")){
             errors.rejectValue("phone", "", "The phone entered is invalid");
         }
 
