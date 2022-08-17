@@ -134,32 +134,35 @@
                       </div>
                       <div class="d-flex pt-1 justify-content-center">
                         <span th:if="${type == 'CONTENT_CREATOR'}">
-                          <div th:if="${privacyRequestState==''}">
-                            <form method="POST" class="d-flex justify-content-center"
-                              data-th-action="@{'/profile/' + ${userProfileData.getContentCreator().getId()} +'/sendPrivacyRequest/'}">
+                          <form method="POST" class="d-flex justify-content-center"
+                            data-th-action="@{'/profile/' + ${userProfileData.getContentCreator().getId()} +'/sendPrivacyRequest/'}">
+                            <span th:if="${privacyRequestState==''}">
                               <button type="submit"
                                 class="btn btn-outline-primary me-1 flex-grow-1 gold dark-blue-text">Request contact
                                 info</button>
+                            </span>
+                        </span>
+                        </form>
+                      </div>
+                      <div th:if="${type == 'CONTENT_CREATOR'}">
+                        <div th:unless="${self_profile}">
+                          <div th:unless="${alreadySubscribed}" class="row">
+                            <form method="POST" class="d-flex justify-content-center"
+                              data-th-action="@{'/profile/' + ${userProfileData.getContentCreator().getId()} +'/subscription/'}">
+                              <button type="submit" class="btn btn-primary flex-grow-1 gold dark-blue-text col-md-12"
+                                style="margin-top: 10px;">Follow</button>
                             </form>
                           </div>
-                          <div th:unless="${self_profile}">
-                            <div th:unless="${alreadySubscribed}" class="row">
-                              <form method="POST" class="d-flex justify-content-center"
-                                data-th-action="@{'/profile/' + ${userProfileData.getContentCreator().getId()} +'/subscription/'}">
-                                <button type="submit" class="btn btn-primary flex-grow-1 gold dark-blue-text col-md-12"
-                                  style="margin-top: 10px;">Follow</button>
-                              </form>
-                            </div>
-                            <div th:if="${alreadySubscribed}" class="row">
-                              <form method="POST" class="d-flex justify-content-center"
-                                data-th-action="@{'/profile/' + ${userProfileData.getContentCreator().getId()} + '/unsubscription/'}">
-                                <button type="submit" class="btn btn-primary flex-grow-1 gold dark-blue-text col-md-12"
-                                  style="margin-top: 10px;">Unfollow</button>
-                              </form>
-                            </div>
-                        </span>
-
+                          <div th:if="${alreadySubscribed}" class="row">
+                            <form method="POST" class="d-flex justify-content-center"
+                              data-th-action="@{'/profile/' + ${userProfileData.getContentCreator().getId()} + '/unsubscription/'}">
+                              <button type="submit" class="btn btn-primary flex-grow-1 gold dark-blue-text col-md-12"
+                                style="margin-top: 10px;">Unfollow</button>
+                            </form>
+                          </div>
+                        </div>
                       </div>
+                      </span>
                       <div th:if="${type == 'COMPANY'}">
                         <div th:unless="${self_profile}">
                           <span th:unless="${alreadySubscribed}">
@@ -182,7 +185,16 @@
                     </div>
                     <br>
                     <div>
-                      <p class="small text-muted mb-1"><span data-th-text="PAtata"></span></p>
+                      <span th:if="${type == 'CONTENT_CREATOR'}">
+                        <p class="small text-muted mb-1"><span
+                            data-th-text="${userProfileData.getContentCreator().getBiography()}"></span>
+                      </span></p>
+                      </span>
+                      <span th:if="${type == 'COMPANY'}">
+                        <p class="small text-muted mb-1"><span
+                            data-th-text="${userProfileData.getCompany().getBiography()}"></span>
+                      </span></p>
+                      </span>
                     </div>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                       <li class="nav-item" role="presentation">
@@ -277,8 +289,9 @@
                               <div class="col-md-4">
                                 <img th:src="${content.owner.photoUrl}" class="img-fluid rounded-start" alt="...">
                                 <a th:href="@{'/profile/' + ${content.owner.id}}">
-                                <h6 class="d-flex justify-content-center" style="margin-top: 5px;">@<span
-                                    th:text="${content.owner.username}"></h6></a>
+                                  <h6 class="d-flex justify-content-center" style="margin-top: 5px;">@<span
+                                      th:text="${content.owner.username}"></h6>
+                                </a>
                               </div>
                               <div class="col-md-8">
                                 <div class="card-body">

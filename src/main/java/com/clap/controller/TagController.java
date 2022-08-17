@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.clap.model.Search;
 import com.clap.model.Tag;
 import com.clap.model.Validators.TagValidator;
 import com.clap.services.ArtisticContentService;
@@ -40,6 +41,7 @@ public class TagController {
         model.put("user_id", user_id);
         model.put("artistic_content_id", artistic_content_id);
         model.put("existingTags", existingTags);
+        model.put("search", new Search());
         return "tags.html";
     }
 

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.clap.model.Company;
+import com.clap.model.Search;
 import com.clap.model.Validators.CompanyManagementValidator;
 import com.clap.model.Validators.CompanyRegisterValidator;
 import com.clap.model.dataModels.CompanyManagementData;
@@ -42,6 +43,7 @@ public class CompanyController {
             return "redirect:/login";
         }
         model.put("companyRegisterData", new CompanyRegisterData());
+        model.put("search", new Search());
         return "register_company.html";
     }
 
@@ -77,6 +79,7 @@ public class CompanyController {
         }
         CompanyManagementData c = CompanyManagementData.fromCompany(company);
         model.put("companyManagementData",c);
+        model.put("search", new Search());
         return "manage_company_account.html";
     }
 

@@ -1,5 +1,6 @@
 package com.clap.model.dataModels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -18,37 +19,37 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ArtisticContentData {
-    String id;
+	String id;
 
-    String type;
-	
-    String title;
+	String type;
 
-    String contentUrl;
-	
+	String title;
+
+	String contentUrl;
+
 	String description;
 
-    Integer viewCount;
+	Integer viewCount;
 
-    String materials;
+	String materials;
 
-    String place;
+	String place;
 
 	String size;
 
 	String techniques;
 
-    String camera;
+	String camera;
 
-    String music;
-
-    List<String> genres;
+	String music;
 
 	User owner;
 
-    MultipartFile multipartFile;
+	MultipartFile multipartFile;
 
-    public General toGeneralContent() {
+	List<String> genres;
+
+	public General toGeneralContent() {
 		General general = new General();
 		general.setId(getId());
 		general.setTitle(getTitle());
@@ -59,7 +60,7 @@ public class ArtisticContentData {
 		return general;
 	}
 
-    public PaintingOrSculpture toPaintingOrSculptureUploadDataContent() {
+	public PaintingOrSculpture toPaintingOrSculptureUploadDataContent() {
 		PaintingOrSculpture paintingOrSculpture = new PaintingOrSculpture();
 		paintingOrSculpture.setId(getId());
 		paintingOrSculpture.setTitle(getTitle());
@@ -74,7 +75,7 @@ public class ArtisticContentData {
 		return paintingOrSculpture;
 	}
 
-    public Photography toPhotographyContent() {
+	public Photography toPhotographyContent() {
 		Photography photography = new Photography();
 		photography.setId(getId());
 		photography.setTitle(getTitle());
@@ -89,40 +90,40 @@ public class ArtisticContentData {
 		return photography;
 	}
 
-    public Cinema toCinemaContent() {
+	public Cinema toCinemaContent() {
 		Cinema cinema = new Cinema();
 		cinema.setId(getId());
 		cinema.setTitle(getTitle());
 		cinema.setDescription(getDescription());
-        cinema.setGenres(getGenres());
 		cinema.setContentUrl(getContentUrl());
 		cinema.setViewCount(getViewCount());
 		cinema.setOwner(getOwner());
+		cinema.setGenres(getGenres());
 		return cinema;
 	}
 
-    public Dance toDanceContent() {
+	public Dance toDanceContent() {
 		Dance dance = new Dance();
 		dance.setId(getId());
 		dance.setTitle(getTitle());
 		dance.setDescription(getDescription());
 		dance.setMusic(getMusic());
-		dance.setGenres(getGenres());
 		dance.setContentUrl(getContentUrl());
 		dance.setViewCount(getViewCount());
 		dance.setOwner(getOwner());
+		dance.setGenres(getGenres());
 		return dance;
 	}
 
-    public Music toMusicContent() {
+	public Music toMusicContent() {
 		Music music = new Music();
 		music.setId(getId());
 		music.setTitle(getTitle());
 		music.setDescription(getDescription());
-        music.setGenres(getGenres());
 		music.setContentUrl(getContentUrl());
 		music.setViewCount(getViewCount());
 		music.setOwner(getOwner());
+		music.setGenres(getGenres());
 		return music;
 	}
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.clap.model.ArtisticContent;
 import com.clap.model.Favourite;
+import com.clap.model.Search;
 import com.clap.model.User;
 import com.clap.services.ArtisticContentService;
 import com.clap.services.FavouriteService;
@@ -42,6 +43,7 @@ public class FavouriteController {
 
         }
         model.put("favourites", favourites);
+        model.put("search", new Search());
         return "list_favourites.html";
     }
 

@@ -19,8 +19,8 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <br>
-        <form class="d-flex col-md-4">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <form class="d-flex col-md-4" method="POST" data-th-action="@{'/search'}"data-th-object="${search}">
+          <input type="text" id="input" class="form-control" th:field=*{input} placeholder="Search">
           <button class="btn gold dark-blue-text" type="submit">Search</button>
         </form>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 col-md-4 justify-content-end">

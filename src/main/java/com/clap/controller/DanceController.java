@@ -20,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.clap.model.Comment;
 import com.clap.model.Dance;
 import com.clap.model.Favourite;
+import com.clap.model.Search;
+import com.clap.model.Tag;
 import com.clap.model.User;
 import com.clap.model.Validators.ArtisticUploadDataValidator;
 import com.clap.model.dataModels.ArtisticContentData;
@@ -29,6 +31,7 @@ import com.clap.services.CommentService;
 import com.clap.services.DanceService;
 import com.clap.services.FavouriteService;
 import com.clap.services.LikeService;
+import com.clap.services.TagService;
 import com.clap.services.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -42,6 +45,7 @@ public class DanceController {
     private final CommentService commentService;
     private final FavouriteService favouriteService;
     private final LikeService likeService;
+    private final TagService tagService;
     private final ArtisticUploadDataValidator danceUploadDataValidator;
 
     @GetMapping("/create_dance_content")
@@ -50,28 +54,29 @@ public class DanceController {
         if (username == null) {
             return "redirect:/login";
         }
-        List<String> genres = new ArrayList<String>();
-        genres.add("Action");
-        genres.add("Drama");
-        genres.add("Mistery");
-        genres.add("Adventure");
-        genres.add("Documentary");
-        genres.add("Romance");
-        genres.add("Animation");
-        genres.add("Fantasy");
-        genres.add("Sci-fi");
-        genres.add("Children");
-        genres.add("Horror");
-        genres.add("Thriller");
-        genres.add("Comedy");
-        genres.add("Noir");
-        genres.add("War");
-        genres.add("Crime");
-        genres.add("Musical");
-        genres.add("Western");
+        List<String> allGenres = new ArrayList<String>();
+        allGenres.add("Flamenco");
+        allGenres.add("Belly");
+        allGenres.add("Tap");
+        allGenres.add("Spanish Dance");
+        allGenres.add("Sport dance");
+        allGenres.add("Shuffle");
+        allGenres.add("Folk");
+        allGenres.add("Ballet");
+        allGenres.add("Electrodance");
+        allGenres.add("Break");
+        allGenres.add("Contemporary");
+        allGenres.add("Funky");
+        allGenres.add("Hip hop");
+        allGenres.add("Pole");
+        allGenres.add("Comercial");
+        allGenres.add("Popping");
+        allGenres.add("African");
+        allGenres.add("Locking");
 
         model.put("danceUploadData", new ArtisticContentData());
-        model.put("genres", genres);
+        model.put("allGenres", allGenres);
+        model.put("search", new Search());
         return "create_dance_content.html";
     }
 
@@ -130,6 +135,7 @@ public class DanceController {
         artisticContentData.setTitle(danceContent.getTitle());
         artisticContentData.setDescription(danceContent.getDescription());
         artisticContentData.setMusic(danceContent.getMusic());
+        artisticContentData.setGenres(danceContent.getGenres());
         artisticContentData.setType(contentType);
         artisticContentData.setContentUrl(danceContent.getContentUrl());
         artisticContentData.setViewCount(0);
@@ -153,6 +159,17 @@ public class DanceController {
         Boolean alreadyLike = likeService.isAlreadyLikeOf(logged_user.getId(), artistic_content_id);
         Integer numberOfLikes = likeService.getLikeCount(artistic_content_id);
         
+        List<Tag> tagList = tagService.getTagsByContentId(artistic_content_id);
+        String tags = "";
+        for(int z=0;z<tagList.size();z++){
+            if(z==1){
+                tags = "#"+tagList.get(z).getText();
+            }else{
+                tags = tags+",#"+tagList.get(z).getText();
+            }
+        }
+
+        model.put("tags",tags);
         model.put("alreadyFavourite",alreadyFavourite);
         model.put("alreadyLike",alreadyLike);
         model.put("numberOfLikes",numberOfLikes);
@@ -162,6 +179,7 @@ public class DanceController {
         model.put("existingComments", existingComments);
         model.put("artisticContentData", artisticContentData);
         model.put("contentType", contentType);
+        model.put("search", new Search());
         return "view_content.html";
     }
 }

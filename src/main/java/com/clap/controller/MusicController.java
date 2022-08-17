@@ -20,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.clap.model.Comment;
 import com.clap.model.Favourite;
 import com.clap.model.Music;
+import com.clap.model.Search;
+import com.clap.model.Tag;
 import com.clap.model.User;
 import com.clap.model.Validators.ArtisticUploadDataValidator;
 import com.clap.model.dataModels.ArtisticContentData;
@@ -29,6 +31,7 @@ import com.clap.services.CommentService;
 import com.clap.services.FavouriteService;
 import com.clap.services.LikeService;
 import com.clap.services.MusicService;
+import com.clap.services.TagService;
 import com.clap.services.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -42,6 +45,7 @@ public class MusicController {
     private final CommentService commentService;
     private final FavouriteService favouriteService;
     private final LikeService likeService;
+    private final TagService tagService;
     private final ArtisticUploadDataValidator musicUploadDataValidator;
 
     @GetMapping("/create_music_content")
@@ -50,7 +54,29 @@ public class MusicController {
         if (username == null) {
             return "redirect:/login";
         }
+        List<String> allGenres = new ArrayList<String>();
+        allGenres.add("Classical");
+        allGenres.add("Disco");
+        allGenres.add("Flamenco");
+        allGenres.add("Pop");
+        allGenres.add("Punk");
+        allGenres.add("Reggaeton");
+        allGenres.add("Rock and Roll");
+        allGenres.add("Country");
+        allGenres.add("Musical");
+        allGenres.add("Folk");
+        allGenres.add("Rap");
+        allGenres.add("K-pop");
+        allGenres.add("Jazz");
+        allGenres.add("Trap");
+        allGenres.add("Opera");
+        allGenres.add("Soul");
+        allGenres.add("Electronic");
+        allGenres.add("Heavy Metal");
+
         model.put("musicUploadData", new ArtisticContentData());
+        model.put("allGenres", allGenres);
+        model.put("search", new Search());
         return "create_music_content.html";
     }
 
@@ -131,6 +157,17 @@ public class MusicController {
         Boolean alreadyLike = likeService.isAlreadyLikeOf(logged_user.getId(), artistic_content_id);
         Integer numberOfLikes = likeService.getLikeCount(artistic_content_id);
         
+        List<Tag> tagList = tagService.getTagsByContentId(artistic_content_id);
+        String tags = "";
+        for(int z=0;z<tagList.size();z++){
+            if(z==1){
+                tags = "#"+tagList.get(z).getText();
+            }else{
+                tags = tags+",#"+tagList.get(z).getText();
+            }
+        }
+
+        model.put("tags",tags);
         model.put("alreadyFavourite",alreadyFavourite);
         model.put("alreadyLike",alreadyLike);
         model.put("numberOfLikes",numberOfLikes);
@@ -140,6 +177,7 @@ public class MusicController {
         model.put("existingComments", existingComments);
         model.put("artisticContentData", artisticContentData);
         model.put("contentType", contentType);
+        model.put("search", new Search());
         return "view_content.html";
     }
 }

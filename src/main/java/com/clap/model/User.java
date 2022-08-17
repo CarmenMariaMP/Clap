@@ -78,6 +78,10 @@ public class User implements UserDetails{
     @Column(nullable = true)
     private String photoUrl;
 
+    @Size(max = 256)
+    @Property("biography")
+    private String biography;
+
     @Relationship("HAS_ARTISTIC_CONTENT_FAVOURITE")
     @JsonIgnoreProperties(value = { "tags", "owner", "users_favourites" }, allowSetters = true)
     private Set<ArtisticContent> favourites = new HashSet<>();

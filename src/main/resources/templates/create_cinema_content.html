@@ -30,7 +30,7 @@
             <h2 class="d-flex justify-content-center dark-blue-text">Upload new cinema content</h2>
             <hr style="height:2px;border-width:0;" class="grey">
             <div class="card-body p-4 p-md-5">
-              <form class="px-md-2" method="POST" data-th-action="@{/create_cinema_content}"
+              <form class="px-md-2" method="POST" data-th-action="@{/create_cinema_content.html}"
                 data-th-object="${cinemaUploadData}" enctype="multipart/form-data">
                 <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
                   <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
@@ -41,8 +41,7 @@
                       <label class="form-label" for="title">Title</label>
                     </div>
                     <div class="col-md-9">
-                      <input type="text" id="title" class="form-control" th:field=*{title}
-                      placeholder="Title" >
+                      <input type="text" id="title" class="form-control" th:field=*{title} placeholder="Title">
                     </div>
                   </div>
                 </div>
@@ -53,7 +52,7 @@
                     </div>
                     <div class="col-md-9">
                       <textarea type="text" id="description" class="form-control" th:field=*{description}
-                      placeholder="Description"></textarea>
+                        placeholder="Description"></textarea>
                     </div>
                   </div>
                 </div>
@@ -64,125 +63,42 @@
                     </div>
                     <div class="col-md-9">
                       <div class="container row">
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox1" value="option1">
-                          <option name="action" th:value="Action" th:text="Action"></option>
-                        </div>
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox2" value="option2">
-                          <option name="mistery" th:value="Mistery" th:text="Mistery"></option>
-                        </div>
-                      </div>
-                      <div class="container row">
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox3" value="option3">
-                          <option name="drama" th:value="Drama" th:text="Drama"></option>
-                        </div>
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox4" value="option4">
-                          <option name="documentary" th:value="Documentary" th:text="Documentary"></option>
-                        </div>
-                      </div>
-                      <div class="container row">
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox5" value="option5">
-                          <option name="Adventure" th:value="Adventure" th:text="Adventure"></option>
-                        </div>
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox6" value="option6">
-                          <option name="Romance" th:value="Romance" th:text="Romance"></option>
-                        </div>
-                      </div>
-                      <div class="container row">
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox7" value="option7">
-                          <option name="Animation" th:value="Animation" th:text="Animation"></option>
-                        </div>
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox8" value="option8">
-                          <option name="Fantasy" th:value="Fantasy" th:text="Fantasy"></option>
-                        </div>
-                      </div>
-                      <div class="container row">
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox9" value="option9">
-                          <option name="Sci-fi" th:value="Sci-fi" th:text="Sci-fi"></option>
-                        </div>
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox10" value="option10">
-                          <option name="Children" th:value="Children" th:text="Children"></option>
-                        </div>
-                      </div>
-                      <div class="container row">
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox11" value="option11">
-                          <option name="Horror" th:value="Horror" th:text="Horror"></option>
-                        </div>
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox12" value="option12">
-                          <option name="Thriller" th:value="Thriller" th:text="Thriller"></option>
-                        </div>
-                      </div>
-                      <div class="container row">
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox5" value="option13">
-                          <option name="Comedy" th:value="Comedy" th:text="Comedy"></option>
-                        </div>
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox14" value="option14">
-                          <option name="Film_noir" th:value="Film_noir" >Film noir</option>
-                        </div>
-                      </div>
-                      <div class="container row">
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox15" value="option15">
-                          <option name="War" th:value="War" th:text="War"></option>
-                        </div>
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox16" value="option16">
-                          <option name="Crime" th:value="Crime" th:text="Crime"></option>
-                        </div>
-                      </div>
-                      <div class="container row">
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox17" value="option17">
-                          <option name="Musical" th:value="Musical" th:text="Musical"></option>
-                        </div>
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox18" value="option18">
-                          <option name="Western" th:value="Western" th:text="Western"></option>
+                        <div class="form-check col-md-6" th:each="genre : ${allGenres}">
+                          <input class="form-check-input gold" type="checkbox" name="genres"  th:text="${genre}"
+                            th:value="${genre}" th:field="*{genres}" />
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="form-outline mb-4">
-                  <div class="row">
-                    <div class="col-md-3">
-                      <label class="form-label" for="file">Cinema content</label>
-                    </div>
-                    <div class="col-md-9">
-                      <input type="file" id="file" name="file" class="form-control" accept="file/png, file/jpeg"/>
-                    </div>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-center row">
-                  <div class="col-md-5 d-flex justify-content-center row">
-                    <button type="submit" class="btn btn-lg mb-1  gold dark-blue-text">Upload content</button>
-                  </div>
-                  <div class="col-md-2"></div>
-                  <div class="col-md-5 d-flex justify-content-center row">
-                    <a type="submit" class="btn btn-lg mb-1  gold dark-blue-text" th:href="@{/choose_category.html}">
-                      Cancel</a>
-                  </div>
-                </div>
-
-              </form>
-
             </div>
+            <div class="form-outline mb-4">
+              <div class="row">
+                <div class="col-md-3">
+                  <label class="form-label" for="file">Cinema content</label>
+                </div>
+                <div class="col-md-9">
+                  <input type="file" id="file" name="file" class="form-control" accept="file/png, file/jpeg" />
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center row">
+              <div class="col-md-5 d-flex justify-content-center row">
+                <button type="submit" class="btn btn-lg mb-1  gold dark-blue-text">Upload content</button>
+              </div>
+              <div class="col-md-2"></div>
+              <div class="col-md-5 d-flex justify-content-center row">
+                <a type="submit" class="btn btn-lg mb-1  gold dark-blue-text" th:href="@{/choose_category.html}">
+                  Cancel</a>
+              </div>
+            </div>
+
+            </form>
+
           </div>
         </div>
       </div>
+    </div>
     </div>
   </section>
 

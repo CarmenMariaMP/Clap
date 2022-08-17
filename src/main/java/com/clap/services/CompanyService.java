@@ -30,6 +30,7 @@ public class CompanyService {
 		company.setPassword(crypt.encode(company.getPassword()));
 		company.setCreatedDate(Date.from(Instant.now()));
 		company.setPhotoUrl("/img/account.png");
+		company.setBiography("");
 		return companyRepository.save(company);
 
 	}

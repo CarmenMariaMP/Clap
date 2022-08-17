@@ -24,7 +24,6 @@ public class ContentCreatorRegisterValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "", "Username cannot be empty!");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fullName", "", "Full name cannot be empty!");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "", "Email cannot be empty!");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phone", "", "Phone cannot be empty!");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "", "Password cannot be empty!");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "",
 				"Password confirmation cannot be empty!");
@@ -51,7 +50,7 @@ public class ContentCreatorRegisterValidator implements Validator {
             errors.rejectValue("email", "", "The email entered is invalid");
         }
 
-        if (errors.getFieldErrorCount("phone") == 0 && !patternMatches(contentCreatorRegisterData.getPhone(),"^((\\+)?[1-9]{1,2})?([-\\s\\.])?((\\(\\d{1,4}\\))|\\d{1,4})(([-\\s\\.])?[0-9]{1,12}){1,2}$")){
+        if (!contentCreatorRegisterData.getPhone().isEmpty() && !patternMatches(contentCreatorRegisterData.getPhone(),"^((\\+)?[1-9]{1,2})?([-\\s\\.])?((\\(\\d{1,4}\\))|\\d{1,4})(([-\\s\\.])?[0-9]{1,12}){1,2}$")){
             errors.rejectValue("phone", "", "The phone entered is invalid");
         }
         

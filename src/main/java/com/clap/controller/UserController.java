@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.clap.model.ArtisticContent;
+import com.clap.model.Search;
 import com.clap.model.User;
 import com.clap.services.ArtisticContentService;
 import com.clap.services.UserService;
@@ -44,6 +45,7 @@ public class UserController {
         }
         model.addAttribute("contents", contents);
         model.addAttribute("logged_user", logged_user);
+        model.addAttribute("search", new Search());
         return "landing_page.html";
 
     }

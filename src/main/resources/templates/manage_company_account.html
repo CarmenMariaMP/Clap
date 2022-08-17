@@ -24,7 +24,7 @@
                 <h5 class="d-flex justify-content-center dark-blue-text" style="margin-top:20px ;">Profile information</h5>
               </div>
               <form class="px-md-2" method="POST" data-th-action="@{/account/company}"
-                data-th-object="${companyManagementData}">
+                data-th-object="${companyManagementData}" enctype="multipart/form-data">
                 <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
                   <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
                 </div>
@@ -41,6 +41,17 @@
                     </div>
                     <div class="col-md-10">
                       <input type="file" id="image" name="image" class="form-control" accept="image/png, image/jpeg"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-outline mb-4">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <label class="form-label" for="username">Biography</label>
+                    </div>
+                    <div class="col-md-10">
+                      <textarea type="text" id="biography" class="form-control" th:field=*{biography}
+                      placeholder="Enter a short biography about your company"></textarea>
                     </div>
                   </div>
                 </div>

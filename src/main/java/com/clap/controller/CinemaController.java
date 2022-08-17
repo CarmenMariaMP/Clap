@@ -20,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.clap.model.Cinema;
 import com.clap.model.Comment;
 import com.clap.model.Favourite;
+import com.clap.model.Search;
+import com.clap.model.Tag;
 import com.clap.model.User;
 import com.clap.model.Validators.ArtisticUploadDataValidator;
 import com.clap.model.dataModels.ArtisticContentData;
@@ -29,6 +31,7 @@ import com.clap.services.CinemaService;
 import com.clap.services.CommentService;
 import com.clap.services.FavouriteService;
 import com.clap.services.LikeService;
+import com.clap.services.TagService;
 import com.clap.services.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -42,40 +45,42 @@ public class CinemaController {
     private final CommentService commentService;
     private final FavouriteService favouriteService;
     private final LikeService likeService;
+    private final TagService tagService;
     private final ArtisticUploadDataValidator cinemaUploadDataValidator;
 
-    @GetMapping("/create_cinema_content")
+    @GetMapping("/create_cinema_content.html")
     public String createCinemaContentView(Map<String, Object> model) {
         String username = userService.getLoggedUser();
         if (username == null) {
             return "redirect:/login";
         }
-        List<String> genres = new ArrayList<String>();
-        genres.add("Action");
-        genres.add("Drama");
-        genres.add("Mistery");
-        genres.add("Adventure");
-        genres.add("Documentary");
-        genres.add("Romance");
-        genres.add("Animation");
-        genres.add("Fantasy");
-        genres.add("Sci-fi");
-        genres.add("Children");
-        genres.add("Horror");
-        genres.add("Thriller");
-        genres.add("Comedy");
-        genres.add("Noir");
-        genres.add("War");
-        genres.add("Crime");
-        genres.add("Musical");
-        genres.add("Western");
+        List<String> allGenres = new ArrayList<String>();
+        allGenres.add("Action");
+        allGenres.add("Drama");
+        allGenres.add("Mistery");
+        allGenres.add("Adventure");
+        allGenres.add("Documentary");
+        allGenres.add("Romance");
+        allGenres.add("Animation");
+        allGenres.add("Fantasy");
+        allGenres.add("Sci-fi");
+        allGenres.add("Children");
+        allGenres.add("Horror");
+        allGenres.add("Thriller");
+        allGenres.add("Comedy");
+        allGenres.add("Film Noir");
+        allGenres.add("War");
+        allGenres.add("Crime");
+        allGenres.add("Musical");
+        allGenres.add("Western");
 
         model.put("cinemaUploadData", new ArtisticContentData());
-        model.put("genres", genres);
+        model.put("allGenres", allGenres);
+        model.put("search", new Search());
         return "create_cinema_content.html";
     }
 
-    @PostMapping("/create_cinema_content")
+    @PostMapping("/create_cinema_content.html")
     public String createCinemaContent(@Valid @ModelAttribute("cinemaUploadData") ArtisticContentData cinemaUploadData,
             BindingResult result, Map<String, Object> model, @RequestParam("file") MultipartFile multipartFile,
             @RequestParam(value = "genres", required = false) String genres) throws Exception {
@@ -100,7 +105,7 @@ public class CinemaController {
         }
         Cinema cinemaContent = cinemaService.uploadCinemaContent(cinemaUploadData, user);
 
-        String g = genres;
+        List<String> g = cinemaContent.getGenres();
         model.put("cinemaUploadData", cinemaUploadData);
         return String.format("redirect:/owner/%s/content/%s/role", cinemaContent.getOwner().getId(),
                 cinemaContent.getId());
@@ -130,6 +135,7 @@ public class CinemaController {
         artisticContentData.setTitle(cinemaContent.getTitle());
         artisticContentData.setDescription(cinemaContent.getDescription());
         artisticContentData.setType(contentType);
+        artisticContentData.setGenres(cinemaContent.getGenres());
         artisticContentData.setContentUrl(cinemaContent.getContentUrl());
         artisticContentData.setViewCount(0);
         artisticContentData.setOwner(owner);
@@ -152,6 +158,18 @@ public class CinemaController {
         Boolean alreadyLike = likeService.isAlreadyLikeOf(logged_user.getId(), artistic_content_id);
         Integer numberOfLikes = likeService.getLikeCount(artistic_content_id);
         
+        List<Tag> tagList = tagService.getTagsByContentId(artistic_content_id);
+        String tags = "";
+        for(int z=0;z<tagList.size();z++){
+            if(z==1){
+                tags = "#"+tagList.get(z).getText();
+            }else{
+                tags = tags+",#"+tagList.get(z).getText();
+            }
+        }
+
+        model.put("tags",tags);
+        model.put("search", new Search());
         model.put("alreadyFavourite",alreadyFavourite);
         model.put("alreadyLike",alreadyLike);
         model.put("numberOfLikes",numberOfLikes);

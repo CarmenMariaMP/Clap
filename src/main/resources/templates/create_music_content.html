@@ -59,27 +59,13 @@
                 <div class="form-outline mb-4">
                   <div class="row">
                     <div class="col-md-3">
-                      <label class="form-label" for="city">Genres</label>
+                      <label class="form-label" for="genres">Genres</label>
                     </div>
                     <div class="col-md-9">
                       <div class="container row">
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox1" value="option1">
-                          <label class="form-check-label" for="inlineCheckbox1">Action</label>
-                        </div>
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox3" value="option2">
-                          <label class="form-check-label" for="inlineCheckbox3">Mistery</label>
-                        </div>
-                      </div>
-                      <div class="container row">
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox1" value="option3">
-                          <label class="form-check-label" for="inlineCheckbox1">Adventure</label>
-                        </div>
-                        <div class="form-check col-md-6">
-                          <input class="form-check-input gold" type="checkbox" id="inlineCheckbox3" value="option4">
-                          <label class="form-check-label" for="inlineCheckbox3">Documentary</label>
+                        <div class="form-check col-md-6" th:each="genre : ${allGenres}">
+                          <input class="form-check-input gold" type="checkbox" name="genres"  th:text="${genre}"
+                            th:value="${genre}" th:field="*{genres}" />
                         </div>
                       </div>
                     </div>

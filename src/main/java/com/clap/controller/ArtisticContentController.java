@@ -20,9 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.clap.model.ArtisticContent;
 import com.clap.model.Search;
-import com.clap.model.Tag;
+import com.clap.model.User;
 import com.clap.services.ArtisticContentService;
-import com.clap.services.TagService;
 import com.clap.services.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -32,10 +31,10 @@ import lombok.RequiredArgsConstructor;
 public class ArtisticContentController {
     private final UserService userService;
     private final ArtisticContentService artisticContentService;
-    private final TagService tagService;
 
     @GetMapping("/choose_category.html")
-    public String choose_category() {
+    public String choose_category(Map<String, Object> model) {
+        model.put("search", new Search());
         return "choose_category.html";
     }
 
@@ -82,33 +81,36 @@ public class ArtisticContentController {
         }
     }
 
-    /* 
     @PostMapping("/search")
     public String searchContent(@Valid @ModelAttribute("search") Search search, Map<String, Object> model,
             BindingResult result) {
+        Boolean logged_user = true;
         String username = userService.getLoggedUser();
         if (username == null) {
+            logged_user = false;
             return "redirect:/login";
         }
+        if (result.hasErrors()) {
+            return "redirect:/choose_category.html";
+        }
         List<ArtisticContent> contents = new ArrayList<>();
-        String searchInput = search.getInput();
+        String searchInput = search.getInput().toLowerCase();
         List<ArtisticContent> allArtisticContents = artisticContentService.getArtisticContent();
         for (int i = 0; i < allArtisticContents.size(); i++) {
             ArtisticContent artisticContent = allArtisticContents.get(i);
-            String title = artisticContent.getTitle();
-            String description = artisticContent.getDescription();
-            if (searchInput.contains(title) || searchInput.contains(description)) {
+            User owner = userService.getUserByArtisticContentId(artisticContent.getId());
+            artisticContent.setOwner(owner);
+            String title = artisticContent.getTitle().toLowerCase();
+            String description = artisticContent.getDescription().toLowerCase();
+            String type = artisticContent.getType().toLowerCase();
+            if (searchInput.contains(title) || searchInput.contains(description) || searchInput.contains(type)
+                    || searchInput.matches(owner.getUsername())) {
                 contents.add(artisticContent);
             }
         }
-        List<Tag> tags = tagService.getAllTags();
-        for (int j = 0; j < tags.size(); j++) {
-            if (searchInput.contains(tags.get(i)) || searchInput.contains(description)) {
-                contents.add(artisticContent);
-            }
-        }
+        model.put("logged_user", logged_user);
         model.put("contents", contents);
         return "landing_page.html";
     }
-    */
+
 }

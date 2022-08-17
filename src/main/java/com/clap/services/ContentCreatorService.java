@@ -30,6 +30,7 @@ public class ContentCreatorService {
         contentCreator.setPassword(crypt.encode(contentCreator.getPassword()));
         contentCreator.setCreatedDate(Date.from(Instant.now()));
         contentCreator.setPhotoUrl("/img/account.png");
+        contentCreator.setBiography("");
         return contentCreatorRepository.save(contentCreator);
 
     }
