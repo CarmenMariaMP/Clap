@@ -20,8 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.clap.model.ArtisticContent;
 import com.clap.model.Search;
+import com.clap.model.Tag;
 import com.clap.model.User;
 import com.clap.services.ArtisticContentService;
+import com.clap.services.CommentService;
+import com.clap.services.FavouriteService;
+import com.clap.services.LikeService;
+import com.clap.services.RoleService;
+import com.clap.services.TagService;
 import com.clap.services.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,6 +37,11 @@ import lombok.RequiredArgsConstructor;
 public class ArtisticContentController {
     private final UserService userService;
     private final ArtisticContentService artisticContentService;
+    private final CommentService commentService;
+    private final FavouriteService favouriteService;
+    private final LikeService likeService;
+    private final TagService tagService;
+    private final RoleService roleService;
 
     @GetMapping("/choose_category.html")
     public String choose_category(Map<String, Object> model) {
@@ -74,6 +85,29 @@ public class ArtisticContentController {
             model.put("user_id", user_id);
             model.put("artistic_content_id", artistic_content_id);
             ArtisticContent artisticContent = artisticContentService.getContentById(artistic_content_id).orElse(null);
+            
+            commentService.deleteCommentsByContentId(artistic_content_id);
+            roleService.deleteRolesByContentId(artistic_content_id);
+
+            List<String> users_id = userService.getAllUsersId();
+            for(int i =0; i<users_id.size();i++){
+                String id = users_id.get(i);
+                Boolean alreadyFavourite = favouriteService.isAlreadyFavouriteOf(id, artistic_content_id);
+                Boolean alreadyLike = likeService.isAlreadyLikeOf(id, artistic_content_id);
+                if(alreadyFavourite){
+                    favouriteService.deleteFromFavourite(id, artistic_content_id);
+                }
+                if(alreadyLike){
+                    likeService.deleteFromLike(id, artisticContent.getId());
+                }
+            }
+
+            List<Tag> allContentTags = tagService.getTagsByContentId(artistic_content_id);
+            for(int j =0; j<allContentTags.size();j++){
+                Tag tag = allContentTags.get(j);
+                tagService.deleteTag(tag.getId(), artistic_content_id);
+            }
+
             Path fileToDeletePath = Paths.get("src/main/resources/static/" + artisticContent.getContentUrl());
             Files.delete(fileToDeletePath);
             artisticContentService.deleteContent(artisticContent);

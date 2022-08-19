@@ -18,14 +18,13 @@ public class RoleService {
     private final UserService userService;
     private final ArtisticContentService artisticContentService;
 
-    public List<Role> getRolesByContentIdAndUserId(String artistic_content_id,String user_id) {
-        return roleRepository.findRolesByContentId(artistic_content_id, user_id);
+    public List<Role> getRolesByContentId(String artistic_content_id) {
+        return roleRepository.findRolesByContentId(artistic_content_id);
     }
 
     public List<Role> getRolesByUsername(String username) {
         return roleRepository.findRolesByUsername(username);
     }
-
     public void addRole(Role role, String username, String artistic_content_id){
         User user = userService.getUserByUsername(username).orElse(null);
         ArtisticContent artisticContent = artisticContentService.getContentById(artistic_content_id).orElse(null);
@@ -34,7 +33,12 @@ public class RoleService {
         roleRepository.save(role);
     }
 
-    public void deleteRole(Role role){
-        roleRepository.delete(role);
+    public void deleteRole(String user_id){
+        roleRepository.deleteRole(user_id);
+    }
+
+    public void deleteRolesByContentId(String artistic_content_id){
+        roleRepository.deleteRolesByContentId(artistic_content_id);
     }
 }
+

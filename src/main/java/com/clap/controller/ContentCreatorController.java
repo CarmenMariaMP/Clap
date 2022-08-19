@@ -137,7 +137,7 @@ public class ContentCreatorController {
         model.put("contentCreatorManagementData",contentCreatorManagementData);
         model.put("contentCreator",contentCreator);
         if(contentCreatorManagementData.getUsername().equals(username)){
-            return "redirect:/choose_category.html";
+            return String.format("redirect:/profile/%s", contentCreator.getId());
         }
         return "redirect:/logout";
     }

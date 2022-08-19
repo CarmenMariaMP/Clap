@@ -54,7 +54,7 @@ public class CompanyRegisterValidator implements Validator {
             errors.rejectValue("phone", "", "The phone entered is invalid");
         }
 
-        if (errors.getFieldErrorCount("taxIdNumber") == 0 && !patternMatches(companyRegisterData.getTaxIdNumber(),"^([0-9]{9})$")){
+        if (!companyRegisterData.getTaxIdNumber().isEmpty() && !patternMatches(companyRegisterData.getTaxIdNumber(),"^([0-9]{9})$")){
             errors.rejectValue("taxIdNumber", "", "The tax Id number entered is invalid, it must have 9 numbers");
         }
         

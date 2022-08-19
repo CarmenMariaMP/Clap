@@ -136,7 +136,7 @@ public class CompanyController {
         model.put("contentCreatorManagementData",companyManagementData);
         model.put("contentCreator",company);
         if(companyManagementData.getUsername().equals(username)){
-            return "redirect:/choose_category.html";
+            return String.format("redirect:/profile/%s", company.getId());
         }
         return "redirect:/logout";
     }

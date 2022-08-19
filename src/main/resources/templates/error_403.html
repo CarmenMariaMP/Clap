@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <div th:replace="headerFragment :: headerFragment"></div>
+  <title>Error 404 | Clap</title>
+  <link rel="shortcut icon" th:href="@{/img/lira_logo.png}">
+</head>
+
+<body>
+  <section class="h-100 py-5 h-custom">
+    <div class="container h-100" th:fragment="header">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-8 col-xl-6">
+          <div class="card rounded-3 container">
+            <div class="d-flex justify-content-center" style="margin-top:60px ;">
+              <a class="navbar-brand" href="/"><img th:src="@{/img/clap_logo_horizontal.png}" width="300"
+                  height="85"></a>
+            </div>
+            <h2 class="d-flex justify-content-center dark-blue-text">There seems to have been a mistake</h2>
+            <div class="card-body row">
+                <div class="alert d-flex justify-content-center gold dark-blue-text" role="alert">
+                  You cannot access this page.
+                </div>
+            </div>
+            <p class="small text-muted mb-1 d-flex justify-content-center">Not yet registered?</p>
+            <p class="small text-muted mb-1 d-flex justify-content-center"> Register as <a
+                style="margin-left: 4px; margin-right: 4px;" type="button" th:href="@{/register_content_creator.html}">
+                content creator
+              </a> or as
+              <a style="margin-left: 2px;" type="button" th:href="@{/register_company.html}">
+                company
+              </a>
+            </p>
+            <p class="small text-muted mb-1 d-flex justify-content-center" style="margin-top: 15px;">Log in?
+              <a style="margin-left: 2px; margin-right: 2px;" type="button" th:href="@{/login.html}">
+                Sign up
+              </a>
+            </p>
+            <p></p>
+          </div>
+        </div>
+      </div>
+  </section>
+
+</body>
+
+</html>

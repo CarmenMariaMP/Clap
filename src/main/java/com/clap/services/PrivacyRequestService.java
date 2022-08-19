@@ -49,6 +49,16 @@ public class PrivacyRequestService {
         return privacyRequestRepository.findNumberPendingRequestsByContentCreator(username,request_state);
     }
 
+    public void deleteRequestByCreator(String username_content_creator) {
+        privacyRequestRepository.deleteRequestByCreator(username_content_creator);
+    }
+
+    public void deleteRequestByCompany(String username_company) {
+        privacyRequestRepository.deleteRequestByCompany(username_company);
+    }
+
+
+
 
     public void sendPrivacyRequest(User receiver, User sender) throws Exception {
         String type = receiver.getType();

@@ -32,6 +32,7 @@ public class TagController {
     @RequestMapping("/owner/{user_id}/content/{artistic_content_id}/tag")
     public String addRolesView(@PathVariable String user_id, @PathVariable String artistic_content_id,
             Map<String, Object> model) {
+        String contentType = artisticContentService.getTypeById(artistic_content_id);
         String username = userService.getLoggedUser();
         if (username == null) {
             return "redirect:/login";
@@ -41,6 +42,7 @@ public class TagController {
         model.put("user_id", user_id);
         model.put("artistic_content_id", artistic_content_id);
         model.put("existingTags", existingTags);
+        model.put("contentType", contentType);
         model.put("search", new Search());
         return "tags.html";
     }
@@ -53,6 +55,7 @@ public class TagController {
         if (username == null) {
             return "redirect:/login";
         }
+        model.put("search", new Search());
         tagValidator.validate(tag, result);
         if (result.hasErrors()) {
             return "tags.html";
@@ -61,7 +64,7 @@ public class TagController {
         try {
             tagService.addTag(tag, artistic_content_id);
         } catch (Exception e) {
-            return "tags.html";
+            return String.format("redirect:/owner/%s/content/%s/tag", user_id, artistic_content_id);
         }
         model.put("user_id", user_id);
         model.put("artistic_content_id", artistic_content_id);
@@ -76,16 +79,13 @@ public class TagController {
         if (username == null) {
             return "redirect:/login";
         }
-        String contentType = artisticContentService.getTypeById(artistic_content_id);
         try {
-            Tag tag = tagService.getById(tag_id).orElse(null);
-            tagService.deleteTag(tag, artistic_content_id);
+            tagService.deleteTag(tag_id, artistic_content_id);
         } catch (Exception e) {
             return "tags.html";
         }
         model.put("user_id", user_id);
         model.put("artistic_content_id", artistic_content_id);
-        model.put("contentType", contentType);
         return String.format("redirect:/owner/%s/content/%s/tag", user_id, artistic_content_id);
     }
 

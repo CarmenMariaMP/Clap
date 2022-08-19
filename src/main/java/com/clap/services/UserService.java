@@ -22,9 +22,11 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
-
     private final UserRepository userRepository;
     private final PasswordEncoder crypt;
+    private final ArtisticContentService artisticContentService;
+    private final SubscriptionService subscriptionService;
+    private final PrivacyRequestService privacyRequestService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -92,6 +94,14 @@ public class UserService implements UserDetailsService {
         return userRepository.findUserByCommentResponseId(id);
     }
 
+    public void deleteUser(String username){
+        userRepository.deleteUser(username);
+    }
+
+    public List<String> getAllUsersId(){
+        return userRepository.findAllUsersId();
+    }
+
     public Boolean userExists(User user) {
         Boolean userExist = false;
         Optional<User> userFound = getUserByUsername(user.getUsername());
@@ -111,5 +121,21 @@ public class UserService implements UserDetailsService {
             username = null;
         }
         return username;
+    }
+
+    public void deleteAccount(String username){
+        String user_type = getTypeByUsername(username);
+        List<ArtisticContent> artisticContents = artisticContentService.getContentByOwner(username);
+        for(int i=0;i<artisticContents.size();i++){
+            artisticContentService.deleteContent(artisticContents.get(i));
+        }
+        if(user_type.equals("COMPANY")){
+            privacyRequestService.deleteRequestByCompany(username);
+        }else if(user_type.equals("CONTENT_CREATOR")){
+            privacyRequestService.deleteRequestByCreator(username);
+        }
+        subscriptionService.deleteSubscriptionsByFollowedRelation(username);
+        subscriptionService.deleteSubscriptionsByFollowerRelation(username);
+        deleteUser(username);
     }
 }

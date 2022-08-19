@@ -89,7 +89,7 @@ public class UserController {
 		}
 	}
 
-    /* 
+    
     @PostMapping("/account/delete")
 	public String deleteUserAccount() {
 		String username = userService.getLoggedUser();
@@ -101,7 +101,6 @@ public class UserController {
         } catch (Exception e) {
             return "redirect:/account/";
         }
-        return "redirect:/";
+        return "redirect:/logout"; 
 	}
-    */
 }
