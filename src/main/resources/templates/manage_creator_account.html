@@ -125,6 +125,7 @@
                     </div>
                   </div>
                 </div>
+              </form>
                 <br><br>
                 <div class="d-flex justify-content-center row">
                   <div class="col-md-5 d-flex justify-content-center row">
@@ -137,11 +138,40 @@
                   </div>
                 </div>
                 <br>
-                <div class="d-flex justify-content-center">
-                  <button type="submit" class="btn btn-lg mb-1 gold dark-blue-text">Delete my account</button>
+                <div>
+                  <!-- Button trigger modal -->
+                  <div class="d-flex justify-content-center" style="margin-top:10px ;margin-bottom: 10px;">
+                  <a type="button" class="btn btn-lg mb-1 gold dark-blue-text"  data-bs-toggle="modal" data-bs-target="#deleteModal">
+                    Delete my account
+                  </a>
+                </div>
+                  <!-- Modal -->
+                  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content dark-blue-text" style="background-color:white">
+                        <div class="modal-header">
+                          <a class="navbar-brand" href="/"><img th:src="@{/img/clap_logo_horizontal.PNG}" width="150"
+                              height="42"></a>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete your account? This process can take a few minutes</p>
+                        </div>
+                        <div class="modal-footer">
+                          <div class="d-flex justify-content-center">
+                              <form method="POST" class="d-flex justify-content-center"
+                                data-th-action="@{'/account/delete/'}">
+                                <button type="submit" class="btn btn-lg mb-1 gold dark-blue-text">Delete</button>
+                              </form>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <br>
-              </form>
 
           </div>
         </div>

@@ -38,6 +38,9 @@ public class PrivacyRequestController {
             if(requestExists){
                 return String.format("redirect:/profile/%s", userId);
             }
+            if(!sender.getType().equals("COMPANY")){
+                return String.format("redirect:/profile/%s", userId);
+            }
             try{
                 privacyRequestService.sendPrivacyRequest(receiver, sender);
             }catch(Exception e){
@@ -91,6 +94,11 @@ public class PrivacyRequestController {
             return "redirect:/login";
         } else {
             User sender = userService.getUserByUsername(username_sender).orElse(null);
+            if(sender.getType().equals("COMPANY")){
+                return String.format("redirect:/privacyRequests");
+            }
+            PrivacyRequest pr = privacyRequestService.getById(requestId).orElse(null);
+            //User owner_pr = userService.ge
             try{
                 privacyRequestService.acceptPrivacyRequest(sender, requestId);
             }catch(Exception e){

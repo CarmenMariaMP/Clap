@@ -37,7 +37,7 @@ public class TagService {
     }
 
     public void addTag(Tag tag, String artistic_content_id) {
-        Tag existingTag = getTagByText(tag.getText()).orElse(null);
+        Tag existingTag = tagRepository.findTagByText(tag.getText()).orElse(null);
         ArtisticContent artisticContent = artisticContentService.getContentById(artistic_content_id).orElse(null);
         List<ArtisticContent> artisticContents = new ArrayList<ArtisticContent>();
         if (existingTag != null) {
@@ -53,18 +53,15 @@ public class TagService {
         tagRepository.save(tag);
     }
 
-    public void deleteTag(Tag tag, String artistic_content_id) {
+    public void deleteTag(String tag_id, String artistic_content_id) {
+        Tag tag = getById(tag_id).orElse(null);
         Tag existingTag = getTagByText(tag.getText()).orElse(null);
         if (existingTag != null) {
-            tagRepository.deleteArtisticContentRelationship(artistic_content_id);
-            List<ArtisticContent> artisticContents = artisticContentService.getContentsByLikeId(existingTag.getId());
-            if(artisticContents.size()==0){
+            tagRepository.deleteArtisticContentRelationship(tag.getText(),artistic_content_id);
+            List<ArtisticContent> artisticContentsExistingTag = artisticContentService.getContentsByTagId(existingTag.getId());
+            if(artisticContentsExistingTag.size()==0){
                 tagRepository.delete(existingTag);
             }
         }
-    }
-
-    public void deleteArtisticContentRelationship(String artistic_content_id) {
-        tagRepository.deleteArtisticContentRelationship(artistic_content_id);
     }
 }

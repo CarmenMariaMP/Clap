@@ -36,7 +36,7 @@
                         <h6 class="d-flex justify-content-center">@<span
                             data-th-text="${userProfileData.getContentCreator().getUsername()}"></span></h6>
                         <br>
-                        <div th:if="${privacyRequestState=='ACCEPTED'}">
+                        <div th:if="${privacyRequestState=='ACCEPTED'} OR ${self_profile}">
                           <div class="row rounded-3 p-2 mb-2 light_grey">
                             <div class="col-md-6">
                               <h6 class="d-flex justify-content-center"><svg style="margin-right: 10px;"
@@ -136,10 +136,12 @@
                         <span th:if="${type == 'CONTENT_CREATOR'}">
                           <form method="POST" class="d-flex justify-content-center"
                             data-th-action="@{'/profile/' + ${userProfileData.getContentCreator().getId()} +'/sendPrivacyRequest/'}">
-                            <span th:if="${privacyRequestState==''}">
-                              <button type="submit"
-                                class="btn btn-outline-primary me-1 flex-grow-1 gold dark-blue-text">Request contact
-                                info</button>
+                            <span th:unless="${self_profile}">
+                              <span th:if="${privacyRequestState==''} AND ${type_logged_user=='COMPANY'}">
+                                <button type="submit"
+                                  class="btn btn-outline-primary me-1 flex-grow-1 gold dark-blue-text">Request contact
+                                  info</button>
+                              </span>
                             </span>
                         </span>
                         </form>
@@ -231,22 +233,44 @@
                         </span>
                         <span th:unless="${uploaded_contents.isEmpty()}">
                           <div class="card mb-3" style="max-width: 540px;" th:each="content : ${uploaded_contents}">
-                            <span th:if="${logged_username==userProfileData.getContentCreator().getUsername()}">
-                              <div class="d-flex justify-content-end" style="margin-right: 10px;">
-                                <form class="px-md-2" method="POST"
-                                  data-th-action="@{'/owner/' + ${userProfileData.getContentCreator().getId()}+'/content/'+ ${content.getId()}+'/content_delete/'}">
-                                  <button type="submit" class="btn gold dark-blue-text" href="https://dle.rae.es/pata"
-                                    style="margin-top: 10px;margin-bottom:10px;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                      class="bi bi-x-circle" viewBox="0 0 16 16">
-                                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                      <path
-                                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                                    </svg>
-                                  </button>
-                                </form>
-                              </div>
-                            </span>
+                            <div th:if="${type=='CONTENT_CREATOR'}">
+                              <span th:if="${logged_username==userProfileData.getContentCreator().getUsername()}">
+                                <div class="d-flex justify-content-end" style="margin-right: 10px;">
+                                  <form class="px-md-2" method="POST"
+                                    data-th-action="@{'/owner/' + ${userProfileData.getContentCreator().getId()}+'/content/'+ ${content.getId()}+'/content_delete/'}">
+                                    <button type="submit" class="btn gold dark-blue-text"
+                                      style="margin-top: 10px;margin-bottom:10px;">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-x-circle" viewBox="0 0 16 16">
+                                        <path
+                                          d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                        <path
+                                          d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                      </svg>
+                                    </button>
+                                  </form>
+                                </div>
+                              </span>
+                            </div>
+                            <div th:if="${type=='COMPANY'}">
+                              <span th:if="${logged_username==userProfileData.getCompany().getUsername()}">
+                                <div class="d-flex justify-content-end" style="margin-right: 10px;">
+                                  <form class="px-md-2" method="POST"
+                                    data-th-action="@{'/owner/' + ${userProfileData.getCompany().getId()}+'/content/'+ ${content.getId()}+'/content_delete/'}">
+                                    <button type="submit" class="btn gold dark-blue-text"
+                                      style="margin-top: 10px;margin-bottom:10px;">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-x-circle" viewBox="0 0 16 16">
+                                        <path
+                                          d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                        <path
+                                          d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                      </svg>
+                                    </button>
+                                  </form>
+                                </div>
+                              </span>
+                            </div>
                             <div class="row g-0">
                               <div class="col-md-4">
                                 <img th:src="${content.owner.photoUrl}" class="img-fluid rounded-start" alt="...">

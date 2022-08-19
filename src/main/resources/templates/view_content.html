@@ -26,7 +26,8 @@
                 <div>
                   <div class="d-flex justify-content-between align-items-center">
                     <p class="mb-1">
-                      <a th:href="@{'/profile/' + ${artisticContentData.getOwner().getId()}}">@ <span data-th-text="${artisticContentData.getOwner().getUsername()}"></span></a>
+                      <a th:href="@{'/profile/' + ${artisticContentData.getOwner().getId()}}">@ <span
+                          data-th-text="${artisticContentData.getOwner().getUsername()}"></span></a>
                     </p>
                   </div>
                   <p class="small mb-0">
@@ -52,7 +53,7 @@
             </div>
             <div style="margin-top: 8px;" class="row">
               <div class="d-flex justify-content-end col-md-12">
-                <div  style="margin-top: 9px;margin-right: 8px;">
+                <div style="margin-top: 9px;margin-right: 8px;">
                   <p class="small mb-1"><span data-th-text="${numberOfLikes}"></span> likes</p>
                 </div>
                 <div>
@@ -369,6 +370,21 @@
                               </div>
                             </div>
                           </div>
+                          <div class="mb-4">
+                            <div class="row">
+                              <div class="col-md-3">
+                                <label for="username">Team</label>
+                              </div>
+                              <div class="col-md-9"></div>
+                              <div class="col-md-9" th:each="role : ${roles}">
+                                <div class="row">
+                                  <p class="small mb-1 col-md-4"><span data-th-text="${role.getUsername}"></span></p>
+                                  <p class="small mb-1 col-md-4"><span data-th-text="${role.getText}"></span></p>
+                                </div>
+                                <br>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -446,25 +462,28 @@
                 </div>
               </div>
             </div>
-            <div class="mb-4">
-              <div class="row">
-                <div class="col-md-3">
-                  <label for="username">Hashtags</label>
-                </div>
-                <div class="col-md-9">
-                  <p class="small text-muted mb-1"><span data-th-text="${tags}"></p>
+            <div th:unless="${tags.isEmpty()}">
+              <div class="mb-4">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label for="username">Hashtags</label>
+                  </div>
+                  <div class="col-md-9">
+                    <p class="small text-muted mb-1"><span data-th-text="${tags}"></p>
+                  </div>
                 </div>
               </div>
             </div>
             <hr style="height:2px;border-width:0;" class="grey">
             <div style="margin-bottom: 10px;">
               <p class="small text-muted mb-1">
-                <span data-th-text="${existingComments.size()}"></span> comments</p>
+                <span data-th-text="${existingComments.size()}"></span> comments
+              </p>
             </div>
             <br>
             <div th:each="comment : ${existingComments}">
               <br>
-              <div class="d-flex flex-start">
+              <div class="d-flex flex-start" style="margin-bottom: 10px;">
                 <img class="rounded-circle shadow-1-strong me-3" th:src="${comment.getUser().getPhotoUrl()}"
                   alt="avatar" width="65" height="65" />
                 <div class="flex-grow-1 flex-shrink-1">
@@ -472,76 +491,13 @@
                     <div class="d-flex justify-content-between align-items-center">
                       <p class="mb-1">
                         @<span data-th-text="${comment.getUser().getUsername()}"></span><span
-                          class="small text-muted mb-1">- 2 hours ago</span>
+                          class="small text-muted mb-1"> - <span
+                            data-th-text="${comment.getDateString()}"></span></span>
                       </p>
-                      <!-- Button trigger modal -->
-                      <a type="button" class="btn" href="#" data-bs-toggle="modal" data-bs-target="#chatResponseModal">
-                        <div class="d-flex align-items dark-blue-text">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                            class="bi bi-reply" viewBox="0 0 16 16">
-                            <path
-                              d="M6.598 5.013a.144.144 0 0 1 .202.134V6.3a.5.5 0 0 0 .5.5c.667 0 2.013.005 3.3.822.984.624 1.99 1.76 2.595 3.876-1.02-.983-2.185-1.516-3.205-1.799a8.74 8.74 0 0 0-1.921-.306 7.404 7.404 0 0 0-.798.008h-.013l-.005.001h-.001L7.3 9.9l-.05-.498a.5.5 0 0 0-.45.498v1.153c0 .108-.11.176-.202.134L2.614 8.254a.503.503 0 0 0-.042-.028.147.147 0 0 1 0-.252.499.499 0 0 0 .042-.028l3.984-2.933zM7.8 10.386c.068 0 .143.003.223.006.434.02 1.034.086 1.7.271 1.326.368 2.896 1.202 3.94 3.08a.5.5 0 0 0 .933-.305c-.464-3.71-1.886-5.662-3.46-6.66-1.245-.79-2.527-.942-3.336-.971v-.66a1.144 1.144 0 0 0-1.767-.96l-3.994 2.94a1.147 1.147 0 0 0 0 1.946l3.994 2.94a1.144 1.144 0 0 0 1.767-.96v-.667z" />
-                          </svg>
-                        </div>
-                      </a>
-
-                      <!-- Modal -->
-                      <div class="modal fade" id="chatResponseModal" tabindex="-1"
-                        aria-labelledby="chatResponseModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content dark-blue-text" style="background-color:white">
-                            <div class="modal-header">
-                              <a class="navbar-brand" href="/"><img th:src="@{/img/clap_logo_horizontal.PNG}"
-                                  width="150" height="42"></a>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <form class="px-md-2" method="POST"
-                                data-th-action="@{'/owner/' + ${user_id} +'/content/'+ ${artistic_content_id} +'/comment/'+ ${comment.getId()}+'/comment_response/'}"
-                                data-th-object="${commentResponse}">
-                                <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
-                                  <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
-                                </div>
-                                <div class="mb-3">
-                                  <label for="recipient-name" class="col-form-label">Comment response:</label>
-                                  <textarea type="text" id="text" class="form-control" th:field=*{text}
-                                    placeholder="Comment response"></textarea>
-                                </div>
-                                <div class="d-flex justify-content-center">
-                                  <button type="submit" class="btn btn-lg mb-1 gold dark-blue-text">Add</button>
-                                </div>
-                              </form>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                     <p class="small mb-0">
                       <span data-th-text="${comment.getText()}"></span>
                     </p>
-                  </div>
-                  <div th:each="commentResponse : ${comment.getCommentResponses()}">
-                    <div class="d-flex flex-start mt-4" style="margin-bottom: 15px;">
-                      <a class="me-3" href="#">
-                        <img class="rounded-circle shadow-1-strong"
-                          src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(11).webp" alt="avatar" width="50"
-                          height="50" />
-                      </a>
-                      <div class="flex-grow-1 flex-shrink-1">
-                        <div>
-                          <div class="d-flex justify-content-between align-items-center">
-                            <p class="mb-1">
-                              @<span data-th-text="${commentResponse.getUser().getUsername()}"><span
-                                  class="small text-muted mb-1">- 3 hours ago</span>
-                            </p>
-                          </div>
-                          <p class="small mb-0">
-                            <span data-th-text="${commentResponse.getUser().getDescription()}">
-                          </p>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>

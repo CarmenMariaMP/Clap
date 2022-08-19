@@ -23,4 +23,10 @@ public interface SubscriptionRepository extends Neo4jRepository<Subscription, St
 
     @Query("MATCH (s:Subscription)" +" -[:HAS_FOLLOWER]" +"->" +"(u:User{username: $username})" +"return count(s) as count")
     public Integer followedsCount(String username);
+
+    @Query("MATCH (s:Subscription)" +"-[:HAS_FOLLOWED]" +"->" +"(u:User{username:$username})" +"detach delete s")
+    public void deleteSubscriptionsByFollowedRelation(String username);
+
+    @Query("MATCH (s:Subscription)" +"-[:HAS_FOLLOWER]" +"->" +"(u:User{username:$username})" +"detach delete s")
+    public void deleteSubscriptionsByFollowerRelation(String username);
 }

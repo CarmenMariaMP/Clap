@@ -25,4 +25,10 @@ public interface PrivacyRequestRepository extends Neo4jRepository<PrivacyRequest
 
     @Query("MATCH(p:PrivacyRequest{content_creator_username:$username,request_state:$request_state})" +" return count(p) as count")
     public Integer findNumberPendingRequestsByContentCreator(String username,String request_state);
+
+    @Query("MATCH (p:PrivacyRequest)" +" -[:HAS_PRIVACY_REQUEST_CONTENT_CREATOR]" +" ->" +" (u:User{username: $username_content_creator})" +" detach delete p")
+    public void deleteRequestByCreator(String username_content_creator);
+
+    @Query("MATCH (p:PrivacyRequest)" +" -[:HAS_PRIVACY_REQUEST_COMPANY]" +" ->" +" (u:User{username: $username_company})" +" detach delete p")
+    public void deleteRequestByCompany(String username_company);
 }

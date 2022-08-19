@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.clap.model.Comment;
 import com.clap.model.Dance;
 import com.clap.model.Favourite;
+import com.clap.model.Role;
 import com.clap.model.Search;
 import com.clap.model.Tag;
 import com.clap.model.User;
@@ -31,6 +32,7 @@ import com.clap.services.CommentService;
 import com.clap.services.DanceService;
 import com.clap.services.FavouriteService;
 import com.clap.services.LikeService;
+import com.clap.services.RoleService;
 import com.clap.services.TagService;
 import com.clap.services.UserService;
 
@@ -46,6 +48,7 @@ public class DanceController {
     private final FavouriteService favouriteService;
     private final LikeService likeService;
     private final TagService tagService;
+    private final RoleService roleService;
     private final ArtisticUploadDataValidator danceUploadDataValidator;
 
     @GetMapping("/create_dance_content")
@@ -84,10 +87,31 @@ public class DanceController {
     public String createDanceContent(@Valid @ModelAttribute("danceUploadData") ArtisticContentData danceUploadData,
             BindingResult result, Map<String, Object> model, @RequestParam("file") MultipartFile multipartFile,
             @RequestParam(value = "genres", required = false) String genres) throws Exception {
+        List<String> allGenres = new ArrayList<String>();
+        allGenres.add("Flamenco");
+        allGenres.add("Belly");
+        allGenres.add("Tap");
+        allGenres.add("Spanish Dance");
+        allGenres.add("Sport dance");
+        allGenres.add("Shuffle");
+        allGenres.add("Folk");
+        allGenres.add("Ballet");
+        allGenres.add("Electrodance");
+        allGenres.add("Break");
+        allGenres.add("Contemporary");
+        allGenres.add("Funky");
+        allGenres.add("Hip hop");
+        allGenres.add("Pole");
+        allGenres.add("Comercial");
+        allGenres.add("Popping");
+        allGenres.add("African");
+        allGenres.add("Locking");
         String username = userService.getLoggedUser();
         if (username == null) {
             return "redirect:/login";
         }
+        model.put("search", new Search());
+        model.put("allGenres", allGenres);
         User user = userService.getUserByUsername(username).orElse(null);
 
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
@@ -105,7 +129,6 @@ public class DanceController {
         }
         Dance danceContent = danceService.uploadDanceContent(danceUploadData, user);
 
-        String g = genres;
         model.put("danceUploadData", danceUploadData);
         return String.format("redirect:/owner/%s/content/%s/role", danceContent.getOwner().getId(),
                 danceContent.getId());
@@ -141,16 +164,21 @@ public class DanceController {
         artisticContentData.setViewCount(0);
         artisticContentData.setOwner(owner);
         artisticContentData.setId(danceContent.getId());
-        
+
         List<Comment> existingComments = commentService.getsCommentsByContentId(artistic_content_id);
+        for(int a = 0;a<existingComments.size();a++){
+            Comment comment = existingComments.get(a);
+            User user_comment = userService.getUserByCommentId(comment.getId());
+            comment.setUser(user_comment);
+        }
         
         List<String> videoExtensions = new ArrayList<String>();
         videoExtensions.add(".mp4");
         Boolean isVideo = false;
         String fileUrl = artisticContentService.getContentUrlById(artistic_content_id);
-        for(int i=0;i<videoExtensions.size();i++){
-            if(fileUrl.contains(videoExtensions.get(i))){
-                isVideo =true;
+        for (int i = 0; i < videoExtensions.size(); i++) {
+            if (fileUrl.contains(videoExtensions.get(i))) {
+                isVideo = true;
                 break;
             }
         }
@@ -158,23 +186,26 @@ public class DanceController {
         Boolean alreadyFavourite = favouriteService.isAlreadyFavouriteOf(logged_user.getId(), artistic_content_id);
         Boolean alreadyLike = likeService.isAlreadyLikeOf(logged_user.getId(), artistic_content_id);
         Integer numberOfLikes = likeService.getLikeCount(artistic_content_id);
-        
+
         List<Tag> tagList = tagService.getTagsByContentId(artistic_content_id);
         String tags = "";
-        for(int z=0;z<tagList.size();z++){
-            if(z==1){
-                tags = "#"+tagList.get(z).getText();
-            }else{
-                tags = tags+",#"+tagList.get(z).getText();
+        for (int z = 0; z < tagList.size(); z++) {
+            if (z == 1) {
+                tags = "#" + tagList.get(z).getText();
+            } else {
+                tags = tags + ",#" + tagList.get(z).getText();
             }
         }
 
-        model.put("tags",tags);
-        model.put("alreadyFavourite",alreadyFavourite);
-        model.put("alreadyLike",alreadyLike);
-        model.put("numberOfLikes",numberOfLikes);
+        List<Role> roles = roleService.getRolesByContentId(artistic_content_id);
+
+        model.put("roles",roles);
+        model.put("tags", tags);
+        model.put("alreadyFavourite", alreadyFavourite);
+        model.put("alreadyLike", alreadyLike);
+        model.put("numberOfLikes", numberOfLikes);
         model.put("favourite", new Favourite());
-        model.put("isVideo",isVideo);
+        model.put("isVideo", isVideo);
         model.put("comment", new Comment());
         model.put("existingComments", existingComments);
         model.put("artisticContentData", artisticContentData);

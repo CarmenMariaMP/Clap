@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.clap.model.ArtisticContent;
 import com.clap.model.Comment;
 import com.clap.model.CommentResponse;
 import com.clap.model.Favourite;
 import com.clap.model.General;
+import com.clap.model.Role;
 import com.clap.model.Search;
 import com.clap.model.Tag;
 import com.clap.model.User;
@@ -29,11 +29,11 @@ import com.clap.model.Validators.ArtisticUploadDataValidator;
 import com.clap.model.dataModels.ArtisticContentData;
 import com.clap.model.utils.FileUploadUtil;
 import com.clap.services.ArtisticContentService;
-import com.clap.services.CommentResponseService;
 import com.clap.services.CommentService;
 import com.clap.services.FavouriteService;
 import com.clap.services.GeneralContentService;
 import com.clap.services.LikeService;
+import com.clap.services.RoleService;
 import com.clap.services.TagService;
 import com.clap.services.UserService;
 
@@ -46,11 +46,11 @@ public class GeneralContentController {
     private final GeneralContentService generalContentService;
     private final ArtisticContentService artisticContentService;
     private final CommentService commentService;
-    private final CommentResponseService commentResponseService;
     private final ArtisticUploadDataValidator generalUploadDataValidator;
     private final FavouriteService favouriteService;
     private final LikeService likeService;
     private final TagService tagService;
+    private final RoleService roleService;
 
     @GetMapping("/create_general_content")
     public String createGeneralContentView(Map<String, Object> model) {
@@ -72,6 +72,7 @@ public class GeneralContentController {
         if (username == null) {
             return "redirect:/login";
         }
+        model.put("search", new Search());
         User user = userService.getUserByUsername(username).orElse(null);
 
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
@@ -125,20 +126,10 @@ public class GeneralContentController {
         artisticContentData.setId(generalContent.getId());
 
         List<Comment> existingComments = commentService.getsCommentsByContentId(artistic_content_id);
-        for(int i=0;i<existingComments.size();i++){
-            Comment comment = existingComments.get(i);
-            String comment_id = comment.getId();
-            User user_comment = userService.getUserByCommentId(comment_id);
-            ArtisticContent artisticContent = artisticContentService.getByCommentId(comment_id);
+        for(int a = 0;a<existingComments.size();a++){
+            Comment comment = existingComments.get(a);
+            User user_comment = userService.getUserByCommentId(comment.getId());
             comment.setUser(user_comment);
-            comment.setArtisticContent(artisticContent);
-            List<CommentResponse> commentResponses = commentResponseService.getCommentResponsesByCommentId(comment_id);
-            comment.setCommentResponses(commentResponses);
-            for(int j=0;j<commentResponses.size();j++){
-                User user_comment_response = userService.getUserByCommentResponseId(commentResponses.get(j).getId());
-                commentResponses.get(j).setUser(user_comment_response);
-                commentResponses.get(j).setComment(comment);
-            }
         }
 
         List<String> videoExtensions = new ArrayList<String>();
@@ -167,6 +158,9 @@ public class GeneralContentController {
             }
         }
 
+        List<Role> roles = roleService.getRolesByContentId(artistic_content_id);
+
+        model.put("roles",roles);
         model.put("tags",tags);
         model.put("alreadyFavourite",alreadyFavourite);
         model.put("alreadyLike",alreadyLike);

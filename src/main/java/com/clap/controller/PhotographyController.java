@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.clap.model.Comment;
 import com.clap.model.Favourite;
 import com.clap.model.Photography;
+import com.clap.model.Role;
 import com.clap.model.Search;
 import com.clap.model.Tag;
 import com.clap.model.User;
@@ -31,6 +32,7 @@ import com.clap.services.CommentService;
 import com.clap.services.FavouriteService;
 import com.clap.services.LikeService;
 import com.clap.services.PhotographyService;
+import com.clap.services.RoleService;
 import com.clap.services.TagService;
 import com.clap.services.UserService;
 
@@ -46,6 +48,7 @@ public class PhotographyController {
     private final FavouriteService favouriteService;
     private final LikeService likeService;
     private final TagService tagService;
+    private final RoleService roleService;
     private final ArtisticUploadDataValidator photographyUploadDataValidator;
 
     @GetMapping("/create_photography_content")
@@ -68,6 +71,7 @@ public class PhotographyController {
         if (username == null) {
             return "redirect:/login";
         }
+        model.put("search", new Search());
         User user = userService.getUserByUsername(username).orElse(null);
 
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
@@ -124,6 +128,11 @@ public class PhotographyController {
         artisticContentData.setId(photographyContent.getId());
         
         List<Comment> existingComments = commentService.getsCommentsByContentId(artistic_content_id);
+        for(int a = 0;a<existingComments.size();a++){
+            Comment comment = existingComments.get(a);
+            User user_comment = userService.getUserByCommentId(comment.getId());
+            comment.setUser(user_comment);
+        }
         
         List<String> videoExtensions = new ArrayList<String>();
         videoExtensions.add(".mp4");
@@ -150,6 +159,9 @@ public class PhotographyController {
             }
         }
 
+        List<Role> roles = roleService.getRolesByContentId(artistic_content_id);
+
+        model.put("roles",roles);
         model.put("tags",tags);
         model.put("alreadyFavourite",alreadyFavourite);
         model.put("alreadyLike",alreadyLike);

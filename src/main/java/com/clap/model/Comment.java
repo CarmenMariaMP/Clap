@@ -40,6 +40,9 @@ public class Comment implements Serializable {
     @Property("date")
     private Date date;
 
+    @Property("date_string")
+    private String dateString;
+
     @Property("comment_responses")
     private List<CommentResponse> commentResponses;
 

@@ -146,7 +146,9 @@ public class ProfileController {
                 User user = userService.getUserByArtisticContentId(ac.getId());
                 roles.add(roles_user.get(i).getText());
                 ac.setOwner(user);
-                attached_contents.add(ac);
+                if(!user.getUsername().equals(username)){
+                    attached_contents.add(ac);
+                }
                 roles_and_content.put(roles_user.get(i).getText(), ac);
             }
 

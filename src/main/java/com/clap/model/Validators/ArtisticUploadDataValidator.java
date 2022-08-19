@@ -27,7 +27,7 @@ public class ArtisticUploadDataValidator implements Validator{
         ArtisticContentData artisticContentData = (ArtisticContentData) target;
         
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "", "Title cannot be empty!");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "", "Title cannot be empty!");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "", "Description cannot be empty!");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "multipartFile", "", "File cannot be empty!");
 
         if (errors.getFieldErrorCount("title")==0 && artisticContentService.getIdByTitle(artisticContentData.getTitle())!=null){

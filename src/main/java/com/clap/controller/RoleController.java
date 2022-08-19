@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.clap.model.Role;
 import com.clap.model.Search;
 import com.clap.model.Validators.RoleValidator;
+import com.clap.services.ArtisticContentService;
 import com.clap.services.RoleService;
 import com.clap.services.UserService;
 
@@ -25,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class RoleController {
     private final UserService userService;
     private final RoleService roleService;
+    private final ArtisticContentService artisticContentService;
     private final RoleValidator roleValidator;
 
     @RequestMapping("/owner/{user_id}/content/{artistic_content_id}/role")
@@ -34,7 +36,7 @@ public class RoleController {
         if (username == null) {
             return "redirect:/login";
         }
-        List<Role> existingRoles = roleService.getRolesByContentIdAndUserId(artistic_content_id, user_id);
+        List<Role> existingRoles = roleService.getRolesByContentId(artistic_content_id);
         model.put("role", new Role());
         model.put("user_id", user_id);
         model.put("artistic_content_id", artistic_content_id);
@@ -51,6 +53,8 @@ public class RoleController {
         if (username == null) {
             return "redirect:/login";
         }
+        List<Role> existingRoles = roleService.getRolesByContentId(artistic_content_id);
+        model.put("search", new Search());
         roleValidator.validate(role, result);
         if (result.hasErrors()) {
             return "roles.html";
@@ -60,29 +64,29 @@ public class RoleController {
         } catch (Exception e) {
             return "roles.html";
         }
+        model.put("existingRoles", existingRoles);
         model.put("user_id", user_id);
         model.put("artistic_content_id", artistic_content_id);
         return String.format("redirect:/owner/%s/content/%s/role", user_id, artistic_content_id);
     }
 
-    @PostMapping("/owner/{user_id}/content/{artistic_content_id}/delete")
-    public String deleteRoles(@Valid @ModelAttribute("role") Role role,
-            @PathVariable String user_id, @PathVariable String artistic_content_id, Map<String, Object> model,
-            BindingResult result) {
+    @PostMapping("/owner/{user_id}/content/{artistic_content_id}/delete_role/{role_id}")
+    public String deleteRoles(@PathVariable String role_id,
+            @PathVariable String user_id, @PathVariable String artistic_content_id, Map<String, Object> model) {
+        String contentType = artisticContentService.getTypeById(artistic_content_id);
         String username = userService.getLoggedUser();
         if (username == null) {
             return "redirect:/login";
         }
-        if (result.hasErrors()) {
-            return "roles.html";
-        }
+        model.put("search", new Search());
         try {
-            roleService.deleteRole(role);
+            roleService.deleteRole(role_id);
         } catch (Exception e) {
             return "roles.html";
         }
         model.put("user_id", user_id);
         model.put("artistic_content_id", artistic_content_id);
+        model.put("contentType", contentType);
         return String.format("redirect:/owner/%s/content/%s/role", user_id, artistic_content_id);
     }
 

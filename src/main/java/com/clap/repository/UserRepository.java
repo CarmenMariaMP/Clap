@@ -11,12 +11,10 @@ import com.clap.model.User;
 
 @Repository
 public interface UserRepository extends Neo4jRepository<User, String> {
-    @Query("MATCH (u:User{username:$username}) " + "RETURN u")
-	User getUser(String username);
+    @Query("MATCH (u:User) " + "RETURN u.user_id")
+	List<String> findAllUsersId();
 
     public Optional<User> findByUsername(String username);
-
-    public Optional<User> findById(String id);
 
     @Query("MATCH (u:User)" +" -[:HAS_ARTISTIC_CONTENT_OWNER]" +"->" + "(ac:ArtisticContent{title: $title})" +"return u")
     User getOwnerByTitle(String title);
@@ -38,4 +36,7 @@ public interface UserRepository extends Neo4jRepository<User, String> {
 
     @Query("MATCH (c:Comment{id:$id})" +"-[:HAS_COMMENT_RESPONSE_USER]" +" -> " +"(u:User)" +"  return u")
     User findUserByCommentResponseId(String id);
+
+    @Query("MATCH (u:User{username:$username}) detach delete u")
+    public void deleteUser(String username);
 }
