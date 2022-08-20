@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder crypt;
-    private final ArtisticContentService artisticContentService;
     private final SubscriptionService subscriptionService;
     private final PrivacyRequestService privacyRequestService;
 
@@ -125,10 +124,6 @@ public class UserService implements UserDetailsService {
 
     public void deleteAccount(String username){
         String user_type = getTypeByUsername(username);
-        List<ArtisticContent> artisticContents = artisticContentService.getContentByOwner(username);
-        for(int i=0;i<artisticContents.size();i++){
-            artisticContentService.deleteContent(artisticContents.get(i));
-        }
         if(user_type.equals("COMPANY")){
             privacyRequestService.deleteRequestByCompany(username);
         }else if(user_type.equals("CONTENT_CREATOR")){

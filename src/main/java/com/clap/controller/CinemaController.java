@@ -144,7 +144,7 @@ public class CinemaController {
         }
         String contentType = artisticContentService.getTypeById(artistic_content_id);
         if (contentType == null) {
-            return "redirect:/choose_category.html";
+            return "error_404.html";
         }
         if (!contentType.equals("CINEMA")) {
             return "redirect:/choose_category.html";
