@@ -59,8 +59,8 @@ public class ArtisticUploadDataValidator implements Validator{
             }
         }
 
-        if(errors.getFieldErrorCount("multipartFile")==0 && artisticContentData.getMultipartFile().getSize()>20000000){
-            errors.rejectValue("multipartFile", "", "The file you try to upload is too big. The maximun size is 10 MB");
+        if(errors.getFieldErrorCount("multipartFile")==0 && artisticContentData.getMultipartFile().getSize()>42000000){
+            errors.rejectValue("multipartFile", "", "The file you try to upload is too big. The maximun size is 200 MB");
         }
     }
 }
