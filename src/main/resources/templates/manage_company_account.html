@@ -4,8 +4,9 @@
 <head>
   <div th:replace="headerFragment :: headerFragment"></div>
   <title>Configuration | Clap</title>
-<link rel="shortcut icon" th:href="@{/img/lira_logo.png}">
+  <link rel="shortcut icon" th:href="@{/img/lira_logo.png}">
 </head>
+
 <body>
   <div th:replace="navbarFragment :: navbarFragment"> </div>
   <section class="h-100 py-5 h-custom">
@@ -21,7 +22,8 @@
               <h5 class="d-flex justify-content-center dark-blue-text">account information</h5>
               <hr style="height:2px;border-width:0;" class="grey">
               <div class="d-flex justify-content-center">
-                <h5 class="d-flex justify-content-center dark-blue-text" style="margin-top:20px ;">Profile information</h5>
+                <h5 class="d-flex justify-content-center dark-blue-text" style="margin-top:20px ;">Profile information
+                </h5>
               </div>
               <form class="px-md-2" method="POST" data-th-action="@{/account/company}"
                 data-th-object="${companyManagementData}" enctype="multipart/form-data">
@@ -30,8 +32,8 @@
                 </div>
                 <br>
                 <div class="d-flex justify-content-center">
-                  <img class="rounded-circle shadow-1-strong me-3" th:src="${companyManagementData.getPhotoUrl()}" alt="You must upload a valid image"
-                    width="200" height="200" />
+                  <img class="rounded-circle shadow-1-strong me-3" th:src="${companyManagementData.getPhotoUrl()}"
+                    alt="You must upload a valid image" width="200" height="200" />
                 </div>
                 <br>
                 <div class="form-outline mb-4">
@@ -40,7 +42,7 @@
                       <label class="form-label" for="image">Profile photo</label>
                     </div>
                     <div class="col-md-10">
-                      <input type="file" id="image" name="image" class="form-control" accept="image/png, image/jpeg"/>
+                      <input type="file" id="image" name="image" class="form-control" accept="image/png, image/jpeg" />
                     </div>
                   </div>
                 </div>
@@ -51,7 +53,7 @@
                     </div>
                     <div class="col-md-10">
                       <textarea type="text" id="biography" class="form-control" th:field=*{biography}
-                      placeholder="Enter a short biography about your company"></textarea>
+                        placeholder="Enter a short biography about your company"></textarea>
                     </div>
                   </div>
                 </div>
@@ -61,7 +63,8 @@
                       <label class="form-label" for="username">Username</label>
                     </div>
                     <div class="col-md-10">
-                      <input type="text" id="username" class="form-control" th:field=*{username} placeholder="username"/>
+                      <input type="text" id="username" class="form-control" th:field=*{username}
+                        placeholder="username" />
                     </div>
                   </div>
                 </div>
@@ -72,7 +75,8 @@
                       <label class="form-label" for="companyName">Company name</label>
                     </div>
                     <div class="col-md-10">
-                      <input type="text" id="companyName" class="form-control" th:field=*{companyName} placeholder="Company name"/>
+                      <input type="text" id="companyName" class="form-control" th:field=*{companyName}
+                        placeholder="Company name" />
                     </div>
                   </div>
                 </div>
@@ -83,7 +87,8 @@
                       <label class="form-label" for="email">Email</label>
                     </div>
                     <div class="col-md-10">
-                      <input type="text" id="email" class="form-control" th:field=*{email} placeholder="example@gmail.com"/>
+                      <input type="text" id="email" class="form-control" th:field=*{email}
+                        placeholder="example@gmail.com" />
                     </div>
                   </div>
                 </div>
@@ -94,7 +99,8 @@
                       <label class="form-label" for="taxIdNumber">Tax Id number</label>
                     </div>
                     <div class="col-md-10">
-                      <input type="text" id="taxIdNumber" class="form-control" th:field=*{taxIdNumber} placeholder="111111111"/>
+                      <input type="text" id="taxIdNumber" class="form-control" th:field=*{taxIdNumber}
+                        placeholder="111111111" />
                     </div>
                   </div>
                 </div>
@@ -105,7 +111,8 @@
                       <label class="form-label" for="officeAdress">Office adress</label>
                     </div>
                     <div class="col-md-10">
-                      <input type="text" id="officeAdress" class="form-control" th:field=*{officeAddress} placeholder="Road Example 4"/>
+                      <input type="text" id="officeAdress" class="form-control" th:field=*{officeAddress}
+                        placeholder="Road Example 4" />
                     </div>
                   </div>
                 </div>
@@ -116,10 +123,12 @@
                       <label class="form-label" for="businessPhone">Business phone</label>
                     </div>
                     <div class="col-md-10">
-                      <input type="text" id="businessPhone" class="form-control"th:field=*{phone} placeholder="+34 666666666" />
+                      <input type="text" id="businessPhone" class="form-control" th:field=*{phone}
+                        placeholder="+34 666666666" />
                     </div>
                   </div>
                 </div>
+              </form>
                 <br><br>
                 <div class="d-flex justify-content-center row">
                   <div class="col-md-5 d-flex justify-content-center row">
@@ -132,12 +141,40 @@
                   </div>
                 </div>
                 <br>
-                <div class="d-flex justify-content-center">
-                  <button type="submit" class="btn btn-lg mb-1 gold dark-blue-text">Delete my account</button>
+                <div>
+                  <!-- Button trigger modal -->
+                  <div class="d-flex justify-content-center" style="margin-top:10px ;margin-bottom: 10px;">
+                    <a type="button" class="btn btn-lg mb-1 gold dark-blue-text" data-bs-toggle="modal"
+                      data-bs-target="#deleteCompanyModal">
+                      Delete my account
+                    </a>
+                  </div>
+                  <!-- Modal -->
+                  <div class="modal fade" id="deleteCompanyModal" tabindex="-1" aria-labelledby="deleteCompanyModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content dark-blue-text" style="background-color:white">
+                        <div class="modal-header">
+                          <a class="navbar-brand" href="/"><img th:src="@{/img/clap_logo_horizontal.PNG}" width="150"
+                              height="42"></a>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p>Are you sure you want to delete your account? This process can take a few minutes</p>
+                        </div>
+                        <div class="modal-footer">
+                          <div class="d-flex justify-content-center">
+                            <form method="POST" class="d-flex justify-content-center"
+                              data-th-action="@{'/account/delete/'}">
+                              <button type="submit" class="btn btn-lg mb-1 gold dark-blue-text">Delete</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <br>
-              </form>
-
           </div>
         </div>
 
