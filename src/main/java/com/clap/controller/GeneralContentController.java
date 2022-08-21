@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.clap.model.Comment;
-import com.clap.model.CommentResponse;
 import com.clap.model.Favourite;
 import com.clap.model.General;
 import com.clap.model.Role;
@@ -168,7 +167,6 @@ public class GeneralContentController {
         model.put("favourite", new Favourite());
         model.put("isVideo",isVideo);
         model.put("comment", new Comment());
-        model.put("commentResponse", new CommentResponse());
         model.put("existingComments", existingComments);
         model.put("artisticContentData", artisticContentData);
         model.put("contentType", contentType);
