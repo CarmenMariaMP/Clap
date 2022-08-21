@@ -1,5 +1,6 @@
 package com.clap.model.utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -12,7 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileUploadUtil {
     public static void saveFile(String uploadDir, String fileName,
             MultipartFile multipartFile) throws IOException {
-        Path uploadPath = Paths.get(uploadDir);
+        String serverDirectory = new File("").getAbsolutePath();
+        String dir = serverDirectory+"\\"+uploadDir;
+        Path uploadPath = Paths.get(dir);
 
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
