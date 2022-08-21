@@ -9,7 +9,6 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
@@ -42,9 +41,6 @@ public class Comment implements Serializable {
 
     @Property("date_string")
     private String dateString;
-
-    @Property("comment_responses")
-    private List<CommentResponse> commentResponses;
 
     @Relationship(value = "HAS_COMMENT_USER", direction = Relationship.Direction.OUTGOING)
     @JsonIgnoreProperties(value = { "privacyRequests" }, allowSetters = true)
