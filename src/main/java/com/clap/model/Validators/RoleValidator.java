@@ -37,7 +37,7 @@ public class RoleValidator implements Validator{
             }
         }
 
-        if(!isValid){
+        if(errors.getFieldErrorCount("username")==0 && !isValid){
             errors.rejectValue("username", "", "There is no user with this username");
         }
     }

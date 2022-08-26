@@ -126,7 +126,7 @@ public class PaintingOrSculptureController {
         artisticContentData.setTechniques(paintingOrSculptureContent.getTechniques());
         artisticContentData.setType(contentType);
         artisticContentData.setContentUrl(paintingOrSculptureContent.getContentUrl());
-        artisticContentData.setViewCount(0);
+        artisticContentData.setViewCount(paintingOrSculptureContent.getViewCount());
         artisticContentData.setOwner(owner);
         artisticContentData.setId(paintingOrSculptureContent.getId());
 

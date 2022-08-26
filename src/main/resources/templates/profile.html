@@ -209,11 +209,6 @@
                           data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane"
                           aria-selected="false">Tagged</button>
                       </li>
-                      <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
-                          data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane"
-                          aria-selected="false">Projects</button>
-                      </li>
                     </ul>
                     <div th:switch="${type}">
                       <form th:case="${CONTENT_CREATOR}" id="contents"
@@ -336,45 +331,6 @@
                         </span>
                       </div>
                       </form>
-                      <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
-                        tabindex="0">
-                        <br>
-                        <div class="row row-cols-1 row-cols-md-2 g-4">
-                          <a role="button" th:href="@{/project_detail}">
-                            <div class="col">
-                              <div class="card h-100">
-                                <img
-                                  th:src="@{https://cdn.w600.comps.canstockphoto.com/example-stamp-typ-image_csp54929178.jpg}"
-                                  class="card-img-top" alt="..." width="140" height="140">
-                              </div>
-                              <br>
-                              <h6 class="d-flex justify-content-center"> Project 1 </h6>
-                            </div>
-                          </a>
-                          <a role="button" href="#">
-                            <div class="col">
-                              <div class="card h-100">
-                                <img
-                                  th:src="@{https://cdn.w600.comps.canstockphoto.com/example-stamp-typ-image_csp54929178.jpg}"
-                                  class="card-img-top" alt="..." width="140" height="140">
-                              </div>
-                              <br>
-                              <h6 class="d-flex justify-content-center"> Project 2 </h6>
-                            </div>
-                          </a>
-                          <a role="button" href="#">
-                            <div class="col">
-                              <div class="card h-100">
-                                <img
-                                  th:src="@{https://cdn.w600.comps.canstockphoto.com/example-stamp-typ-image_csp54929178.jpg}"
-                                  class="card-img-top" alt="..." width="140" height="140">
-                              </div>
-                              <br>
-                              <h6 class="d-flex justify-content-center"> Project 3 </h6>
-                            </div>
-                          </a>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>

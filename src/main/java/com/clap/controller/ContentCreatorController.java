@@ -92,6 +92,7 @@ public class ContentCreatorController {
         if (username == null) {
             return "redirect:/login.html";
         }
+        model.put("search", new Search());
         ContentCreator contentCreator = contentCreatorService.getContentCreatorByUsername(username);
         if (!contentCreator.getType().equals("CONTENT_CREATOR")) {
             return "redirect:/account";

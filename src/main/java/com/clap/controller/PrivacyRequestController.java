@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,11 @@ public class PrivacyRequestController {
     private final ContentCreatorService contentCreatorService;
     private final CompanyService companyService;
 
+    @GetMapping("/profile/{userId}/sendPrivacyRequest")
+	public String trySendPrivacyRequestMaliciously(@PathVariable String userId,Map<String, Object> model)  {
+        model.put("search", new Search());
+            return String.format("error_405.html");
+    }
     @PostMapping("/profile/{userId}/sendPrivacyRequest")
 	public String sendPrivacyRequest(@PathVariable String userId,Map<String, Object> model) throws Exception {
 		String username_sender = userService.getLoggedUser();
@@ -57,6 +63,7 @@ public class PrivacyRequestController {
         if (username == null) {
             return "redirect:/login";
         } else {
+            model.put("search", new Search());
             String userType = userService.getTypeByUsername(username);
             if(userType.equals("CONTENT_CREATOR")){
                 List<PrivacyRequest> privacyRequests = privacyRequestService.getPrivacyRequestsByContentCreatorUsername(username);
@@ -79,7 +86,6 @@ public class PrivacyRequestController {
                     String contentCreatorUsername= privacyRequests.get(i).getContentCreatorUsername();
                     privacyRequests.get(i).setContentCreator(contentCreatorService.getContentCreatorByUsername(contentCreatorUsername));
                 }
-                model.put("search", new Search());
                 model.put("privacyRequests",privacyRequests);
                 return "requests_state.html";
             }
@@ -97,8 +103,6 @@ public class PrivacyRequestController {
             if(sender.getType().equals("COMPANY")){
                 return String.format("redirect:/privacyRequests");
             }
-            PrivacyRequest pr = privacyRequestService.getById(requestId).orElse(null);
-            //User owner_pr = userService.ge
             try{
                 privacyRequestService.acceptPrivacyRequest(sender, requestId);
             }catch(Exception e){

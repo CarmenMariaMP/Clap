@@ -85,12 +85,13 @@ public class CompanyController {
 
     @PostMapping("/account/company")
     public String manageCompanyAccount(
-            @Valid @ModelAttribute("contentCreatorManagementData") CompanyManagementData companyManagementData,
+            @Valid @ModelAttribute("companyManagementData") CompanyManagementData companyManagementData,
             BindingResult result,Map<String, Object> model,@RequestParam("image") MultipartFile multipartFile) throws IOException {
         String username = userService.getLoggedUser();
         if (username == null) {
             return "redirect:/login.html";
         }
+        model.put("search", new Search());
         Company company = companyService.getCompanyByUsername(username);
         if (!company.getType().equals("COMPANY")) {
             return "redirect:/account";
@@ -128,12 +129,12 @@ public class CompanyController {
         companyManagementData.setPhotoUrl(company.getPhotoUrl());
         companyManagementValidator.validate(companyManagementData, result);
         if (result.hasErrors()) {
-            return "manage_creator_account.html";
+            return "manage_company_account.html";
         }
 
         companyService.updateCompany(companyManagementData, company);
         
-        model.put("contentCreatorManagementData",companyManagementData);
+        model.put("companyManagementData",companyManagementData);
         model.put("contentCreator",company);
         if(companyManagementData.getUsername().equals(username)){
             return String.format("redirect:/profile/%s", company.getId());

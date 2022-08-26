@@ -57,8 +57,7 @@ public class LikeController {
 
     @PostMapping("/owner/{user_id}/content/{artistic_content_id}/delete_like")
     public String deleteLike(@PathVariable String user_id, @PathVariable String artistic_content_id,
-            Map<String, Object> model,
-            BindingResult result) {
+            Map<String, Object> model) {
         String username = userService.getLoggedUser();
         String contentType = artisticContentService.getTypeById(artistic_content_id).toLowerCase();
         if (username == null) {

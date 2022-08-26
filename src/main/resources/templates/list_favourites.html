@@ -16,7 +16,6 @@
         <div class="col-lg-8 col-xl-6">
           <div class="card rounded-3 container">
             <div class="d-flex justify-content-end" style="margin-top:60px ;">
-              <div th:replace="filter :: filter"> </div>
             </div>
             <div class="d-flex justify-content-center">
               <a class="navbar-brand" href="/"><img th:src="@{/img/clap_logo_horizontal.png}" width="300"
@@ -25,6 +24,7 @@
             <h2 class="d-flex justify-content-center dark-blue-text">My favourite posts</h2>
             <hr style="height:2px;border-width:0;" class="grey">
             <div class="card-body p-4 p-md-5">
+              <div th-unless="${favourites.isEmpty()}">
               <div class="card mb-3" style="max-width: 540px;" th:each="content : ${favourites}">
                 <div class="row g-0">
                   <div class="col-md-4">
@@ -54,15 +54,16 @@
               <br>
               <br>
             </div>
+              <div th-if="${favourites.isEmpty()}">
+                <div class="alert d-flex justify-content-center gold dark-blue-text" role="alert">
+                  No favourite content to display
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <th-block data-th-if="${favourites.isEmpty()}">
-      <div class="alert d-flex justify-content-center gold dark-blue-text" role="alert">
-        No favourite content to display
-      </div>
-    </th-block>
     </div>
   </section>
 

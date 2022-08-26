@@ -31,7 +31,6 @@ public class ContentCreatorManagementValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "", "Username cannot be empty!");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "", "Email cannot be empty!");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "fullName", "", "Full name cannot be empty!");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phone", "", "Phone cannot be empty!");
 
         if (errors.getFieldErrorCount("username") == 0 && contentCreatorManagementData.getUsername().length() < 4
                 || contentCreatorManagementData.getUsername().length() > 20) {
@@ -48,7 +47,7 @@ public class ContentCreatorManagementValidator implements Validator {
             errors.rejectValue("email", "", "The email entered is invalid");
         }
 
-        if (errors.getFieldErrorCount("phone") == 0 && !patternMatches(contentCreatorManagementData.getPhone(),
+        if (!contentCreatorManagementData.getPhone().isEmpty() && !patternMatches(contentCreatorManagementData.getPhone(),
                 "^((\\+)?[1-9]{1,2})?([-\\s\\.])?((\\(\\d{1,4}\\))|\\d{1,4})(([-\\s\\.])?[0-9]{1,12}){1,2}$")) {
             errors.rejectValue("phone", "", "The phone entered is invalid");
         }

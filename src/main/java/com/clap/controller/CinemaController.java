@@ -160,7 +160,7 @@ public class CinemaController {
         artisticContentData.setType(contentType);
         artisticContentData.setGenres(cinemaContent.getGenres());
         artisticContentData.setContentUrl(cinemaContent.getContentUrl());
-        artisticContentData.setViewCount(0);
+        artisticContentData.setViewCount(cinemaContent.getViewCount());
         artisticContentData.setOwner(owner);
         artisticContentData.setId(cinemaContent.getId());
         
