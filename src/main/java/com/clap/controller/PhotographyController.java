@@ -123,7 +123,7 @@ public class PhotographyController {
         artisticContentData.setTechniques(photographyContent.getTechniques());
         artisticContentData.setType(contentType);
         artisticContentData.setContentUrl(photographyContent.getContentUrl());
-        artisticContentData.setViewCount(0);
+        artisticContentData.setViewCount(photographyContent.getViewCount());
         artisticContentData.setOwner(owner);
         artisticContentData.setId(photographyContent.getId());
         

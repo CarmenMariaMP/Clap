@@ -31,7 +31,6 @@ public class CompanyManagementValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "", "Username cannot be empty!");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "", "Email cannot be empty!");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phone", "", "Phone cannot be empty!");
 
         if (errors.getFieldErrorCount("username") == 0 && companyManagementData.getUsername().length() < 4 || companyManagementData.getUsername().length() > 20) {
 			errors.rejectValue("username", "", "Username length is out of bounds! (between 4 and 20 characters)");
@@ -45,11 +44,11 @@ public class CompanyManagementValidator implements Validator {
             errors.rejectValue("email", "", "The email entered is invalid");
         }
 
-        if (errors.getFieldErrorCount("phone") == 0 && !patternMatches(companyManagementData.getPhone(),"^((\\+)?[1-9]{1,2})?([-\\s\\.])?((\\(\\d{1,4}\\))|\\d{1,4})(([-\\s\\.])?[0-9]{1,12}){1,2}$")){
+        if (!companyManagementData.getPhone().isEmpty() && !patternMatches(companyManagementData.getPhone(),"^((\\+)?[1-9]{1,2})?([-\\s\\.])?((\\(\\d{1,4}\\))|\\d{1,4})(([-\\s\\.])?[0-9]{1,12}){1,2}$")){
             errors.rejectValue("phone", "", "The phone entered is invalid");
         }
 
-        if (errors.getFieldErrorCount("taxIdNumber") == 0 && !patternMatches(companyManagementData.getTaxIdNumber(),"^([0-9]{9})$")){
+        if (!companyManagementData.getTaxIdNumber().isEmpty() && !patternMatches(companyManagementData.getTaxIdNumber(),"^([0-9]{9})$")){
             errors.rejectValue("taxIdNumber", "", "The tax Id number entered is invalid, it must have 9 numbers");
         }
 

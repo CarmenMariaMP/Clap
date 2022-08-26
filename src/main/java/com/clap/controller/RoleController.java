@@ -32,6 +32,7 @@ public class RoleController {
     @RequestMapping("/owner/{user_id}/content/{artistic_content_id}/role")
     public String addRolesView(@PathVariable String user_id, @PathVariable String artistic_content_id,
             Map<String, Object> model) {
+        String contentType = artisticContentService.getTypeById(artistic_content_id);
         String username = userService.getLoggedUser();
         if (username == null) {
             return "redirect:/login";
@@ -42,6 +43,7 @@ public class RoleController {
         model.put("artistic_content_id", artistic_content_id);
         model.put("existingRoles", existingRoles);
         model.put("search", new Search());
+        model.put("contentType", contentType);
         return "roles.html";
     }
 
@@ -49,12 +51,14 @@ public class RoleController {
     public String addRoles(@Valid @ModelAttribute("role") Role role,
             @PathVariable String user_id, @PathVariable String artistic_content_id, Map<String, Object> model,
             BindingResult result) {
+        String contentType = artisticContentService.getTypeById(artistic_content_id);
         String username = userService.getLoggedUser();
         if (username == null) {
             return "redirect:/login";
         }
         List<Role> existingRoles = roleService.getRolesByContentId(artistic_content_id);
         model.put("search", new Search());
+        model.put("contentType", contentType);
         roleValidator.validate(role, result);
         if (result.hasErrors()) {
             return "roles.html";

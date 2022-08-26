@@ -161,7 +161,7 @@ public class DanceController {
         artisticContentData.setGenres(danceContent.getGenres());
         artisticContentData.setType(contentType);
         artisticContentData.setContentUrl(danceContent.getContentUrl());
-        artisticContentData.setViewCount(0);
+        artisticContentData.setViewCount(danceContent.getViewCount());
         artisticContentData.setOwner(owner);
         artisticContentData.setId(danceContent.getId());
 

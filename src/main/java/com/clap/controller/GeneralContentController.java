@@ -150,7 +150,7 @@ public class GeneralContentController {
         List<Tag> tagList = tagService.getTagsByContentId(artistic_content_id);
         String tags = "";
         for(int z=0;z<tagList.size();z++){
-            if(z==1){
+            if(z==0){
                 tags = "#"+tagList.get(z).getText();
             }else{
                 tags = tags+",#"+tagList.get(z).getText();

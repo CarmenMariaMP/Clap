@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <div th:replace="headerFragment :: headerFragment"></div>
+  <title>Error 404 | Clap</title>
+  <link rel="shortcut icon" th:href="@{/img/lira_logo.png}">
+</head>
+
+<body>
+  <div th:replace="navbarFragment :: navbarFragment"> </div>
+  <section class="h-100 py-5 h-custom">
+    <div class="container h-100" th:fragment="header">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-8 col-xl-6">
+          <div class="card rounded-3 container">
+            <div class="d-flex justify-content-center" style="margin-top:60px ;">
+              <a class="navbar-brand" href="/"><img th:src="@{/img/clap_logo_horizontal.png}" width="300"
+                  height="85"></a>
+            </div>
+            <h2 class="d-flex justify-content-center dark-blue-text">405</h2>
+            <h2 class="d-flex justify-content-center dark-blue-text">Method not allowed</h2>
+            <div class="card-body row">
+                <div class="alert d-flex justify-content-center gold dark-blue-text" role="alert">
+                  You cannot perform this action
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+</body>
+
+</html>

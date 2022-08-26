@@ -137,8 +137,8 @@ public class ArtisticContentController {
             String title = artisticContent.getTitle().toLowerCase();
             String description = artisticContent.getDescription().toLowerCase();
             String type = artisticContent.getType().toLowerCase();
-            if (searchInput.contains(title) || searchInput.contains(description) || searchInput.contains(type)
-                    || searchInput.matches(owner.getUsername())) {
+            if (title.contains(searchInput) || description.contains(searchInput) || type.contains(searchInput)
+                    || owner.getUsername().contains(searchInput)) {
                 contents.add(artisticContent);
             }
         }
