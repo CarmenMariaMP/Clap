@@ -2,7 +2,7 @@ version: "3.7"
 services:
 
   clap-application:
-    image: carmencita4/clap:v2
+    image: carmencita4/clap:latest
     container_name: clap-application
     ports:
       - "8087:8087"
