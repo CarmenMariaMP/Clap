@@ -31,7 +31,11 @@ public class CommentService {
     }
 
     public void deleteCommentsByContentId(String artistic_content_id) {
-        commentRepository.deleteCommentsByContentId(artistic_content_id);;
+        commentRepository.deleteCommentsByContentId(artistic_content_id);
+    }
+
+    public void deleteCommentsByUsername(String username) {
+        commentRepository.deleteCommentsByUsername(username);
     }
 
     public void addComment(Comment comment, String artistic_content_id, String  username) {

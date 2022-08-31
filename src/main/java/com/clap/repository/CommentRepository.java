@@ -18,4 +18,6 @@ public interface CommentRepository extends Neo4jRepository<Comment, String>{
 
     @Query("MATCH (c:Comment)" +"  -[:HAS_COMMENT_ARTISTIC_CONTENT]" +" ->" +" (a:ArtisticContent{artistic_content_id:$artistic_content_id}) " +" detach delete c")
     public void deleteCommentsByContentId(String artistic_content_id);
+    @Query("MATCH (c:Comment)" +"  -[:HAS_COMMENT_USER]" +" ->" +" (u:User{username:$username}) " +" detach delete c")
+    public void deleteCommentsByUsername(String username);
 }
