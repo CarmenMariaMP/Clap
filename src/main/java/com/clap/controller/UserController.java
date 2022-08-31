@@ -35,7 +35,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class UserController {
-    private final  ArtisticContentService artisticContentService;
+    private final ArtisticContentService artisticContentService;
     private final UserService userService;
     private final CommentService commentService;
     private final FavouriteService favouriteService;
@@ -47,9 +47,9 @@ public class UserController {
     public String index(Model model) {
         Boolean logged_user = false;
         String username = userService.getLoggedUser();
-		if (username != null) {
-			logged_user=true;
-		}
+        if (username != null) {
+            logged_user = true;
+        }
         List<ArtisticContent> contents = artisticContentService.getArtisticContent();
 
         for (int i = 0; i < contents.size(); i++) {
@@ -90,62 +90,62 @@ public class UserController {
     }
 
     @GetMapping("/account")
-	public String getManageUserAccount() {
-		String username = userService.getLoggedUser();
-		if (username == null) {
-			return "redirect:/login";
-		}
-        User user = userService.getUserByUsername(username).orElse(null);
-		if (user.getType().equals("CONTENT_CREATOR")) {
-			return "redirect:/account/content_creator";
-		} else {
-			return "redirect:/account/company";
-		}
-	}
-
-    
-    @PostMapping("/account/delete")
-	public String deleteUserAccount() {
-		String username = userService.getLoggedUser();
-		if (username == null) {
-			return "redirect:/login";
-		}
-        try {
-        List<ArtisticContent> artisticContents = artisticContentService.getContentByOwner(username);
-        for(int z=0;z<artisticContents.size();z++){
-            ArtisticContent artisticContent = artisticContents.get(z);
-            String artistic_content_id = artisticContent.getId();
-
-            commentService.deleteCommentsByContentId(artistic_content_id);
-            roleService.deleteRolesByContentId(artistic_content_id);
-
-            List<String> users_id = userService.getAllUsersId();
-            for(int i =0; i<users_id.size();i++){
-                String id = users_id.get(i);
-                Boolean alreadyFavourite = favouriteService.isAlreadyFavouriteOf(id, artistic_content_id);
-                Boolean alreadyLike = likeService.isAlreadyLikeOf(id, artistic_content_id);
-                if(alreadyFavourite){
-                    favouriteService.deleteFromFavourite(id, artistic_content_id);
-                }
-                if(alreadyLike){
-                    likeService.deleteFromLike(id, artisticContent.getId());
-                }
-            }
-
-            List<Tag> allContentTags = tagService.getTagsByContentId(artistic_content_id);
-            for(int j =0; j<allContentTags.size();j++){
-                Tag tag = allContentTags.get(j);
-                tagService.deleteTag(tag.getId(), artistic_content_id);
-            }
-
-            Path fileToDeletePath = Paths.get("src/main/resources/static/" + artisticContent.getContentUrl());
-            Files.delete(fileToDeletePath);
-            artisticContentService.deleteContent(artisticContents.get(z));
+    public String getManageUserAccount() {
+        String username = userService.getLoggedUser();
+        if (username == null) {
+            return "redirect:/login";
         }
+        User user = userService.getUserByUsername(username).orElse(null);
+        if (user.getType().equals("CONTENT_CREATOR")) {
+            return "redirect:/account/content_creator";
+        } else {
+            return "redirect:/account/company";
+        }
+    }
+
+    @PostMapping("/account/delete")
+    public String deleteUserAccount() {
+        String username = userService.getLoggedUser();
+        if (username == null) {
+            return "redirect:/login";
+        }
+        try {
+            commentService.deleteCommentsByUsername(username);
+            List<ArtisticContent> artisticContents = artisticContentService.getContentByOwner(username);
+            for (int z = 0; z < artisticContents.size(); z++) {
+                ArtisticContent artisticContent = artisticContents.get(z);
+                String artistic_content_id = artisticContent.getId();
+
+                commentService.deleteCommentsByContentId(artistic_content_id);
+                roleService.deleteRolesByContentId(artistic_content_id);
+
+                List<String> users_id = userService.getAllUsersId();
+                for (int i = 0; i < users_id.size(); i++) {
+                    String id = users_id.get(i);
+                    Boolean alreadyFavourite = favouriteService.isAlreadyFavouriteOf(id, artistic_content_id);
+                    Boolean alreadyLike = likeService.isAlreadyLikeOf(id, artistic_content_id);
+                    if (alreadyFavourite) {
+                        favouriteService.deleteFromFavourite(id, artistic_content_id);
+                    }
+                    if (alreadyLike) {
+                        likeService.deleteFromLike(id, artisticContent.getId());
+                    }
+                }
+
+                List<Tag> allContentTags = tagService.getTagsByContentId(artistic_content_id);
+                for (int j = 0; j < allContentTags.size(); j++) {
+                    Tag tag = allContentTags.get(j);
+                    tagService.deleteTag(tag.getId(), artistic_content_id);
+                }
+
+                Path fileToDeletePath = Paths.get("src/main/resources/static/" + artisticContent.getContentUrl());
+                Files.delete(fileToDeletePath);
+                artisticContentService.deleteContent(artisticContents.get(z));
+            }
             userService.deleteAccount(username);
         } catch (Exception e) {
             return "redirect:/account/";
         }
-        return "redirect:/logout"; 
-	}
+        return "redirect:/logout";
+    }
 }

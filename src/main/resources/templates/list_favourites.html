@@ -25,40 +25,41 @@
             <hr style="height:2px;border-width:0;" class="grey">
             <div class="card-body p-4 p-md-5">
               <div th-unless="${favourites.isEmpty()}">
-              <div class="card mb-3" style="max-width: 540px;" th:each="content : ${favourites}">
-                <div class="row g-0">
-                  <div class="col-md-4">
-                    <img th:src="${content.owner.photoUrl}" class="img-fluid rounded-start" alt="...">
-                    <h6 class="d-flex justify-content-center" style="margin-top: 5px;"><span th:unless="${logged_user}">
-                        <a th:href="@{'/profile/' + ${content.owner.id}}">@ <span
-                            th:text="${content.owner.username}"></span></a>
-                    </h6>
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title">
-                        <a th:href="@{'/owner/' + ${content.owner.id} +'/content/'+ ${content.id}}">Title: <span
-                            th:text="${content.title}"></span></a>
-                      </h5>
-                      <p class="card-text">Description: <span th:text="${content.description}"></span></p>
-                      <div class="row">
-                        <p class="card-text col-md-8"><small class="text-muted">Category :
-                            <span th:text="${content.type}"></small></p>
-                        <p class="card-text col-md-4"><small class="text-muted"><span
-                              th:text="${content.viewCount}"></span> views</small></p>
+                <div class="card mb-3" style="max-width: 540px;" th:each="content : ${favourites}">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img th:src="${content.owner.photoUrl}" class="img-fluid rounded-start" alt="...">
+                      <h6 class="d-flex justify-content-center" style="margin-top: 5px;"><span
+                          th:unless="${logged_user}">
+                          <a th:href="@{'/profile/' + ${content.owner.id}}">@ <span
+                              th:text="${content.owner.username}"></span></a>
+                      </h6>
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          <a th:href="@{'/owner/' + ${content.owner.id} +'/content/'+ ${content.id}}">Title: <span
+                              th:text="${content.title}"></span></a>
+                        </h5>
+                        <p class="card-text">Description: <span th:text="${content.description}"></span></p>
+                        <div class="row">
+                          <p class="card-text col-md-8"><small class="text-muted">Category :
+                              <span th:text="${content.type}"></small></p>
+                          <p class="card-text col-md-4"><small class="text-muted"><span
+                                th:text="${content.viewCount}"></span> views</small></p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                <br>
+                <br>
               </div>
-              <br>
-              <br>
-            </div>
-              <div th-if="${favourites.isEmpty()}">
+              <span th:if="${favourites.isEmpty()}">
                 <div class="alert d-flex justify-content-center gold dark-blue-text" role="alert">
                   No favourite content to display
                 </div>
-              </div>
+              </span>
             </div>
           </div>
         </div>
